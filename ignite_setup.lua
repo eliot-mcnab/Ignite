@@ -1,6 +1,9 @@
+-- gets path to home
 local home = os.getenv ( 'HOME' )
+-- determines path to Ignite from path to home
 local ignite_path = home .. '/.config/Ignite'
 
+-- adds Ignite path to vim's runtimepaths
 if not vim.tbl_contains(vim.opt.runtimepath:get(), ignite_path) then
   vim.opt.runtimepath:append(ignite_path)
 end

@@ -1,14 +1,17 @@
--- Automatically generated packer.nvim plugin loader code
+" Automatically generated packer.nvim plugin loader code
 
-if vim.api.nvim_call_function('has', {'nvim-0.5'}) ~= 1 then
-  vim.api.nvim_command('echohl WarningMsg | echom "Invalid Neovim version for packer.nvim! | echohl None"')
-  return
-end
+if !has('nvim-0.5')
+  echohl WarningMsg
+  echom "Invalid Neovim version for packer.nvim!"
+  echohl None
+  finish
+endif
 
-vim.api.nvim_command('packadd packer.nvim')
+packadd packer.nvim
 
-local no_errors, error_msg = pcall(function()
+try
 
+lua << END
 _G._packer = _G._packer or {}
 _G._packer.inside_compile = true
 
@@ -76,52 +79,52 @@ time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
   LuaSnip = {
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/LuaSnip",
+    path = "/home/eliot/.config/Ignite/site/packer/start/LuaSnip",
     url = "https://github.com/L3MON4D3/LuaSnip"
   },
   ["barbar.nvim"] = {
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/barbar.nvim",
+    path = "/home/eliot/.config/Ignite/site/packer/start/barbar.nvim",
     url = "https://github.com/romgrk/barbar.nvim"
   },
   ["cmp-buffer"] = {
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/cmp-buffer",
+    path = "/home/eliot/.config/Ignite/site/packer/start/cmp-buffer",
     url = "https://github.com/hrsh7th/cmp-buffer"
   },
   ["cmp-cmdline"] = {
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/cmp-cmdline",
+    path = "/home/eliot/.config/Ignite/site/packer/start/cmp-cmdline",
     url = "https://github.com/hrsh7th/cmp-cmdline"
   },
   ["cmp-nvim-lsp"] = {
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp",
+    path = "/home/eliot/.config/Ignite/site/packer/start/cmp-nvim-lsp",
     url = "https://github.com/hrsh7th/cmp-nvim-lsp"
   },
   ["cmp-nvim-lua"] = {
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/cmp-nvim-lua",
+    path = "/home/eliot/.config/Ignite/site/packer/start/cmp-nvim-lua",
     url = "https://github.com/hrsh7th/cmp-nvim-lua"
   },
   ["cmp-path"] = {
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/cmp-path",
+    path = "/home/eliot/.config/Ignite/site/packer/start/cmp-path",
     url = "https://github.com/hrsh7th/cmp-path"
   },
   cmp_luasnip = {
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/cmp_luasnip",
+    path = "/home/eliot/.config/Ignite/site/packer/start/cmp_luasnip",
     url = "https://github.com/saadparwaiz1/cmp_luasnip"
   },
   ["dressing.nvim"] = {
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/dressing.nvim",
+    path = "/home/eliot/.config/Ignite/site/packer/start/dressing.nvim",
     url = "https://github.com/stevearc/dressing.nvim"
   },
   ["friendly-snippets"] = {
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/friendly-snippets",
+    path = "/home/eliot/.config/Ignite/site/packer/start/friendly-snippets",
     url = "https://github.com/rafamadriz/friendly-snippets"
   },
   ["glow.nvim"] = {
@@ -129,153 +132,158 @@ _G.packer_plugins = {
     loaded = false,
     needs_bufread = false,
     only_cond = false,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/opt/glow.nvim",
+    path = "/home/eliot/.config/Ignite/site/packer/opt/glow.nvim",
     url = "https://github.com/ellisonleao/glow.nvim"
   },
   gruvbox = {
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/gruvbox",
+    path = "/home/eliot/.config/Ignite/site/packer/start/gruvbox",
     url = "https://github.com/morhetz/gruvbox"
   },
   ["impatient.nvim"] = {
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/impatient.nvim",
+    path = "/home/eliot/.config/Ignite/site/packer/start/impatient.nvim",
     url = "https://github.com/lewis6991/impatient.nvim"
   },
   ["indent-blankline.nvim"] = {
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/indent-blankline.nvim",
+    path = "/home/eliot/.config/Ignite/site/packer/start/indent-blankline.nvim",
     url = "https://github.com/lukas-reineke/indent-blankline.nvim"
   },
   ["legendary.nvim"] = {
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/legendary.nvim",
+    path = "/home/eliot/.config/Ignite/site/packer/start/legendary.nvim",
     url = "https://github.com/mrjones2014/legendary.nvim"
   },
   ["lsp-colors.nvim"] = {
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/lsp-colors.nvim",
+    path = "/home/eliot/.config/Ignite/site/packer/start/lsp-colors.nvim",
     url = "https://github.com/folke/lsp-colors.nvim"
   },
   ["lualine.nvim"] = {
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/lualine.nvim",
+    path = "/home/eliot/.config/Ignite/site/packer/start/lualine.nvim",
     url = "https://github.com/nvim-lualine/lualine.nvim"
   },
   ["mason-lspconfig.nvim"] = {
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/mason-lspconfig.nvim",
+    path = "/home/eliot/.config/Ignite/site/packer/start/mason-lspconfig.nvim",
     url = "https://github.com/williamboman/mason-lspconfig.nvim"
   },
   ["mason.nvim"] = {
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/mason.nvim",
+    path = "/home/eliot/.config/Ignite/site/packer/start/mason.nvim",
     url = "https://github.com/williamboman/mason.nvim"
   },
   nerdcommenter = {
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/nerdcommenter",
+    path = "/home/eliot/.config/Ignite/site/packer/start/nerdcommenter",
     url = "https://github.com/preservim/nerdcommenter"
   },
   ["nvim-autopairs"] = {
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/nvim-autopairs",
+    path = "/home/eliot/.config/Ignite/site/packer/start/nvim-autopairs",
     url = "https://github.com/windwp/nvim-autopairs"
   },
   ["nvim-cmp"] = {
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/nvim-cmp",
+    path = "/home/eliot/.config/Ignite/site/packer/start/nvim-cmp",
     url = "https://github.com/hrsh7th/nvim-cmp"
   },
   ["nvim-lspconfig"] = {
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
+    path = "/home/eliot/.config/Ignite/site/packer/start/nvim-lspconfig",
     url = "https://github.com/neovim/nvim-lspconfig"
   },
   ["nvim-tree.lua"] = {
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/nvim-tree.lua",
+    path = "/home/eliot/.config/Ignite/site/packer/start/nvim-tree.lua",
     url = "https://github.com/kyazdani42/nvim-tree.lua"
   },
   ["nvim-treesitter"] = {
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/nvim-treesitter",
+    path = "/home/eliot/.config/Ignite/site/packer/start/nvim-treesitter",
     url = "https://github.com/nvim-treesitter/nvim-treesitter"
   },
   ["nvim-ts-rainbow"] = {
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/nvim-ts-rainbow",
+    path = "/home/eliot/.config/Ignite/site/packer/start/nvim-ts-rainbow",
     url = "https://github.com/p00f/nvim-ts-rainbow"
   },
   ["nvim-web-devicons"] = {
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
+    path = "/home/eliot/.config/Ignite/site/packer/start/nvim-web-devicons",
     url = "https://github.com/kyazdani42/nvim-web-devicons"
   },
   ["onedark.vim"] = {
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/onedark.vim",
+    path = "/home/eliot/.config/Ignite/site/packer/start/onedark.vim",
     url = "https://github.com/joshdick/onedark.vim"
   },
   ["packer.nvim"] = {
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/packer.nvim",
+    path = "/home/eliot/.config/Ignite/site/packer/start/packer.nvim",
     url = "https://github.com/wbthomason/packer.nvim"
   },
   ["plenary.nvim"] = {
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/plenary.nvim",
+    path = "/home/eliot/.config/Ignite/site/packer/start/plenary.nvim",
     url = "https://github.com/nvim-lua/plenary.nvim"
   },
   ["popup.nvim"] = {
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/popup.nvim",
+    path = "/home/eliot/.config/Ignite/site/packer/start/popup.nvim",
     url = "https://github.com/nvim-lua/popup.nvim"
   },
   ["startup.nvim"] = {
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/startup.nvim",
+    path = "/home/eliot/.config/Ignite/site/packer/start/startup.nvim",
     url = "https://github.com/startup-nvim/startup.nvim"
   },
   ["telescope-fzf-native.nvim"] = {
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/telescope-fzf-native.nvim",
+    path = "/home/eliot/.config/Ignite/site/packer/start/telescope-fzf-native.nvim",
     url = "https://github.com/nvim-telescope/telescope-fzf-native.nvim"
   },
   ["telescope-glyph.nvim"] = {
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/telescope-glyph.nvim",
+    path = "/home/eliot/.config/Ignite/site/packer/start/telescope-glyph.nvim",
     url = "https://github.com/ghassan0/telescope-glyph.nvim"
   },
   ["telescope-media-files.nvim"] = {
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/telescope-media-files.nvim",
+    path = "/home/eliot/.config/Ignite/site/packer/start/telescope-media-files.nvim",
     url = "https://github.com/nvim-telescope/telescope-media-files.nvim"
   },
   ["telescope.nvim"] = {
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/telescope.nvim",
+    path = "/home/eliot/.config/Ignite/site/packer/start/telescope.nvim",
     url = "https://github.com/nvim-telescope/telescope.nvim"
   },
   ["trouble.nvim"] = {
     config = { "\27LJ\2\n9\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\ftrouble\frequire\0" },
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/trouble.nvim",
+    path = "/home/eliot/.config/Ignite/site/packer/start/trouble.nvim",
     url = "https://github.com/folke/trouble.nvim"
+  },
+  ["vim-fugitive"] = {
+    loaded = true,
+    path = "/home/eliot/.config/Ignite/site/packer/start/vim-fugitive",
+    url = "https://github.com/tpope/vim-fugitive"
   },
   ["vim-move"] = {
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/vim-move",
+    path = "/home/eliot/.config/Ignite/site/packer/start/vim-move",
     url = "https://github.com/matze/vim-move"
   },
   ["vim-obsession"] = {
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/vim-obsession",
+    path = "/home/eliot/.config/Ignite/site/packer/start/vim-obsession",
     url = "https://github.com/tpope/vim-obsession"
   },
   ["vim-prosession"] = {
     loaded = true,
-    path = "/home/eliot/.local/share/nvim/site/pack/packer/start/vim-prosession",
+    path = "/home/eliot/.config/Ignite/site/packer/start/vim-prosession",
     url = "https://github.com/dhruvasagar/vim-prosession"
   }
 }
@@ -300,9 +308,11 @@ _G._packer.needs_bufread = false
 
 if should_profile then save_profiles() end
 
-end)
+END
 
-if not no_errors then
-  error_msg = error_msg:gsub('"', '\\"')
-  vim.api.nvim_command('echohl ErrorMsg | echom "Error in packer_compiled: '..error_msg..'" | echom "Please check your config for correctness" | echohl None')
-end
+catch
+  echohl ErrorMsg
+  echom "Error in packer_compiled: " .. v:exception
+  echom "Please check your config for correctness"
+  echohl None
+endtry

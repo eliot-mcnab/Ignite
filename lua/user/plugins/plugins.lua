@@ -39,8 +39,16 @@ if not status_ok then
 	return
 end
 
+local home = os.getenv ( 'HOME' )
+local ignite_package_root = home .. '/.config/Ignite/site'
+local ignite_compile_path = home .. '/.config/Ignite/plugin'
+
+packer.reset()
+
 -- custom packer initialisation
 packer.init {
+	package_root = ignite_package_root,
+	compile_path = ignite_compile_path,
 	display = {
 		-- opens packer in a floating window with rounded borders
 		open_fn = function()
