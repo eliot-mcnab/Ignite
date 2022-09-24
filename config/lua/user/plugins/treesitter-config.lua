@@ -10,7 +10,7 @@ treesitter.setup {
 		"c",
 		"lua",
 		"markdown"
-	},			
+	},
 
 	sync_isntall = false,					-- asychroneous install (faster)
 	auto_install = true,					-- auto-installs missing parsers

@@ -26,12 +26,17 @@ if fn.empty(fn.glob(install_path)) > 0 then
 end
 
 -- reloads neovim whenever this page is saved (allows to install new plugins)
-vim.cmd [[
-	augroup packer_plugin_install
-		autocmd!
-		autocmd BufWritePost plugins.lua source <afile> | PackerSync
-	augroup end
-]]
+vim.api.nvim_create_autocmd(
+	'BufWritePost',
+	{
+		pattern = 'plugins.lua',
+		group = vim.api.nvim_create_augroup(
+			'packer_plugin_install',
+			{ clear = true }
+		),
+		command = 'PackerSync'
+	}
+)
 
 -- only executes the rest of the file if packer was installed
 local status_ok, packer = pcall(require, "packer")
@@ -39,22 +44,18 @@ if not status_ok then
 	return
 end
 
-local home = os.getenv ( 'HOME' )
-local ignite_package_root = home .. '/.config/Ignite/dependencies/site'
-local ignite_compile_path = home .. '/.config/Ignite/dependencies/plugin'
-
 packer.reset()
 
 -- custom packer initialisation
 packer.init {
-	package_root = ignite_package_root,
-	compile_path = ignite_compile_path,
 	display = {
 		-- opens packer in a floating window with rounded borders
 		open_fn = function()
 			return require("packer.util").float { border = "rounded" }
 		end
-	}
+	},
+	-- Remove disabled or unused plugins without prompting the user
+	autoremove = true
 }
 
 -- plugins
@@ -87,7 +88,10 @@ return packer.startup(function(use)
 		requires = { 'kyazdani42/nvim-web-devicons' }
 	}
 	-- markdown preview
-	use	'ellisonleao/glow.nvim'
+	use	{
+		'ellisonleao/glow.nvim',
+		cmd = "Glow"
+	}
 	-- fuzzy finding
 	use {
 		'nvim-telescope/telescope.nvim',
@@ -162,11 +166,6 @@ return packer.startup(function(use)
 	use {
 		'folke/trouble.nvim',
 		requires = 'kyazdani42/nvim-web-devicons',
-		config = function ()
-			require('trouble').setup {
-				-- TODO: move this to a seperate file
-			}
-		end
 	}
 
 	-- SYNTAX
@@ -179,8 +178,18 @@ return packer.startup(function(use)
 	-- rainbow brackets
 	use 'p00f/nvim-ts-rainbow'
 	-- better tab visibility
-	use 'lukas-reineke/indent-blankline.nvim' 
+	use 'lukas-reineke/indent-blankline.nvim'
+
+	-- GIT INTEGRATION
+	
+	-- git signs
+	use {
+		'lewis6991/gitsigns.nvim',
+		--config = function ()
+			--require('gitsigns').setup()
+		--end
+	}
 
 	-- PERFORMANCE
-	use 'lewis6991/impatient.nvim' 
+	use 'lewis6991/impatient.nvim'
 end)

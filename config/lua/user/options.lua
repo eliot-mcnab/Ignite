@@ -1,6 +1,3 @@
-test = "test" 
-hi = "hi"
-
 -- list of all options
 local options = {
 
@@ -34,11 +31,7 @@ local options = {
 	-- window options
 	splitright = true,	-- allways splits windows to the right when v splitting
 	splitbelow = true,	-- allways splits windows below when h splitting
-
-	-- editing options
-	undofile = true,	-- persists undo history after closing file
-	undodir = "~/.config/nvim/undo/",	-- specifies where to save undo files
-
+	
 	-- delay options
 	updatetime = 300,	-- makes autocomplete more responsive
 	timeoutlen = 500,	-- max duration waited for a keymap to complete	

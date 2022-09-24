@@ -326,7 +326,7 @@ legendary.setup({
 		-- lsp menu
 		{
 			'<C-m>l',
-			':Trouble<CR>',
+			':Trouble document_diagnostics<CR>',
 			description = '[LSP] Open LSP menu',
 			mode = { NORMAL },
 			opts = mapping_opts
