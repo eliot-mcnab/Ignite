@@ -39,7 +39,7 @@ local headers = {
 }
 
 -- startup setup
-startup.setup {	
+startup.setup {
 	-- startup header (logo)
 	header = {
 		type  = TEXT,
@@ -62,7 +62,7 @@ startup.setup {
 		title = 'Menu',
 		margin = MARGIN_MEDIUM,
 		content = {
-			{ '  Restore Session', 'Prosession', '<C-r>' },
+			{ '  Restore Session', 'LoadSession', '<C-r>' },
 			{ '  Find File', 'Telescope find_files', '<C-f>f' },
 			{ '  Recent Files' , 'Telescope oldfiles', '<C-f>o' },
 			{ '  Theme', 'Telescope coloscheme', '<C-f>t' }

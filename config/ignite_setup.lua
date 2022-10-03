@@ -1,17 +1,23 @@
 -- gets path to home
 local home = os.getenv ( 'HOME' )
 -- determines path to Ignite from path to home
-local ignite_path = home .. '/.config/Ignite/config'
+local ignite_path = home .. '/.config/ignite/config'
+
+-- TODO: refactor code and make this part of a global table which can be 
+-- accessed from other files using require
 
 -- adds Ignite path to vim's runtimepaths
 if not vim.tbl_contains(vim.opt.runtimepath:get(), ignite_path) then
   vim.opt.runtimepath:append(ignite_path)
 end
 
+vim.opt.termguicolors = true
+
 require 'user.options'
 require 'user.commands'
 require 'user.plugins'
 require 'user.lsp'
+require 'user.dap'
 
 -- sets neovim theme
 vim.cmd [[colorscheme gruvbox]]

@@ -47,3 +47,27 @@ vim.api.nvim_create_user_command(
 		desc = 'Toggles file tree and lsp view'
 	}
 )
+
+-- SESSION RESTORING
+
+local function safe_load()
+
+	Path = require('plenary.path')
+
+	local path = Path:new()
+	print(path:absolute())
+
+	--print(require('lua.user.util').get_local_path())
+	--require('lua.user.notifications.notif_impl').no_session()
+end
+
+-- restores session only if a local session exists
+vim.api.nvim_create_user_command(
+	'LoadSession',
+	safe_load,
+	{
+		bang = true,
+		desc = 'Opens local session or displays' ..
+			'error notification if none was found'
+	}
+)

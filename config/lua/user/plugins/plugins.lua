@@ -75,6 +75,8 @@ return packer.startup(function(use)
 
 	-- UI
 
+	-- notifications
+	use 'rcarriga/nvim-notify'
 	-- icons
 	use 'kyazdani42/nvim-web-devicons'
 	-- status line
@@ -167,6 +169,20 @@ return packer.startup(function(use)
 		'folke/trouble.nvim',
 		requires = 'kyazdani42/nvim-web-devicons',
 	}
+	-- debugger adapter protocol
+	use 'mfussenegger/nvim-dap'
+	use {
+		'rcarriga/nvim-dap-ui',
+		requires = 'mfussenegger/nvim-dap'
+	}
+	use {
+		'theHamsta/nvim-dap-virtual-text',
+		requires = 'mfussenegger/nvim-dap'
+	}
+	use {
+		'nvim-telescope/telescope-dap.nvim',
+		requires = 'mfussenegger/nvim-dap'
+	}
 
 	-- SYNTAX
 	
@@ -189,6 +205,8 @@ return packer.startup(function(use)
 			--require('gitsigns').setup()
 		--end
 	}
+	-- fugitive
+	use 'tpope/vim-fugitive'
 
 	-- PERFORMANCE
 	use 'lewis6991/impatient.nvim'
