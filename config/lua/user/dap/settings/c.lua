@@ -12,7 +12,7 @@ local home = os.getenv ( 'HOME' )
 -- determines path to Ignite from path to home
 local ignite_path = home .. '/.config/ignite/config'
 local cppdbg_path = ignite_path
-	.. 'lua/user/dap/debuggers/extension/debugAdapters/bin/OpenDebugAD7'
+	.. '/lua/user/dap/debuggers/cpptools/extension/debugAdapters/bin/OpenDebugAD7'
 
 M.setup = function ()
 	-- sets up c debugger for debugger adapter protocal
@@ -22,7 +22,7 @@ M.setup = function ()
 		command = cppdbg_path
 	}
 
-	-- cppdbg configuration
+	-- c++ debugger
 	dap.configurations.cpp = {
 		{
 			name = "Launch file",
@@ -47,6 +47,12 @@ M.setup = function ()
 			end,
 		},
 	}
+
+	-- c debugger
+	dap.configurations.c = dap.configurations.cpp
+
+	-- rust debugger
+	dap.configurations.rust = dap.configurations.cpp
 end
 
 return M

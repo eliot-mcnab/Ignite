@@ -5,7 +5,7 @@ if not dap_loaded then
 end
 
 -- makes sure that dap-ui plugin is loaded
-local dap_ui_loaded, dap_ui = pcall(require, 'dap-ui')
+local dap_ui_loaded, dap_ui = pcall(require, 'dapui')
 if not dap_ui_loaded then
 	return
 end

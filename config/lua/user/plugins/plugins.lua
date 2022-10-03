@@ -116,6 +116,8 @@ return packer.startup(function(use)
 		},
 		tag = 'nightly'
 	}
+	-- terminal
+	use 'akinsho/toggleterm.nvim'
 	-- startup screen
 	use {
 		'startup-nvim/startup.nvim',

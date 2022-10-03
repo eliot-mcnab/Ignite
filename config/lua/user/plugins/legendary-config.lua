@@ -21,6 +21,9 @@ vim.cmd [[
 	let g:normal_move_option = 0 
 ]]
 
+-- sets leader key
+vim.g.mapleader = '<Space>'
+
 -- setting up legendary
 legendary.setup({
 	
@@ -321,6 +324,13 @@ legendary.setup({
 			opts = mapping_opts
 		},
 
+		-- terminal
+		{
+			'<c-\\>',
+			':ToggleTerm<CR>',
+			description = '[TERM] Toggles terminal'
+		},
+
 		-- LSP
 
 		-- lsp menu
@@ -391,6 +401,48 @@ legendary.setup({
 				'[LSP] Desiplays signature information' ..
 				'about the symbol under the cursor'
 		},
+
+		-- DAP
+
+		-- TODO: update command descriptions
+
+		-- continue debugging
+		{
+			'<F5>',
+			'<cmd>lua require("dap").continue()<CR>',
+			description = '[DAP] Starts or resumes application debugging'
+		},
+		-- step over
+		{
+			'<CR>',
+			'<cmd>lua require("dap").step_over()<CR>',
+			description = '[DAP] Moves along one step in debug execution'
+		},
+		-- step into
+		{
+			'<C-s>',
+			'<cmd>lua require("dap").step_into()<CR>',
+			description = '[DAP] Steps into the functions under the cursor'
+		},
+		-- step out
+		{
+			'<C-o>',
+			'<cmd>lua require("dap").step_out()<CR>',
+			description = '[DAP] Steps out of the current functions'
+		},
+		-- toggle breakpoint
+		{
+			'<C-b>',
+			'<cmd>lua require("dap").toggle_breakpoint()<CR>',
+			description = '[DAP] Toggles breakpoint for the current line'
+		},
+		-- set breakpoint
+		--{
+			--'<C-B>',
+			--'<cmd>lua require("dap").set_breakpoint(vim.fn.input' ..
+				--'("Breakpoint condition: "))<CR>',
+			--description = '[DAP] sets breakpoint for current line'
+		--},
 
 		-- ====================================================================
 		-- 									VISUAL MODE
