@@ -4,6 +4,14 @@ if not lualine_loaded then
 	return
 end
 
+-- battery support
+local nvimbattery = {
+	function()
+		return require("battery").get_status_line()
+	end,
+	color = { fg = 'violet' },
+}
+
 -- setting up lualine
 lualine.setup {
 	--default sections
@@ -11,7 +19,7 @@ lualine.setup {
 		lualine_a = {'mode'},
 		lualine_b = {'branch', 'diff', 'diagnostics'},
 		lualine_c = {'filename'},
-		lualine_x = {'encoding', 'fileformat', 'filetype'},
+		lualine_x = {'encoding', 'fileformat', 'filetype', nvimbattery},
 		lualine_y = {'progress'},
 		lualine_z = {'location'}
 	},
@@ -26,6 +34,8 @@ lualine.setup {
 		lualine_z = {}
 	},
 
-	-- only one global lualine throughout all buffers
-	globalstatus = true,
+	options = {
+		-- only one global lualine throughout all buffers
+		globalstatus = true,
+	}
 }

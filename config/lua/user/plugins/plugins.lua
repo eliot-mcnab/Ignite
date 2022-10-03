@@ -84,6 +84,14 @@ return packer.startup(function(use)
 		'nvim-lualine/lualine.nvim',
 		requires = { 'kyazdani42/nvim-web-devicons', opt = true }
 	}
+	-- power indicator
+	use {
+		'justinhj/battery.nvim',
+		requires = {
+			'kyazdani42/nvim-web-devicons',
+			'nvim-lua/plenary.nvim'
+		}
+	}
 	-- tabs
 	use {
 		'romgrk/barbar.nvim',
