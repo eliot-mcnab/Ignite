@@ -100,7 +100,6 @@ return packer.startup(function(use)
 	-- markdown preview
 	use	{
 		'ellisonleao/glow.nvim',
-		cmd = "Glow"
 	}
 	-- fuzzy finding
 	use {

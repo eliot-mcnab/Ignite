@@ -1,13 +1,13 @@
 -- makes sure that mason is loaded
 local mason_loaded, mason = pcall(require, 'mason')
 if not mason_loaded then
-	return 
+	return
 end
 
 -- makes sure that mason-lspconfig is loaded
 local mason_lspconf_loaded, mason_lspconf = pcall(require, 'mason-lspconfig')
 if not mason_lspconf_loaded then
-	return 
+	return
 end
 
 local M = {}

@@ -1,6 +1,7 @@
 -- this file is responsible for creating all custom vim commands
 
 -- UI TOGGLING
+-- TODO: make this more accessible from the rest of the config
 
 -- makes sure that trouble is loaded
 local trouble_loaded, _ = pcall(require, 'trouble')

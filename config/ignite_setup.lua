@@ -13,11 +13,12 @@ end
 
 vim.opt.termguicolors = true
 
+require 'user.plugins'
 require 'user.options'
 require 'user.commands'
-require 'user.plugins'
 require 'user.lsp'
 require 'user.dap'
+require 'user.ignite_core'
 
 -- sets neovim theme
 vim.cmd [[colorscheme gruvbox]]
