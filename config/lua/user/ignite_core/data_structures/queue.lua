@@ -24,7 +24,7 @@ function Queue.new(...)
 	}
 
 	-- adds all elements to the queue and updates the index of the head
-	for index, value in ipairs(...) do
+	for index, value in ipairs({...}) do
 		queue[index] = value
 		queue.__private.first = queue.__private.first + 1
 	end
@@ -57,7 +57,7 @@ end
 -- adds element at the head of the queue
 function Queue.push(queue, element)
 	-- makes sure that the queue has enough space left
-	assert(queue.has_space_left(queue), Queue.__error.no_space_left)
+	assert(Queue.has_space_left(queue), Queue.__error.no_space_left)
 
 	-- updates index of head
 	queue.__private.first = queue.__private.first + 1
@@ -69,8 +69,8 @@ end
 -- gets the element at the head of the queue but does not remove it
 -- @return value of the element at the head of the queue
 function Queue.peek(queue)
-	-- makes sure that queue is an instance of the queue class
-	assert(class.is_instance(queue, Queue), Queue.__error.not_a_queue)
+	-- makes sure that the queue has enough space left
+	assert(Queue.has_space_left(queue), Queue.__error.no_space_left)
 
 	-- returns the value of the first element in the queue
 	return queue[queue.__private.first]

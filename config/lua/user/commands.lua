@@ -1,19 +1,12 @@
 -- this file is responsible for creating all custom vim commands
 
--- UI TOGGLING
--- TODO: make this more accessible from the rest of the config
+-- dependencies
+local plugins = require 'user.ignite_core.ignite_plugins'
 
 -- makes sure that trouble is loaded
-local trouble_loaded, _ = pcall(require, 'trouble')
-if not trouble_loaded then
-	return
-end
-
+if not plugins.trouble then return end
 -- makes sure that nvim-tree is loaded
-local nvim_tree_loaded, _ = pcall(require, 'nvim-tree')
-if not nvim_tree_loaded then
-	return
-end
+if not plugins.nvim_tree then return end
 
 -- stores in memory the state of the UI:
 local is_ui_shown = false

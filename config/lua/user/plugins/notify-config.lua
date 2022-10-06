@@ -7,5 +7,5 @@ end
 -- sets up notify
 notify.setup {
 	stages = "slide",
-	background_colour = "#000000"
+	--background_colour = "#000000"
 }

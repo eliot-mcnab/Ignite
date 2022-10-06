@@ -11,8 +11,6 @@ if not vim.tbl_contains(vim.opt.runtimepath:get(), ignite_path) then
   vim.opt.runtimepath:append(ignite_path)
 end
 
-vim.opt.termguicolors = true
-
 require 'user.plugins'
 require 'user.options'
 require 'user.commands'
@@ -21,7 +19,6 @@ require 'user.dap'
 require 'user.ignite_core'
 
 -- sets neovim theme
-vim.cmd [[colorscheme gruvbox]]
 
 -- COLORCOLUMN 
 
