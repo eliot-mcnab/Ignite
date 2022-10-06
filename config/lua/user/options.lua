@@ -31,11 +31,11 @@ local options = {
 	-- window options
 	splitright = true,	-- allways splits windows to the right when v splitting
 	splitbelow = true,	-- allways splits windows below when h splitting
-	
+
 	-- delay options
 	updatetime = 300,	-- makes autocomplete more responsive
 	timeoutlen = 500,	-- max duration waited for a keymap to complete	
-	
+
 	-- display options
 	termguicolors = true,
 }

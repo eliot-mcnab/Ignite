@@ -1,0 +1,2 @@
+local MAX_NOTIF_VISIBLE = 5
+local MAX_NOTIF_QUEUE = 10
