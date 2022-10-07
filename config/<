@@ -31,9 +31,6 @@ function Class.new(class_name)
 		end
 	end
 
-	-- class constructor
-	class_table.new = {}
-
 	-- returns the class table
 	return class_table
 end
@@ -82,7 +79,6 @@ end
 -- @return (boolean): true if the class is a subclass, false otherwise
 function Class.is_subclass(class)
 	-- determines the number of class ids stored by the class
-	-- a subclass must have more than 1 class id stored
 	return #class.__class_id > 1
 end
 
@@ -91,18 +87,12 @@ end
 function Class.new_instance(class_table)
 	-- ensures that the given table is a class table
 	assert(Class.is_class(class_table), Class.__error.not_a_class)
-	
-	-- instance table, uses the table passed 
-	-- as parameter or creates a new one
-	local instance = {}
 
-	-- if the class is a subclass...
-	if Class.is_subclass(class_table) then
-		instance = Class
-	end
-
-	instance.__class = class_table	-- reference to class for inheritance checks
-	instance.__private = {}			-- private fields
+	-- instance table
+	local instance = {
+		__class = class_table,	-- reference to class for inheritance checks
+		__private = {}			-- private fields
+	}
 
 	-- makes it easier to add private fields to an instance
 	function instance.add_private(...)

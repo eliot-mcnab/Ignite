@@ -53,7 +53,7 @@ end
 -- @param type_val (Notification.type): type of the notification,
 -- Notification.type.info by default
 -- @return new instance of Notification
-function Notification.new(message_val, title_val, type_val)
+Notification.new = function(message_val, title_val, type_val)
 	-- sets parameters to defautls in case they are not specified
 	message_val = message_val or ""
 	title_val = title_val or ""
