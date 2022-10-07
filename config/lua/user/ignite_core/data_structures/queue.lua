@@ -15,7 +15,7 @@ Queue.add_error {
 -- @return new Queue instance
 function Queue.new(...)
 	-- creates new instance of the Queue class
-	local queue = class.instance(Queue)
+	local queue = class.new_instance(Queue)
 
 	-- creates private fields
 	queue.add_private {
@@ -54,8 +54,18 @@ function Queue.has_space_left(queue)
 	return queue.__private.first ~= queue.__private.max_size
 end
 
+-- determines the size of a queue
+-- @return the size of the queue
+function Queue.size(queue)
+	-- makes sure that queue is an instance of the queue class
+	assert(class.is_instance(queue, Queue), Queue.__error.not_a_queue)
+
+	-- returns the size of the queue
+	return queue.__private.first
+end
+
 -- adds element at the head of the queue
-function Queue.push(queue, element)
+function Queue.push_head(queue, element)
 	-- makes sure that the queue has enough space left
 	assert(Queue.has_space_left(queue), Queue.__error.no_space_left)
 
@@ -68,23 +78,12 @@ end
 
 -- gets the element at the head of the queue but does not remove it
 -- @return value of the element at the head of the queue
-function Queue.peek(queue)
+function Queue.peek_head(queue)
 	-- makes sure that the queue has enough space left
 	assert(Queue.has_space_left(queue), Queue.__error.no_space_left)
 
 	-- returns the value of the first element in the queue
 	return queue[queue.__private.first]
-end
-
-
--- determines the size of a queue
--- @return the size of the queue
-function Queue.size(queue)
-	-- makes sure that queue is an instance of the queue class
-	assert(class.is_instance(queue, Queue), Queue.__error.not_a_queue)
-
-	-- returns the size of the queue
-	return queue.__private.first
 end
 
 -- determines if a queue is empty
