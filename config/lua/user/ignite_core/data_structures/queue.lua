@@ -47,11 +47,8 @@ end
 -- checks if the queue's max size has not been reached yet
 -- @return true if the queue has space left, false otherwise
 function Queue.has_space_left(queue)
-	-- makes sure that queue is an instance of the queue class
-	assert(class.is_instance(queue, Queue), Queue.__error.not_a_queue)
-
 	-- checks if there is still space left in the queue
-	return queue.__private.first ~= queue.__private.max_size
+	return Queue.size(queue) < queue.__private.max_size
 end
 
 -- determines the size of a queue
@@ -98,7 +95,7 @@ end
 
 -- gets the element at the head of the queue and removes it from the queue
 -- @return value of the element at the head of the queue
-function Queue.poll(queue)
+function Queue.poll_head(queue)
 	-- makes sure that the queue isn't empty
 	assert(not Queue.is_empty(queue), Queue.__error.empty_queue)
 
