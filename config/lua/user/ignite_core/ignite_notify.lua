@@ -1,7 +1,7 @@
 -- dependencies
-local class = require 'user.ignite_core.ignite_classes'
-local dequeue = require 'user.ignite_core.data_structures.dequeue'
-local notif = require 'user.ignite_core.data_structures.notification'
+local Class = require 'user.ignite_core.ignite_classes'
+local Dequeue = require 'user.ignite_core.data_structures.dequeue'
+local Notif = require 'user.ignite_core.data_structures.notification'
 local plugins = require 'user.ignite_core.ignite_plugins'
 
 -- constants
@@ -17,16 +17,18 @@ end
 local ignite_notify = {}
 
 -- queue responsible for holding all of the notifications
-ignite_notify.notif_queue = dequeue.new()
-dequeue.set_max_size(
+ignite_notify.notif_queue = Dequeue.new(1, 2, 3)
+Dequeue.set_max_size(
 	ignite_notify.notif_queue,
 	MAX_NOTIF_VISIBLE + MAX_NOTIF_PENDING
 )
 
 --local classes = '{'
+--local count = 0
 
 --for class_id, _ in pairs(ignite_notify.notif_queue.__class.__class_id) do
-	--classes = classes .. class_id .. ', '
+	--classes = classes .. tostring(class_id) .. ', '
+	--count = count + 1
 --end
 --classes = classes .. '}'
 
@@ -36,8 +38,8 @@ dequeue.set_max_size(
 
 --end
 
-local first = ignite_notify.notif_queue.__private.first
+local first = Dequeue.peek_head(ignite_notify.notif_queue)
 
-plugins.notify.notify(first, 'error')
+plugins.notify.notify(tostring(first), 'error')
 
 return ignite_notify

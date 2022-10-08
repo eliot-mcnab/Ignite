@@ -2,7 +2,7 @@
 local class = require 'user.ignite_core.ignite_classes'
 
 -- represents a notification as used in by notify
-local Notification = class.new('notification')
+local Notification = class.new()
 
 Notification.add_error {
 	not_a_message = 'Incompatible message type,' ..
@@ -12,7 +12,7 @@ Notification.add_error {
 }
 
 -- represents the type of a notification
-Notification.Type = class.new('notif_type')
+Notification.Type = class.new()
 
 Notification.Type.add_error {
 	not_a_notif_type = 'Value passed as an argument does not correspond' ..

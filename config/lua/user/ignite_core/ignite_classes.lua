@@ -11,10 +11,7 @@ local Class = {
 
 -- creates a new class
 -- @return new class table with __class and __error fields
-function Class.new(class_name)
-	-- makes sure that class_name is a string
-	assert(type(class_name) == 'string', Class.__error.not_a_name)
-
+function Class.new()
 	-- represents a class
 	local class_table = {
 		__class_id = {},	-- TODO: replace this by propper hashset implementation
@@ -22,7 +19,7 @@ function Class.new(class_name)
 	}
 
 	-- adds class name to the list of class ids
-	class_table.__class_id[class_name] = true
+	class_table.__class_id[class_table] = true
 
 	-- used to more easily add errors to a class
 	function class_table.add_error(...)
@@ -40,23 +37,20 @@ end
 
 -- creates a new class which inherits all the methods of its parent class
 -- @param parent (Class): the parent class
--- @param class_name (string): the name of the child class
 -- @return new class which shares the methods of its parent
-function Class.inherit(parent, class_name)
-	-- makes sure that class_name is a string
-	assert(type(class_name) == 'string', Class.__error.not_a_name)
+function Class.inherit(parent)
 	-- makes sure that parent is a class
 	assert(parent.__class_id ~= nil, Class.__error.not_a_class)
 
 	-- creates the child class
-	local child = Class.new(class_name)
+	local child_table = Class.new()
 
 	-- adds child class id
-	child.__class_id[class_name] = true
+	child_table.__class_id[child_table] = true
 
 	-- adds parent class ids
-	for class_id, _ in pairs(parent.__class_id) do
-		child.__class_id[class_id] = true
+	for class, _ in pairs(parent.__class_id) do
+		child_table.__class_id[class] = true
 	end
 
 	-- creates a metatable for the child class
@@ -65,10 +59,10 @@ function Class.inherit(parent, class_name)
 	}
 
 	-- sets the metatable
-	setmetatable(child, child_mt)
+	setmetatable(child_table, child_mt)
 
 	-- returns the child class
-	return child
+	return child_table
 end
 
 -- checks if a table is a class table
@@ -80,10 +74,32 @@ end
 -- checks if a class inherits from another class
 -- @param class (Class): the class to check
 -- @return (boolean): true if the class is a subclass, false otherwise
-function Class.is_subclass(class)
+function Class.is_subclass(class_table)
+	-- makes sure that class_table is a class
+	assert(Class.is_class(class_table), Class.__error.not_a_class)
+
 	-- determines the number of class ids stored by the class
 	-- a subclass must have more than 1 class id stored
-	return #class.__class_id > 1
+	local count = 0
+	for _, _ in pairs(class_table.__class_id) do
+		count = count + 1
+		if count > 1 then
+			return true	-- class is a subclass
+		end
+	end
+
+	return false	-- class is not a subclass
+end
+
+-- gets the parent of a class
+-- @param class_table (Class): the class from which to get the parent
+-- @return (Class): the parent of the class, or nil if the class has no parent
+function Class.get_parent(class_table)
+	-- makes sure that class_table is a class
+	assert(Class.is_class(class_table), Class.__error.not_a_class)
+
+	-- gets the classe's parent, if it has one
+	return getmetatable(class_table).__index
 end
 
 -- creates a new instance of a class
@@ -91,25 +107,32 @@ end
 function Class.new_instance(class_table)
 	-- ensures that the given table is a class table
 	assert(Class.is_class(class_table), Class.__error.not_a_class)
-	
+
 	-- instance table, uses the table passed 
 	-- as parameter or creates a new one
 	local instance = {}
 
 	-- if the class is a subclass...
 	if Class.is_subclass(class_table) then
-		instance = Class
-	end
+		-- retrieves the class's parent
+ 		local parent = Class.get_parent(class_table)
 
-	instance.__class = class_table	-- reference to class for inheritance checks
-	instance.__private = {}			-- private fields
+		-- calls that class's constructor
+ 		instance = parent.new()
+	else
+		-- creates private fields
+		instance.__private = {}
 
-	-- makes it easier to add private fields to an instance
-	function instance.add_private(...)
-		for key, value in pairs(...) do
-			instance.__private[key] = value
+		-- adds private field method
+		function instance.add_private(...)
+			for key, value in pairs(...) do
+				instance.__private[key] = value
+			end
 		end
 	end
+
+	-- overrides the class type
+	instance.__class = class_table
 
 	-- returns the instance table
 	return instance

@@ -2,7 +2,7 @@
 local class = require('user.ignite_core.ignite_classes')
 
 -- simple implementation of an array queue in Lua
-local Queue = class.new('Queue')
+local Queue = class.new()
 
 Queue.add_error {
 	not_a_queue = 'table is not a queue but is treated as such',

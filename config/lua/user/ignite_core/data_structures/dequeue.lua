@@ -1,9 +1,9 @@
 -- dependencies
 local class = require 'user.ignite_core.ignite_classes'
-local queue = require 'user.ignite_core.data_structures.queue'
+local Queue = require 'user.ignite_core.data_structures.queue'
 
 -- simple DeQueue implementation in Lua
-local DeQueue = class.inherit(queue, 'DeQueue')
+local DeQueue = class.inherit(Queue)
 
 DeQueue.add_error {
 	not_a_dequeue = 'tale is not a DeQueue but is treated as such'
