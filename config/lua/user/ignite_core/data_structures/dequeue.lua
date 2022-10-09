@@ -7,7 +7,8 @@ local DeQueue = Class.new()
 DeQueue.add_error {
 	not_a_dequeue = 'table is not a DeQueue but is treated as such',
 	empty_dequeue = 'could not retrieve value from DeQueue, DeQueue is empty',
-	invalid_size = 'DeQueue max size must be a number'
+	invalid_size = 'DeQueue max size must be a number',
+	max_size_reached = 'could not add value to DeQueue, max size reached'
 }
 
 -- utility function for printing a DeQueue, called by the metatable __tostring
@@ -50,7 +51,7 @@ local function dequeue_print(dequeue)
 	end
 
 	-- adds the first element at the head of the DeQueue
-	dequeue_string = dequeue_string .. dequeue[first] .. '}'
+	dequeue_string = dequeue_string .. tostring(dequeue[first]) .. '}'
 
 	-- returns the final string
 	return dequeue_string
@@ -140,7 +141,18 @@ function DeQueue.size(dequeue)
 	local size = dequeue.__private.first - dequeue.__private.last
 
 	-- returns the size of the DeQueue
-	return size
+	return size + 1
+end
+
+-- gets the maximum size of a dequeue
+-- @param dequeue (DeQueue): the DeQueue to get the size of
+-- @return (number): the max size of the DeQueue
+function DeQueue.get_max_size(dequeue)
+	-- makes sure that the given table is a DeQueue
+	assert(Class.is_instance(dequeue, DeQueue), DeQueue.__error.not_a_dequeue)
+
+	-- gets the DeQueue's max size
+	return dequeue.__private.max_size
 end
 
 -- sets the maximum size of a dequeue
@@ -160,8 +172,11 @@ end
 -- @param dequeue (DeQueue): the dequeue to add the element to
 -- @param element (any): the element to add to the DeQueue
 function DeQueue.push_head(dequeue, element)
-	-- makes sure that the table is a DeQueue
-	assert(Class.is_instance(dequeue, DeQueue), DeQueue.__error.not_a_dequeue)
+	-- makes sure that there is space left in the DeQueue
+	assert(
+		DeQueue.size(dequeue) < dequeue.__private.max_size,
+		DeQueue.__error.max_size_reached
+	)
 
 	-- increment the index of the first element at the head of the DeQueue
 	dequeue.__private.first = dequeue.__private.first + 1
@@ -174,8 +189,11 @@ end
 -- @param dequeue (DeQueue): the dequeue to add the element to
 -- @param element (any): the element to add to the DeQueue
 function DeQueue.push_tail(dequeue, element)
-	-- makes sure that the table is a dequeue
-	assert(Class.is_instance(dequeue, DeQueue), DeQueue.__error.not_a_dequeue)
+	-- makes sure that there is space left in the DeQueue
+	assert(
+		DeQueue.size(dequeue) < dequeue.__private.max_size,
+		DeQueue.__error.max_size_reached
+	)
 
 	-- decrements the index of the last element at the tail of the DeQueue
 	dequeue.__private.last = dequeue.__private.last - 1

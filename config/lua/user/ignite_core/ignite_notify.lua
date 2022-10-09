@@ -3,10 +3,11 @@ local Class = require 'user.ignite_core.ignite_classes'
 local Dequeue = require 'user.ignite_core.data_structures.dequeue'
 local Notif = require 'user.ignite_core.data_structures.notification'
 local plugins = require 'user.ignite_core.ignite_plugins'
+local async = plugins.plenary.async
 
 -- constants
-local MAX_NOTIF_VISIBLE = 1		-- maximum number of visible notifications
-local MAX_NOTIF_PENDING = 1	-- maximum number of pending notifications
+local MAX_NOTIF_VISIBLE = 3	-- maximum number of visible notifications
+local MAX_NOTIF_PENDING = 5	-- maximum number of pending notifications
 
 -- makes sure that notify is loaded
 if not plugins.notify then
@@ -24,7 +25,17 @@ local ignite_notify = {}
 ignite_notify.notif_queue = Dequeue.new {}
 
 -- number of currently visible notifications
-ignite_notify.notif_vis_count = 0
+ignite_notify.notif_visible_count = 0
+
+-- used to display the number of discarded notifications
+ignite_notify.notify_discarded = Notif.new(
+	'',
+	'Discarded',
+	Notif.Type.WARN
+)
+
+-- number of discarded notifications
+ignite_notify.notify_discarded.count = 0
 
 -- sets max notification count
 Dequeue.set_max_size(
@@ -40,6 +51,10 @@ Dequeue.set_max_size(
 -- helper function used to display a notification
 -- @param notif (Notification): the Notification to display
 local function notify(notif)
+	-- ...updates the number of visible notifications
+	ignite_notify.notif_visible_count =
+		ignite_notify.notif_visible_count + 1
+
 	-- notification type
 	local level = Notif.Type.to_log_level(notif.type)
 	-- notification title
@@ -48,16 +63,39 @@ local function notify(notif)
 	local message = notif.message
 
 	-- displays the notification asynchroneously
-	--plugins.notifiy.notify(message, type, {title = title})
-	plugins.plenary.async.run(function ()
+	async.run(function ()
 		-- displays notification
 		plugins.notify.async(message, level, {title = title}).events.close()
+
+		-- decrements number of visible notifications
+		ignite_notify.notif_visible_count =
+			ignite_notify.notif_visible_count - 1
+
+		-- wait 100ms between displaying notifications to give time for the
+		-- notifications to dissappear
+		async.util.sleep(100)
+
 		-- once notification has closed, if more notifications are queing...
 		if not Dequeue.is_empty(ignite_notify.notif_queue) then
-			-- ...siplays the next notification
+			-- ...displays the next notification
 			notify(Dequeue.poll_head(ignite_notify.notif_queue))
 		end
 	end)
+end
+
+-- helper function to update the text of the discarded count notification
+local function update_notif_discarded()
+	-- the discarded count notification
+	local discarded = ignite_notify.notify_discarded
+
+	-- increments the number of discarded notifications
+	discarded.count = discarded.count + 1
+
+	-- generates notification message
+	local message = '' .. discarded.count .. ' notifications were discarded'
+
+	-- updates the discarded count notification message
+	discarded.message = message
 end
 
 -- ============================================================================
@@ -74,7 +112,7 @@ end
 -- displayed
 function ignite_notify.can_notify()
 	-- determines if notification can be displayed
-	local is_visible = ignite_notify.notif_vis_count < MAX_NOTIF_VISIBLE
+	local is_visible = ignite_notify.notif_visible_count < MAX_NOTIF_VISIBLE
 
 	-- notification can be displayed
 	if is_visible then
@@ -119,40 +157,66 @@ function ignite_notify.notify(notif)
 
 	-- if the notification can be displayed...
 	if state == Notif.State.VISIBLE then
-		-- ...updates the number of visible notifications
-		ignite_notify.notif_vis_count = ignite_notify.notif_vis_count + 1
 		-- ...displays the notification
 		notify(notif)
-		-- goes to end of function
+		-- exits function
 		return state
 	end
 
 	-- if the notification cannot be displayed but can be queued...
 	if state == Notif.State.PENDING then
-		-- adds the notification to the bottom of the notification queue
+		-- ...adds the notification to the bottom of the notification queue
 		Dequeue.push_tail(ignite_notify.notif_queue, notif)
-		-- goes to the end of the function
+
+		-- exits function
 		return state
 	end
 
-	-- max number of notifications reached
+	-- max number of notifications reached, if discarded count notification 
+	-- has not already been added to the queue...
+	if Dequeue.is_empty(ignite_notify.notif_queue) or
+		Dequeue.peek_tail(ignite_notify.notif_queue) ~= ignite_notify.notify_discarded then
+		-- adds discarded count notification to the end of the queue
+		Dequeue.push_tail(
+			ignite_notify.notif_queue,
+			ignite_notify.notify_discarded
+		)
+	end
+
+	-- updates the discarded count notification
+	update_notif_discarded()
+
+	-- exits function
 	return state
 end
 
---plugins.notify.notify(tostring(ignite_notify.notif_queue), 'error')
-local notif_1 = Notif.new(
-	'Ignite THIS!',
-	'Test',
-	Notif.Type.INFO
-)
+--local notif_1 = Notif.new(
+	--'Ignite THIS!',
+	--'Test',
+	--Notif.Type.INFO
+--)
 
-local notif_2 = Notif.new(
-	'BLOAT, BLOAT, BLOAT',
-	'Error',
-	Notif.Type.ERROR
-)
+--local notif_2 = Notif.new(
+	--'BLOAT, BLOAT, BLOAT',
+	--'Error',
+	--Notif.Type.ERROR
+--)
 
-ignite_notify.notify(notif_1)
-ignite_notify.notify(notif_2)
+--local notif_3 = Notif.new(
+	--"This wil be discarded...",
+	--'None',
+	--Notif.Type.INFO
+--)
+
+--local notif_4 = Notif.new(
+	--"This wil be discarded too...",
+	--'None',
+	--Notif.Type.INFO
+--)
+
+--ignite_notify.notify(notif_1)
+--ignite_notify.notify(notif_2)
+--ignite_notify.notify(notif_3)
+--ignite_notify.notify(notif_4)
 
 return ignite_notify

@@ -69,7 +69,7 @@ Notification.State.add_error {
 -- all notification states
 Notification.State.VISIBLE = Class.new_instance(Notification.State)
 Notification.State.PENDING = Class.new_instance(Notification.State)
-Notification.State.DSCARDED = Class.new_instance(Notification.State)
+Notification.State.DISCARDED = Class.new_instance(Notification.State)
 
 -- ============================================================================
 --							   	NOTIFICATION	
