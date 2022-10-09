@@ -17,11 +17,14 @@ end
 local ignite_notify = {}
 
 -- queue responsible for holding all of the notifications
-ignite_notify.notif_queue = Dequeue.new(1, 2, 3)
+ignite_notify.notif_queue = Dequeue.new {1, 2, 3}
 Dequeue.set_max_size(
 	ignite_notify.notif_queue,
 	MAX_NOTIF_VISIBLE + MAX_NOTIF_PENDING
 )
+
+Dequeue.push_tail(ignite_notify.notif_queue, 2)
+Dequeue.push_tail(ignite_notify.notif_queue, 3)
 
 --local classes = '{'
 --local count = 0
@@ -38,8 +41,6 @@ Dequeue.set_max_size(
 
 --end
 
-local first = Dequeue.peek_head(ignite_notify.notif_queue)
-
-plugins.notify.notify(tostring(first), 'error')
+plugins.notify.notify(tostring(ignite_notify.notif_queue), 'error')
 
 return ignite_notify

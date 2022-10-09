@@ -6,14 +6,62 @@ local DeQueue = Class.new()
 
 DeQueue.add_error {
 	not_a_dequeue = 'table is not a DeQueue but is treated as such',
-	empty_dequeue = 'could not retrieve value from DeQueue, DeQueue is empty'
+	empty_dequeue = 'could not retrieve value from DeQueue, DeQueue is empty',
+	invalid_size = 'DeQueue max size must be a number'
 }
+
+-- utility function for printing a DeQueue, called by the metatable __tostring
+local function dequeue_print(dequeue)
+	-- gets the index of the last element in the DeQueue
+	local last = dequeue.__private.last
+	-- gets the index of the first element in the DeQueue
+	local first = dequeue.__private.first
+
+	local empty_tail, empty_head
+
+	-- if the dequeue tail is empty...
+	if dequeue[last] == nil then
+		-- ... moves on to the next element
+		last = last + 1
+		-- ...saves the state of the tail
+		empty_tail = true
+	end
+	-- if the dequeue head is empty...
+	if dequeue[first] == nil then
+		-- moves on to the previous element
+		first = first - 1
+		-- saves the state of the head
+		empty_head = true
+	end
+
+	-- if both the head and the tail are empty...
+	if empty_tail and empty_head then
+		-- ... DeQueue is empty
+		return '{}'
+	end
+
+	-- buids a string of all elements in the DeQueue
+	local dequeue_string = '{'
+
+	-- for every element in the dequeue...
+	for i = last, first -  1, 1 do
+		-- ... adds the current element to the previous element
+		dequeue_string = dequeue_string .. tostring(dequeue[i]) .. ', '
+	end
+
+	-- adds the first element at the head of the DeQueue
+	dequeue_string = dequeue_string .. dequeue[first] .. '}'
+
+	-- returns the final string
+	return dequeue_string
+end
 
 -- DeQueue constructor
 -- @param (elements): elements to add to the head of the DeQueue
 -- @return (DeQueue): new DeQueue instance
 DeQueue.new = function (elements)
-	local dequeue_table = Class.new_instance(DeQueue)	-- creates new instance
+	-- creates new instance
+	local dequeue_table = Class.new_instance(DeQueue)
 
 	-- adds private fields
 	dequeue_table.add_private {
@@ -23,12 +71,21 @@ DeQueue.new = function (elements)
 	}
 
 	-- for every element...
-  	for index, element in ipairs(elements) do
-		-- ...adds given elements to the dequeue
-		dequeue_table[index] = element
+  	for _, element in ipairs(elements) do
 		-- ...updates the size of the head
 		dequeue_table.__private.first = dequeue_table.__private.first + 1
+		-- ...adds given elements to the dequeue
+		dequeue_table[dequeue_table.__private.first] = element
 	end
+
+	-- creates the metatable
+	local dequeue_mt = {}
+
+	-- overrides tostring method
+	dequeue_mt.__tostring = dequeue_print
+
+	-- applies the metatable
+	setmetatable(dequeue_table, dequeue_mt)
 
 	-- returns the new instance
 	return dequeue_table
@@ -78,12 +135,25 @@ function DeQueue.get_size(dequeue)
 		-- ...then it has a size of 0
 		return 0
 	end
-	
+
 	-- calculate the size of the DeQueue
 	local size = dequeue.__private.first - dequeue.__private.last
 
 	-- returns the size of the DeQueue
 	return size
+end
+
+-- sets the maximum size of a dequeue
+-- @param dequeue (DeQueue): the DeQueue to set the size of
+-- @param max_size (number): the max size of the DeQueue
+function DeQueue.set_max_size(dequeue, max_size)
+	-- makes sure that the given table is a DeQueue
+	assert(Class.is_instance(dequeue, DeQueue), DeQueue.__error.not_a_dequeue)
+	-- makes sure that max_size is a number
+	assert(type(max_size) == 'number', DeQueue.__error.invalid_size)
+
+	-- sets the DeQueue's max size
+	dequeue.__private.max_size = max_size
 end
 
 -- adds an element at the top of the head of a DeQueue
@@ -142,7 +212,7 @@ function DeQueue.peek_tail(dequeue)
 
 	-- get the last element at the tail of the DeQueue
 	local element = dequeue[dequeue.__private.last]
-	
+
 	-- makes sure that the dequeue is not empty
 	assert(element ~= nil, DeQueue.__error.empty_dequeue)
 
@@ -183,3 +253,5 @@ function DeQueue.poll_tail(dequeue)
 	-- returns the element if the DeQueue is not empty
 	return element
 end
+
+return DeQueue
