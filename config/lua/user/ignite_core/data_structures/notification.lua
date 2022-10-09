@@ -1,31 +1,36 @@
 -- dependencies
-local class = require 'user.ignite_core.ignite_classes'
+local Class = require 'user.ignite_core.ignite_classes'
 
 -- represents a notification as used in by notify
-local Notification = class.new()
+local Notification = Class.new()
 
 Notification.add_error {
 	not_a_message = 'Incompatible message type,' ..
 		'Notification message must be a string',
 	not_a_title = 'Incompatible title type' ..
 		'Notification title must be a string',
+	not_a_notif = 'table is not a Notification but is treated as such'
 }
 
+-- ============================================================================
+--							   NOTIFICATION TYPE
+-- ============================================================================
+
 -- represents the type of a notification
-Notification.Type = class.new()
+Notification.Type = Class.new()
 
 Notification.Type.add_error {
 	not_a_notif_type = 'Value passed as an argument does not correspond' ..
-		'to a valid Notification type. See Notification.type for a list' ..
+		'to a valid Notification Type. See Notification.Type for a list' ..
 		'of possible types'
 }
 
 -- all types of Notifications
-Notification.Type.ERROR = class.new_instance(Notification.Type)
-Notification.Type.TRACE = class.new_instance(Notification.Type)
-Notification.Type.DEBUG = class.new_instance(Notification.Type)
-Notification.Type.WARN = class.new_instance(Notification.Type)
-Notification.Type.INFO = class.new_instance(Notification.Type)
+Notification.Type.ERROR = Class.new_instance(Notification.Type)
+Notification.Type.TRACE = Class.new_instance(Notification.Type)
+Notification.Type.DEBUG = Class.new_instance(Notification.Type)
+Notification.Type.WARN = Class.new_instance(Notification.Type)
+Notification.Type.INFO = Class.new_instance(Notification.Type)
 
 -- correspondance between notification types and vim log levels
 local notif_type_converter = {}
@@ -40,12 +45,35 @@ notif_type_converter[Notification.Type.INFO] = vim.log.levels.INFO
 -- @return (vim.log.level): corresponding vim log level
 function Notification.Type.to_log_level(type)
 	-- makes sure that type is a notification type
-	assert(class.is_instance(type, Notification.Type),
+	assert(Class.is_instance(type, Notification.Type),
 		Notification.Type.__error.not_a_notif_type)
 
 	-- convertes the notification type back to a vim log level
 	return notif_type_converter[type]
 end
+
+-- ============================================================================
+--							   NOTIFICATION STATE
+-- ============================================================================
+
+-- Notification State
+Notification.State = Class.new()
+
+-- Notification State errors
+Notification.State.add_error {
+	not_a_notif_state = 'Value passed as an argument does not correspond' ..
+		'to a valid Notification State. See Notification.State for a list' ..
+		'of possible types'
+}
+
+-- all notification states
+Notification.State.VISIBLE = Class.new_instance(Notification.State)
+Notification.State.PENDING = Class.new_instance(Notification.State)
+Notification.State.DSCARDED = Class.new_instance(Notification.State)
+
+-- ============================================================================
+--							   	NOTIFICATION	
+-- ============================================================================
 
 -- Creates a new instance of the Notification class
 -- @param message_val (string): notification message, "" by default
@@ -60,19 +88,19 @@ Notification.new = function(message_val, title_val, type_val)
 	type_val = type_val or Notification.Type.info
 
 	-- checks the validity of the parameters passed to the function
-	assert(type_val(message_val) == 'string',
+	assert(type(message_val) == 'string',
 		Notification.__error.not_a_message)
-	assert(type_val(title_val) == 'string',
+	assert(type(title_val) == 'string',
 		Notification.__error.not_a_title)
-	assert(class.is_instance(type_val, Notification.Type),
+	assert(Class.is_instance(type_val, Notification.Type),
 		Notification.Type.__error.not_a_notif_type)
 
 	-- creates the notification
-	local notification = {
-		message = message_val,
-		title = title_val,
-		type = type_val
-	}
+	local notification = Class.new_instance(Notification)
+
+	notification.message = message_val
+	notification.title = title_val
+	notification.type = type_val
 
 	-- returns the notification
 	return notification

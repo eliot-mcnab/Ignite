@@ -129,7 +129,7 @@ end
 -- gets the size of a DeQueue
 -- @param dequeue (DeQueue): the DeQueue to get the size of
 -- @return (number): the size of the DeQueue
-function DeQueue.get_size(dequeue)
+function DeQueue.size(dequeue)
 	-- if the DeQueue is empty...
 	if DeQueue.is_empty(dequeue) then
 		-- ...then it has a size of 0
@@ -228,6 +228,9 @@ function DeQueue.poll_head(dequeue)
 	-- gest the first element at the head of the DeQueue
 	local element = DeQueue.peek_head(dequeue)
 
+	-- frees up space for garbage collection
+	dequeue[dequeue.__private.first] = nil
+
 	-- moves to the previous element at the head of the DeQueue
 	-- error handling is already done in DeQueue.peek_head
 	-- so we do not have to worry about the DeQueue being empty
@@ -244,6 +247,9 @@ end
 function DeQueue.poll_tail(dequeue)
 	-- gets the last element at the tail of the DeQueue
 	local element = DeQueue.peek_tail(dequeue)
+
+	-- fress up space for garbage collection
+	dequeue[dequeue.__private.last] = nil
 
 	-- moves to the next element at the tail of the DeQueue
 	-- error handling is already done in DeQueue.peek_tail
