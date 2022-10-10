@@ -14,7 +14,6 @@ end
 require 'user.plugins'
 require 'user.ignite_core'
 require 'user.options'
-require 'user.commands'
 require 'user.lsp'
 require 'user.dap'
 
@@ -22,39 +21,9 @@ require 'user.dap'
 local errors = require 'user.ignite_core.ignite_errors'
 errors.check_all()
 
--- sets neovim theme
-
--- COLORCOLUMN 
-
--- sets color column color (light red)
-vim.cmd [[highlight colorcolumn ctermbg = 0 guibg = #ff6666]]
-
--- filetypes for which to set the colorcolumn
-local column_filetypes = {
-	'c',
-	'lua',
-	'markdown'
-}
-
--- autogroup for the followind autocommand
-local augroup = vim.api.nvim_create_augroup(
-	'colorcolumn_cmds',
-	{ clear = true }
-)
-
--- for every filetype specified in column_filetypes...
-for _, filetype in ipairs(column_filetypes) do
-	-- ...creates an autocommand that will set the colorcolumn
-	vim.api.nvim_create_autocmd(
-		'FileType',
-		{
-			pattern = filetype,
-			group = augroup,
-			desc = 'Enables colorcolumn for ' .. filetype .. ' files',
-			command = 'setlocal colorcolumn:80'
-		}
-	)
-end
+-- style-related setup
+local style = require 'user.ignite_core.ignite_style'
+style.setup_all()
 
 -- disables vim-prosesstion auto-loading
 vim.cmd [[let g:prosession_on_startup = 0]]
