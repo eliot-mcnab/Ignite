@@ -172,11 +172,19 @@ end
 -- @param dequeue (DeQueue): the dequeue to add the element to
 -- @param element (any): the element to add to the DeQueue
 function DeQueue.push_head(dequeue, element)
-	-- makes sure that there is space left in the DeQueue
-	assert(
-		DeQueue.size(dequeue) < dequeue.__private.max_size,
-		DeQueue.__error.max_size_reached
-	)
+	-- makes sure that the given value is a table
+	assert(Class.is_instance(dequeue, DeQueue), DeQueue.__error.not_a_dequeue)
+
+	-- if max size was set...
+	if dequeue.__private.max_size then
+		-- ...makes sure that there is space left in the DeQueue
+		local size = dequeue.__private.first - dequeue.__private.last
+
+		assert(
+ 			size < dequeue.__private.max_size,
+			DeQueue.__error.max_size_reached
+		)
+	end
 
 	-- increment the index of the first element at the head of the DeQueue
 	dequeue.__private.first = dequeue.__private.first + 1
@@ -189,11 +197,19 @@ end
 -- @param dequeue (DeQueue): the dequeue to add the element to
 -- @param element (any): the element to add to the DeQueue
 function DeQueue.push_tail(dequeue, element)
-	-- makes sure that there is space left in the DeQueue
-	assert(
-		DeQueue.size(dequeue) < dequeue.__private.max_size,
-		DeQueue.__error.max_size_reached
-	)
+	-- makes sure that the given value is a table
+	assert(Class.is_instance(dequeue, DeQueue), DeQueue.__error.not_a_dequeue)
+
+	-- if max size was set...
+	if dequeue.__private.max_size then
+		-- ...makes sure that there is space left in the DeQueue
+		local size = dequeue.__private.first - dequeue.__private.last
+
+		assert(
+ 			size < dequeue.__private.max_size,
+			DeQueue.__error.max_size_reached
+		)
+	end
 
 	-- decrements the index of the last element at the tail of the DeQueue
 	dequeue.__private.last = dequeue.__private.last - 1

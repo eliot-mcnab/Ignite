@@ -12,11 +12,15 @@ if not vim.tbl_contains(vim.opt.runtimepath:get(), ignite_path) then
 end
 
 require 'user.plugins'
+require 'user.ignite_core'
 require 'user.options'
 require 'user.commands'
 require 'user.lsp'
 require 'user.dap'
-require 'user.ignite_core'
+
+-- checks for errors
+local errors = require 'user.ignite_core.ignite_errors'
+errors.check_all()
 
 -- sets neovim theme
 
