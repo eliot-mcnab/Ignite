@@ -1,11 +1,13 @@
+-- dependencies
+local plugins = require 'user.ignite_core.ignite_plugins'
+
 -- checks that autopairs was corectly loaded
-local autopairs_loaded, autopairs = pcall(require, "nvim-autopairs")
-if not autopairs then
+if not plugins.nvim_autopairs then
 	return
 end
 
 -- parameterign autopairs
-autopairs.setup({
+plugins.nvim_autopairs.setup({
 
 	-- sets up treesitter to check for a pair
 	ts_enable = true,
@@ -14,7 +16,7 @@ autopairs.setup({
 	ts_config = {
 		lua = {'string'},
         javascript = {'template_string'},
-        java = false, 	
+        java = false,
 	},
 
 	-- enables fast wrap

@@ -19,7 +19,7 @@ if fn.empty(fn.glob(install_path)) > 0 then
 		packer_repo,
 		install_path,
 	}
-	
+
 	-- notifies user packer had to be installed
 	print "Packer has been installed, please restart vim."
 	vim.cmd [[packadd packer.nvim]]
@@ -61,7 +61,7 @@ packer.init {
 -- plugins
 
 return packer.startup(function(use)
-	
+
 	-- SETUP
 
 	-- allows packer to manage itself
@@ -138,7 +138,7 @@ return packer.startup(function(use)
 	}
 
 	-- EDITING
-	
+
 	-- easier line moving
 	use 'matze/vim-move'
 	-- automatic paring
@@ -194,7 +194,7 @@ return packer.startup(function(use)
 	}
 
 	-- SYNTAX
-	
+
 	-- theme
 	use	'morhetz/gruvbox'
 	use 'joshdick/onedark.vim'
@@ -206,7 +206,7 @@ return packer.startup(function(use)
 	use 'lukas-reineke/indent-blankline.nvim'
 
 	-- GIT INTEGRATION
-	
+
 	-- git signs
 	use {
 		'lewis6991/gitsigns.nvim',

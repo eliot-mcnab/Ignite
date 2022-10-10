@@ -1,11 +1,13 @@
+-- dependencies
+local plugins = require 'user.ignite_core.ignite_plugins'
+
 -- makes sure that battery is correctly loaded
-local battery_loaded, battery = pcall(require, 'battery')
-if not battery_loaded then
+if not plugins.battery then
 	return
 end
 
 -- battery setup
-battery.setup {
+plugins.battery.setup {
 	--update_rate_seconds = 30,           -- Number of seconds between checking battery status
 	--show_status_when_no_battery = true, -- Don't show any icon or text when no battery found (desktop for example)
 	--show_plugged_icon = true,           -- If true show a cable icon alongside the battery icon when plugged in

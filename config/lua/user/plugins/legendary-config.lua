@@ -1,6 +1,8 @@
+-- dependencies
+local plugins = require 'user.ignite_core.ignite_plugins'
+
 -- makes sure that legendary is loaded
-local legendary_loaded, legendary = pcall(require, 'legendary')
-if not legendary_loaded then
+if not plugins.legendary then
 	return
 end
 
@@ -25,8 +27,8 @@ vim.cmd [[
 vim.g.mapleader = '<Space>'
 
 -- setting up legendary
-legendary.setup({
-	
+plugins.legendary.setup({
+
 	-- ignores in-built keybindings
 	include_builtin = false,
 
@@ -233,7 +235,7 @@ legendary.setup({
 		},
 
 		-- POPUP WINDOWS
-		
+
 		-- markdown preview
 		{
 			'<C-g>',
@@ -282,7 +284,7 @@ legendary.setup({
 		},
 
 		-- FILE EXPLORER
-		
+
 		-- toggle file tree
 		{
 			'<C-t>t',
@@ -478,7 +480,7 @@ legendary.setup({
 		},
 
 		-- BETTER COMMENTING
-	
+
 		-- toggle comment
 		{
 			'<C-c>',

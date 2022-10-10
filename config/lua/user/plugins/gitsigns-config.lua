@@ -1,11 +1,12 @@
+-- dependencies
+local plugins = require 'user.ignite_core.ignite_plugins'
+
 -- makes sure that gitsigns was loaded
-local gitsigns_loaded, gitsigns = pcall(require, 'gitsigns')
-if not gitsigns_loaded then
+if not plugins.gitsigns then
 	return
 end
 
-
 -- sets up gitsigns
-gitsigns.setup(
+plugins.gitsigns.setup(
 	-- setup gitsigns here
 )

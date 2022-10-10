@@ -1,6 +1,8 @@
+-- dependencies
+local plugins = require 'user.ignite_core.ignite_plugins'
+
 -- makes sure that startup-nvim was correctly loaded
-local startup_loaded, startup = pcall(require, 'startup')
-if not startup_loaded then
+if not plugins.startup then
 	return
 end
 
@@ -39,7 +41,7 @@ local headers = {
 }
 
 -- startup setup
-startup.setup {
+plugins.startup.setup {
 	-- startup header (logo)
 	header = {
 		type  = TEXT,

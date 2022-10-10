@@ -1,15 +1,17 @@
+-- dependencies
+local plugins = require 'user.ignite_core.ignite_plugins'
+
 -- makes sure nvim tree is loaded
-local nvim_tree_loaded, nvim_tree = pcall(require, 'nvim-tree')
-if not nvim_tree_loaded then
+if not plugins.nvim_tree then
 	return
 end
 
 -- nvim tree setup
-nvim_tree.setup {
+plugins.nvim_tree.setup {
 	-- disables and replaces netrw
 	disable_netrw = true,
-	hijack_netrw = true, 
-	
+	hijack_netrw = true,
+
 	-- keeps cursor on first letter of filename
 	hijack_cursor = true,
 
@@ -19,7 +21,7 @@ nvim_tree.setup {
 	},
 
 	-- sorting mode
-	sort_by = "case_sensitive",	
+	sort_by = "case_sensitive",
 
 	-- keeps focused file updated
 	update_focused_file = {

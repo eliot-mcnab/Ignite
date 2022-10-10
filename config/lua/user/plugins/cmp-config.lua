@@ -1,12 +1,13 @@
+-- dependencies
+local plugins = require 'user.ignite_core.ignite_plugins'
+
 -- makes sure that completion engine is loaded
-local cmp_loaded, cmp = pcall(require, 'cmp')
-if not cmp_loaded then
+if not plugins.cmp then
 	return
 end
 
 -- makes sure that snippet engine is loaded
-local lua_snip_loaded, luasnip = pcall(require, 'luasnip')
-if not lua_snip_loaded then
+if not plugins.luasnip then
 	return
 end
 
@@ -42,46 +43,46 @@ local kind_icons = {
 }
 
 -- setting up completion engine
-cmp.setup {
+plugins.cmp.setup {
 
 	-- specifies snippet plugin
 	snippet = {
 		expand = function(args)
-			luasnip.lsp_expand(args.body) -- For `luasnip` users.
+			plugins.luasnip.lsp_expand(args.body) -- For `luasnip` users.
 		end,
 	},
 
 	-- makes completion windows rounded
 	window = {
-		completion = cmp.config.window.bordered(),
-		documentation = cmp.config.window.bordered(),
+		completion = plugins.cmp.config.window.bordered(),
+		documentation = plugins.cmp.config.window.bordered(),
 	},
 
 	-- plugin mappings
-	mapping = cmp.mapping.preset.insert({
+	mapping = plugins.cmp.mapping.preset.insert({
 		-- navigation mappings
-		['<C-Down>'] = cmp.mapping.select_next_item(),
-		['<C-Up>'] = cmp.mapping.select_prev_item(),
-		['<C-S>Down'] = cmp.mapping.scroll_docs(-4),
-		['<C-S>Up'] = cmp.mapping.scroll_docs(4),
-		['<C-Space>'] = cmp.mapping.complete(),
-		['<C-e>'] = cmp.mapping.abort(),
-		['<CR>'] = cmp.mapping.confirm({ select = true }),
+		['<C-Down>'] = plugins.cmp.mapping.select_next_item(),
+		['<C-Up>'] = plugins.cmp.mapping.select_prev_item(),
+		['<C-S>Down'] = plugins.cmp.mapping.scroll_docs(-4),
+		['<C-S>Up'] = plugins.cmp.mapping.scroll_docs(4),
+		['<C-Space>'] = plugins.cmp.mapping.complete(),
+		['<C-e>'] = plugins.cmp.mapping.abort(),
+		['<CR>'] = plugins.cmp.mapping.confirm({ select = true }),
 
 		-- super-tab mappings
-		["<Tab>"] = cmp.mapping(function(fallback)
-			if cmp.visible() then
-				cmp.select_next_item()
+		["<Tab>"] = plugins.cmp.mapping(function(fallback)
+			if plugins.cmp.visible() then
+				plugins.cmp.select_next_item()
 			else
 				fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
 			end
 		end, { "i", "s" }),
 
-		["<S-Tab>"] = cmp.mapping(function()
-			if cmp.visible() then
-				cmp.select_prev_item()
-			elseif luasnip.jumpable(-1) then
-				luasnip.jump(-1)
+		["<S-Tab>"] = plugins.cmp.mapping(function()
+			if plugins.cmp.visible() then
+				plugins.cmp.select_prev_item()
+			elseif plugins.luasnip.jumpable(-1) then
+				plugins.luasnip.jump(-1)
 			end
 		end, { "i", "s" }),
 	}),
@@ -112,7 +113,7 @@ cmp.setup {
 	},
 
 	-- order of sources, with lower indices having higher priority
-	sources = cmp.config.sources({
+	sources = plugins.cmp.config.sources({
 		{ name = 'nvim_lsp' },
 		{ name = 'nvim_lua' },
 		{ name = 'luasnip' },

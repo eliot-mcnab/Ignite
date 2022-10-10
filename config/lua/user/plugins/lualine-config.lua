@@ -1,19 +1,23 @@
+-- dependencies
+local plugins = require 'user.ignite_core.ignite_plugins'
+
 -- makes sure that the plugin is correctly loaded
-local lualine_loaded, lualine = pcall(require, 'lualine')
-if not lualine_loaded then
+if not plugins.lualine then
 	return
 end
 
 -- battery support
 local nvimbattery = {
 	function()
-		return require("battery").get_status_line()
+		if plugins.battery then
+			return plugins.battery.get_status_line()
+		end
 	end,
 	color = { fg = 'violet' },
 }
 
 -- setting up lualine
-lualine.setup {
+plugins.lualine.setup {
 	--default sections
 	sections = {
 		lualine_a = {'mode'},

@@ -1,11 +1,13 @@
+-- dependencies
+local plugins = require 'user.ignite_core.ignite_plugins'
+
 -- makes sure that notify was loaded correctly
-local notify_loaded, notify = pcall(require, 'notify')
-if not notify_loaded then
+if not plugins.notify then
 	return
 end
 
 -- sets up notify
-notify.setup {
+plugins.notify.setup {
 	stages = "slide",
-	--background_colour = "#000000"
+	background_colour = "#000000"
 }

@@ -1,11 +1,13 @@
+-- dependencies
+local plugins = require 'user.ignite_core.ignite_plugins'
+
 -- makes sure that barbar is loaded
-local barbar_loaded, barbar = pcall(require, 'bufferline')
-if not barbar_loaded then
+if not plugins.barbar then
 	return
 end
 
 -- barbar setup
-barbar.setup {
+plugins.barbar.setup {
 	-- sets icon characters
 	icon_separator_active = '▎',
 	icon_separator_inactive = '▎',

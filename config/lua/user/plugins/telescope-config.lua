@@ -1,15 +1,17 @@
+-- dependencies
+local plugins = require 'user.ignite_core.ignite_plugins'
+
 -- ensures that telescope was correctly loaded
-local telescope_loaded, telescope = pcall(require, 'telescope')
-if not telescope_loaded then
+if not plugins.telescope then
 	return
 end
 
 --telescope.load_extension('fzf')
-telescope.load_extension('media_files')
-telescope.load_extension('glyph')
+plugins.telescope.load_extension('media_files')
+plugins.telescope.load_extension('glyph')
 
 -- telescope setup
-telescope.setup {
+plugins.telescope.setup {
 	-- extensions setup
 	extensions = {
 		-- fuzzy finding performance improvements

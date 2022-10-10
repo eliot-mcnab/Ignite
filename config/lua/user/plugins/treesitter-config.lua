@@ -1,10 +1,12 @@
+-- dependencies
+local plugins = require 'user.ignite_core.ignite_plugins'
+
 -- makes sure that treesitter is properly loaded
-local treesitter_loaded, treesitter = pcall(require , "nvim-treesitter.configs")
-if not treesitter_loaded then
+if not plugins.treesitter then
 	return
 end
 
-treesitter.setup {
+plugins.treesitter.setup {
 	-- the language parsers to be installed
 	ensure_installed = {
 		"c",
@@ -15,7 +17,7 @@ treesitter.setup {
 	sync_isntall = false,					-- asychroneous install (faster)
 	auto_install = true,					-- auto-installs missing parsers
 	ignore_install = { "" },				-- language parsers not to install
-	
+
 	highlight = {
 		enable = true,		-- enables highlighting
 		disable = { "" },	-- languages on which highlighting will be disabled

@@ -1,10 +1,12 @@
+-- dependencies
+local plugins = require 'user.ignite_core.ignite_plugins'
+
 -- makes sure that toggleterm is correctly loaded
-local toggleterm_loaded, toggleterm = pcall(require, 'toggleterm')
-if not toggleterm_loaded then
+if not plugins.toggleterm then
 	return
 end
 
 -- toggleterm setup
-toggleterm.setup {
+plugins.toggleterm.setup {
 	open_mapping = [[<c-\>]]
 }
