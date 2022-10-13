@@ -15,6 +15,7 @@ local mapping_opts = {
 -- mapping modes
 local NORMAL = "n"
 local VISUAL = "v"
+local TERMINAL = 't'
 
 -- disables default mappings
 vim.cmd [[
@@ -75,34 +76,34 @@ plugins.legendary.setup({
 
 		-- move to right window
 		{
-			'<C-w>Right',
-			'<C-w>l',
+			'<C-Right>',
+			'<Cmd>wincmd l<CR>',
 			description = '[NAV] Moves cursor to right window',
-			mode = { NORMAL },
+			mode = { NORMAL, TERMINAL },
 			opts = mapping_opts
 		},
 		-- move to left window
 		{
-			'<C-w>Left',
-			'<C-w>h',
+			'<C-Left>',
+			'<Cmd>wincmd h<CR>',
 			description = '[NAV] Moves cursor ot the left window',
-			mode = { NORMAL },
+			mode = { NORMAL, TERMINAL },
 			opts = mapping_opts
 		},
 		-- move to the upper window
 		{
-			'<C-w>Up',
-			'<C-w>k',
+			'<C-Up>',
+			'<Cmd>wincmd k<CR>',
 			description = '[NAV] Moves cursor to the top window',
-			mode = { NORMAL },
+			mode = { NORMAL, TERMINAL },
 			opts = mapping_opts
 		},
 		-- move to the lower window
 		{
-			'<C-w>Down',
-			'<C-w>j',
+			'<C-Down>',
+			'<Cmd>wincmd j<CR>',
 			description = '[NAV] Moves cursor to the bottom window',
-			mode = { NORMAL },
+			mode = { NORMAL, TERMINAL },
 			opts = mapping_opts
 		},
 
@@ -326,11 +327,24 @@ plugins.legendary.setup({
 			opts = mapping_opts
 		},
 
-		-- terminal
+		-- TERMINAL
+
+		-- open terminal
 		{
-			'<c-\\>',
+			[[<C-\>]],
 			':ToggleTerm<CR>',
-			description = '[TERM] Toggles terminal'
+			description = '[TERM] Opens a new terminal',
+			mode = { NORMAL },
+			opts = mapping_opts
+		},
+
+		-- escape terminal
+		{
+			[[<esc>]],
+			[[<C-\><C-n>]],
+			description = '[TERM] Exits current terminal',
+			mode = { TERMINAL },
+			opts = mapping_opts
 		},
 
 		-- LSP

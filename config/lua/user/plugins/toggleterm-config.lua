@@ -8,5 +8,5 @@ end
 
 -- toggleterm setup
 plugins.toggleterm.setup {
-	open_mapping = [[<c-\>]]
+	-- toggleterm setup here
 }

@@ -57,7 +57,11 @@ Component.DIAGNOSTICS = new_component(
 	end
 )
 
--- Terminal Component, handled
-Component.TERMINAL = Class.new_instance(Component)
+-- Terminal Component, handled by ToggleTerm
+Component.TERMINAL = new_component(
+	function ()
+		vim.cmd [[ToggleTerm]]
+	end
+)
 
 return Component
