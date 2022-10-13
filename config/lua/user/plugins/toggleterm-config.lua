@@ -8,5 +8,6 @@ end
 
 -- toggleterm setup
 plugins.toggleterm.setup {
-	-- toggleterm setup here
+	-- no open_mapping, opening is handled by ignite_ui
+	open_mapping = '**__no_mapping'
 }

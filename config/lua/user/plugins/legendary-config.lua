@@ -1,5 +1,6 @@
 -- dependencies
 local plugins = require 'user.ignite_core.ignite_plugins'
+local ignite_ui = require 'user.ignite_core.ignite_ui'
 
 -- makes sure that legendary is loaded
 if not plugins.legendary then
@@ -289,7 +290,9 @@ plugins.legendary.setup({
 		-- toggle file tree
 		{
 			'<C-t>t',
-			':NvimTreeToggle<CR>',
+			function ()
+				ignite_ui.toggle_component(Component.TREE)
+			end,
 			description = '[TREE] Toggles file tree',
 			mode = { NORMAL },
 			opts = mapping_opts
@@ -332,7 +335,9 @@ plugins.legendary.setup({
 		-- open terminal
 		{
 			[[<C-\>]],
-			':ToggleTerm<CR>',
+			function ()
+				ignite_ui.toggle_component(Component.TERMINAL)
+			end,
 			description = '[TERM] Opens a new terminal',
 			mode = { NORMAL },
 			opts = mapping_opts

@@ -3,6 +3,8 @@ local plugins = require 'user.ignite_core.ignite_plugins'
 local Class =  require 'user.ignite_core.ignite_classes'
 local Slot = require 'user.ignite_core.data_structures.ui.ui_slots'
 local Component = require 'user.ignite_core.data_structures.ui.ui_component'
+local Notif = require 'user.ignite_core.data_structures.notification'
+local ignite_notify = require 'user.ignite_core.ignite_notify'
 
 -- responsible for displaying the UI to the user and handling the interaction
 -- between various UI plugins
@@ -23,13 +25,19 @@ local draw_order = {
 Slot.set_component(Slot.INFO_PANEL, Component.DIAGNOSTICS)
 Slot.set_component(Slot.L_MENU, Component.TREE)
 
+-- correspondance between Component and their allowed Slots
+local slot_correspondance = {}
+slot_correspondance[Component.DIAGNOSTICS] = Slot.INFO_PANEL
+slot_correspondance[Component.TERMINAL] = Slot.INFO_PANEL
+slot_correspondance[Component.TREE] = Slot.L_MENU
+
 -- resets UI to default layout
 --
 -- Default Ignite layout:
 -- +----------------------------------------+
 -- |				   NONE				    |
 -- +----------------------------------------+
--- |		|						|		|
+-- |		|						|		|	
 -- |		|						|		|
 -- |  FILE  |						|  NONE |
 -- |  TREE  |						|		|
@@ -38,11 +46,24 @@ Slot.set_component(Slot.L_MENU, Component.TREE)
 -- |		+-----------------------+		|
 -- |		|	 LSP DIAGNOSTICS	|		|
 -- +--------+-----------------------+-------+
-function ignite_ui.reset()
+function ignite_ui.defaults()
 	-- sets Left Menu to contain File Tree
 	Slot.set_component(Slot.L_MENU, Component.TREE)
 	-- sets Info Panel to contain LSP Diagnostics
 	Slot.set_component(Slot.INFO_PANEL, Component.DIAGNOSTICS)
+end
+
+-- resets the UI by removing all Components associated to every Slot
+function ignite_ui.reset()
+	-- for every slot (unordered)...
+	for _, slot in pairs(slot_correspondance) do
+		-- ... removes its component
+ 		local component = Slot.remove_component(slot)
+		-- ... and erases it from the UI if the ui is being displayed
+		if ignite_ui.is_active then
+			Component.erase(component)
+		end
+	end
 end
 
 -- Draws the UI as specified by each Slot
@@ -89,6 +110,60 @@ function ignite_ui.erase_ui()
 	ignite_ui.is_active = false
 end
 
+-- redraws the UI
+function ignite_ui.redraw()
+	-- erases the current UI
+	ignite_ui.erase_ui()
+
+	-- redraws the UI
+	ignite_ui.draw_ui()
+end
+
+-- toggles a Component in the UI
+-- @param component (Component): the Component to toggle. Component placement
+-- is provided by slot_correspondance table and cannot be edited
+function ignite_ui.toggle_component(component)
+	-- makes sure function arguments are valid
+	assert(Class.is_instance(component, Component),
+		Component.__error.not_a_component)
+
+	-- if the UI is not displaying...
+	if not ignite_ui.is_active then
+		-- ... resets it
+		ignite_ui.reset()
+	end
+
+	-- gets the Slot associated to the Component
+	local slot = slot_correspondance[component]
+
+	-- saves current UI state
+	local was_active = ignite_ui.is_active
+
+	-- erases the UI
+	ignite_ui.erase_ui()
+
+	-- if the component is already present in the Slot...
+	if was_active and (Slot.get_component(slot) == component) then
+		-- ... removes the component from its current slot
+		Slot.remove_component(slot)
+		-- ... calls the component's erase() function
+		slot.component = nil
+
+		ignite_notify.notify(Notif.new(
+				'Component removed',
+				'Debug',
+				Notif.Type.INFO
+			)
+		)
+	else
+		-- updates the Slot's component
+		Slot.set_component(slot, component)
+	end
+
+	-- draws the UI with the new Component
+	ignite_ui.draw_ui()
+end
+
 -- sets up UI for use
 function ignite_ui.setup()
 	-- resets the UI to default
@@ -99,11 +174,16 @@ function ignite_ui.setup()
 	vim.api.nvim_create_user_command(
 		'UIToggle',
 		function ()
-			if ignite_ui.is_active then -- if UI is active, erases it
+			if ignite_ui.is_active then
 				ignite_ui.erase_ui()
-			else -- if UI is inactive, draws it
+			else
 				ignite_ui.draw_ui()
 			end
+
+			--if not ignite_ui.is_active then
+				--ignite_ui.defaults()
+				--ignite_ui.draw_ui()
+			--end
 		end,
 		{
 			bang = true,

@@ -32,6 +32,27 @@ Slot.L_MENU = Class.new_instance(Slot)
 Slot.R_MENU = Class.new_instance(Slot)
 Slot.INFO_PANEL = Class.new_instance(Slot)
 
+-- Disassociates the component which was currently attached to a Slot
+-- @param slot (Slot): the Slot from which to remove the Component
+-- @return (Component): the Component attached to this slot, or nil if no
+-- component was attached
+function Slot.remove_component(slot)
+	-- makes sure function arguments are valid
+	assert(Class.is_instance(slot, Slot), Slot.__error.not_a_slot)
+
+	-- gets the current slot Component
+	local component = slot.component
+
+	-- if the Slot had a Component associated to it...
+	if component then
+		-- ... disassociates it from the Slot
+		slot.component = nil
+	end
+
+	-- returns the component that was associated to the slot
+	return component
+end
+
 -- Sets the Component inside of a Slot. If Slot already has a Component 
 -- associated to it, removes it from the UI by calling its erase() function
 -- @param slot (Slot): the Slot to set the component of
