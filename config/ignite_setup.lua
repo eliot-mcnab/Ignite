@@ -25,5 +25,9 @@ errors.check_all()
 local style = require 'user.ignite_core.ignite_style'
 style.setup_all()
 
+-- UI setup
+local ui = require 'user.ignite_core.ignite_ui'
+ui.setup()
+
 -- disables vim-prosesstion auto-loading
 vim.cmd [[let g:prosession_on_startup = 0]]

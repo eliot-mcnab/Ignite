@@ -14,8 +14,7 @@ Slot.add_error {
 		'Available Slots are: T_MENU, L_MENU, R_MENU and INFO_PANEL'
 }
 
--- Slots privided by Ignite:
---
+-- Slots provided by Ignite:
 -- +----------------------------------------+
 -- |				TOP MENU				|
 -- +----------------------------------------+
@@ -33,7 +32,8 @@ Slot.L_MENU = Class.new_instance(Slot)
 Slot.R_MENU = Class.new_instance(Slot)
 Slot.INFO_PANEL = Class.new_instance(Slot)
 
--- Sets the Component inside of a Slot
+-- Sets the Component inside of a Slot. If Slot already has a Component 
+-- associated to it, removes it from the UI by calling its erase() function
 -- @param slot (Slot): the Slot to set the component of
 -- @param component (Component): the Component to set inside of the Slot
 function Slot.set_component(slot, component)
@@ -41,6 +41,12 @@ function Slot.set_component(slot, component)
 	assert(Class.is_instance(slot, Slot), Slot.__error.not_a_slot)
 	assert(Class.is_instance(component, Component),
 		Component.__error.not_a_component)
+
+	-- if the slot already had a component associated to it...
+	if slot.component then
+		-- ... calls its erase() function to remove it from the UI
+		Component.erase(slot.component)
+	end
 
 	-- sets the Slot's Component
 	slot.component = component

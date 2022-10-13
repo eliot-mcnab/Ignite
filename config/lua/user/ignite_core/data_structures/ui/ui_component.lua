@@ -61,7 +61,32 @@ Component.DIAGNOSTICS = new_component(
 Component.TERMINAL = new_component(
 	function ()
 		vim.cmd [[ToggleTerm]]
+	end,
+	function ()
+		vim.cmd [[ToggleTerm]]
 	end
 )
+
+-- calls the draw() function for a Component
+-- @param component (Component): the Component to draw
+function Component.draw(component)
+	-- makes sure that function arguments are valid
+	assert(Class.is_instance(component, Component),
+		Component.__error.not_a_component)
+
+	-- calls the Component's draw() function
+	component.draw()
+end
+
+-- calls the  erase() function for a Component
+-- @param component (Component): the Component to erase
+function Component.erase(component)
+	-- makes sure function arguments are valid
+	assert(Class.is_instance(component, Component),
+		Component.__error.not_a_component)
+
+	-- calls the Component's erase() function
+	component.erase()
+end
 
 return Component

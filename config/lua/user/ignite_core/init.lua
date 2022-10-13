@@ -3,5 +3,6 @@ return {
 	notify = require 'user.ignite_core.ignite_notify',
 	util = require 'user.ignite_core.ignite_util',
 	error = require 'user.ignite_core.ignite_errors',
-	style = require 'user.ignite_core.ignite_style'
+	style = require 'user.ignite_core.ignite_style',
+	ui = require 'user.ignite_core.ignite_ui'
 }

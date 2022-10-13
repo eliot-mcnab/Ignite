@@ -8,6 +8,9 @@ local Component = require 'user.ignite_core.data_structures.ui.ui_component'
 -- between various UI plugins
 local ignite_ui = {}
 
+-- stores the state of the UI. By default UI is inactive
+ignite_ui.is_active = false
+
 -- a table of all Slots in the order in which they must be drawn
 local draw_order = {
 	Slot.INFO_PANEL,
@@ -16,10 +19,36 @@ local draw_order = {
 	Slot.T_MENU
 }
 
+-- associated default UI components to their Slots
+Slot.set_component(Slot.INFO_PANEL, Component.DIAGNOSTICS)
+Slot.set_component(Slot.L_MENU, Component.TREE)
+
+-- resets UI to default layout
+--
+-- Default Ignite layout:
+-- +----------------------------------------+
+-- |				   NONE				    |
+-- +----------------------------------------+
+-- |		|						|		|
+-- |		|						|		|
+-- |  FILE  |						|  NONE |
+-- |  TREE  |						|		|
+-- |		|						|		|
+-- |		|						|		|
+-- |		+-----------------------+		|
+-- |		|	 LSP DIAGNOSTICS	|		|
+-- +--------+-----------------------+-------+
+function ignite_ui.reset()
+	-- sets Left Menu to contain File Tree
+	Slot.set_component(Slot.L_MENU, Component.TREE)
+	-- sets Info Panel to contain LSP Diagnostics
+	Slot.set_component(Slot.INFO_PANEL, Component.DIAGNOSTICS)
+end
+
 -- Draws the UI as specified by each Slot
 function ignite_ui.draw_ui()
 	-- for every slot...
-	for slot, _ in ipairs(draw_order) do
+	for _, slot in ipairs(draw_order) do
 		-- gets the component stored in that Slot
 		local component = Slot.get_component(slot)
 
@@ -28,8 +57,59 @@ function ignite_ui.draw_ui()
 			goto continue
 		end
 
+		-- draws the component onto the UI
+		Component.draw(component)
+
 		::continue::
 	end
+
+	-- updates the state of the UI
+	ignite_ui.is_active = true
+end
+
+-- Erases the UI as specified by each slot
+function ignite_ui.erase_ui()
+	-- for every slot (unordered)...
+	for _, slot in pairs(draw_order) do
+		-- gets the component stored by that slot
+		local component = Slot.get_component(slot)
+
+		-- if the component is empty, ignores the Slot
+		if not component then
+			goto continue
+		end
+
+		-- erases the component from the UI
+		Component.erase(component)
+
+		::continue::
+	end
+
+	-- updates the state of the UI
+	ignite_ui.is_active = false
+end
+
+-- sets up UI for use
+function ignite_ui.setup()
+	-- resets the UI to default
+	-- TODO: in the future could load previous UI so user preference can 
+	-- persist throughout sessions
+
+	-- creates command for toggling the UI
+	vim.api.nvim_create_user_command(
+		'UIToggle',
+		function ()
+			if ignite_ui.is_active then -- if UI is active, erases it
+				ignite_ui.erase_ui()
+			else -- if UI is inactive, draws it
+				ignite_ui.draw_ui()
+			end
+		end,
+		{
+			bang = true,
+			desc = 'Toggles Ignite UI'
+		}
+	)
 end
 
 return ignite_ui
