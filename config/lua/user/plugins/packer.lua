@@ -214,8 +214,6 @@ return packer.startup(function(use)
 			--require('gitsigns').setup()
 		--end
 	}
-	-- fugitive
-	use 'tpope/vim-fugitive'
 
 	-- PERFORMANCE
 	use 'lewis6991/impatient.nvim'

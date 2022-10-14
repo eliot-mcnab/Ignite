@@ -50,7 +50,10 @@ plugins.packer = require_plugin('packer')
 plugins.plenary = require_plugin('plenary')
 plugins.startup = require_plugin('startup')
 plugins.telescope = require_plugin('telescope')
-plugins.toggleterm = require_plugin('toggleterm')
+plugins.toggleterm = {
+	base = require_plugin('toggleterm'),
+	terminal = require_plugin('toggleterm.terminal')
+}
 plugins.trouble = require_plugin('trouble')
 
 return plugins

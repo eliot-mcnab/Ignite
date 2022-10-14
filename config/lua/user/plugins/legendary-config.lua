@@ -1,6 +1,7 @@
 -- dependencies
 local plugins = require 'user.ignite_core.ignite_plugins'
 local ignite_ui = require 'user.ignite_core.ignite_ui'
+local ignite_terminal = require 'user.ignite_core.ignite_terminal'
 local Component = require 'user.ignite_core.data_structures.ui.ui_component'
 
 -- makes sure that legendary is loaded
@@ -350,6 +351,19 @@ plugins.legendary.setup({
 			[[<C-\><C-n>]],
 			description = '[TERM] Exits current terminal',
 			mode = { TERMINAL },
+			opts = mapping_opts
+		},
+
+		-- GIT INTEGRATION
+
+		-- lazygit terminal integration
+		{
+			[[<A-g>]],
+			function ()
+				ignite_terminal.lazygit:toggle()
+			end,
+			description = '[GIT] Opens a lazygit terminal instance',
+			mode = { NORMAL },
 			opts = mapping_opts
 		},
 
