@@ -1,6 +1,7 @@
 -- dependencies
 local plugins = require 'user.ignite_core.ignite_plugins'
 local ignite_ui = require 'user.ignite_core.ignite_ui'
+local Component = require 'user.ignite_core.data_structures.ui.ui_component'
 
 -- makes sure that legendary is loaded
 if not plugins.legendary then

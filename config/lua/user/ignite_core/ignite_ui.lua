@@ -3,8 +3,8 @@ local plugins = require 'user.ignite_core.ignite_plugins'
 local Class =  require 'user.ignite_core.ignite_classes'
 local Slot = require 'user.ignite_core.data_structures.ui.ui_slots'
 local Component = require 'user.ignite_core.data_structures.ui.ui_component'
-local Notif = require 'user.ignite_core.data_structures.notification'
-local ignite_notify = require 'user.ignite_core.ignite_notify'
+--local Notif = require 'user.ignite_core.data_structures.notification'
+--local ignite_notify = require 'user.ignite_core.ignite_notify'
 
 -- responsible for displaying the UI to the user and handling the interaction
 -- between various UI plugins
@@ -148,13 +148,6 @@ function ignite_ui.toggle_component(component)
 		Slot.remove_component(slot)
 		-- ... calls the component's erase() function
 		slot.component = nil
-
-		ignite_notify.notify(Notif.new(
-				'Component removed',
-				'Debug',
-				Notif.Type.INFO
-			)
-		)
 	else
 		-- updates the Slot's component
 		Slot.set_component(slot, component)
@@ -177,13 +170,9 @@ function ignite_ui.setup()
 			if ignite_ui.is_active then
 				ignite_ui.erase_ui()
 			else
+				ignite_ui.defaults()
 				ignite_ui.draw_ui()
 			end
-
-			--if not ignite_ui.is_active then
-				--ignite_ui.defaults()
-				--ignite_ui.draw_ui()
-			--end
 		end,
 		{
 			bang = true,
