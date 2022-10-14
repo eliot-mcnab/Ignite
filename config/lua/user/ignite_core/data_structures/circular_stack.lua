@@ -48,8 +48,8 @@ local function wrap_around(stack, index)
 		return index + max_size
 	end
 
-	-- if index is > max_size
-	if index > max_size then
+	-- if index is >= max_size
+	if index >= max_size then
 		-- ... wraps it back to 0
 		return index - max_size
 	end
@@ -103,21 +103,32 @@ local function stack_to_string(stack)
 	end
 
 	-- string representation of the stack
-	local stack_string = '{'
+	local stack_string = '}'
 
 	-- current index in the Stack
-	local index = 0
+	local index = stack.first
 
-	-- while the next element in the Stack is not empty ...
-	while stack[index + 1] ~= nil do
+	-- keeps track of whether we have displayed all elements in the Stack
+	local elem_count = 0
+
+	-- truncated stack max size to allow for integer operations even if max
+	-- size is nil.
+	-- -1 replaces max_size if max_size is nil
+	local max_size_truncated = stack.max_size or -1
+
+	-- while the previous element in the Stack is not empty ...
+	while (stack[wrap_around(stack, index - 1)] ~= nil) and
+		elem_count ~= max_size_truncated - 1 do
 		-- ... adds the current element to the stack_string
-		stack_string = stack_string .. tostring(stack[index])
-		-- moves on to the next element
-		index = index + 1
+		stack_string = ', ' .. tostring(stack[index]) .. stack_string
+		-- moves on to the previous element
+		index = wrap_around(stack, index - 1)
+		-- keeps track of the number of elements added to the string
+		elem_count = elem_count + 1
 	end
 
 	-- adds the last element in the Stack to the Stack string
-	stack_string = stack_string .. tostring(stack[index]) .. '}'
+	stack_string = '{' .. tostring(stack[index]) .. stack_string
 
 	-- returns the formatted stack_string
 	return stack_string
@@ -231,6 +242,9 @@ function Circular_Stack.poll_head(stack)
 	-- gets the value at the head of the Stack
 	local head = Circular_Stack.peek_head(stack)
 
+	-- sets the Stack's current head to nil to allow for garbage collection
+	stack[stack.first] = nil
+
 	-- updates the Stack's head index
 	stack.first = wrap_around(stack, stack.first - 1)
 
@@ -252,3 +266,5 @@ function Circular_Stack.push_head(stack, value)
 	-- adds the new value at the head of the Stack
 	stack[stack.first] = value
 end
+
+return Circular_Stack

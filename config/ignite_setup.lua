@@ -26,5 +26,11 @@ style.setup_all()
 local ui = require 'user.ignite_core.ignite_ui'
 ui.setup()
 
+-- Testing
+local debug = false
+if debug then
+	require 'user.ignite_core.data_structures.test'
+end
+
 -- disables vim-prosesstion auto-loading
 vim.cmd [[let g:prosession_on_startup = 0]]

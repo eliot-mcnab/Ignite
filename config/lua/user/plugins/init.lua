@@ -1,5 +1,5 @@
 -- serves as an entry point for requiring all plugins 
-require "user.plugins.plugins"
+require "user.plugins.packer"
 require "user.plugins.plugin-remaps"
 require "user.plugins.treesitter-config"
 require "user.plugins.autopairs-config"
