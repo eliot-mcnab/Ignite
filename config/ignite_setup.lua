@@ -8,7 +8,6 @@ if not vim.tbl_contains(vim.opt.runtimepath:get(), ignite_path) then
   vim.opt.runtimepath:append(ignite_path)
 end
 
--- some quick change
 require 'user.plugins'
 require 'user.ignite_core'
 require 'user.options'
