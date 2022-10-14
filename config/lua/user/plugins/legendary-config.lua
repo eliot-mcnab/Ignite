@@ -347,7 +347,7 @@ plugins.legendary.setup({
 
 		-- escape terminal
 		{
-			[[<esc>]],
+			[[<q>]],
 			[[<C-\><C-n>]],
 			description = '[TERM] Exits current terminal',
 			mode = { TERMINAL },

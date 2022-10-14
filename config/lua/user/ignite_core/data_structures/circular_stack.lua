@@ -355,6 +355,8 @@ function Circular_Stack.flush(stack)
 	while (stack[wrap_around(stack, index - 1)] ~= nil) do
 		-- sets the current element to nil to allow for garbage collection
 		stack[index] = nil
+		-- moves on to the previous element
+		index = wrap_around(stack, index - 1)
 	end
 end
 
