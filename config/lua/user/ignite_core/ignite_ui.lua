@@ -1,5 +1,4 @@
 -- dependencies
-local plugins = require 'user.ignite_core.ignite_plugins'
 local Class =  require 'user.ignite_core.ignite_classes'
 local Slot = require 'user.ignite_core.data_structures.ui.ui_slots'
 local Component = require 'user.ignite_core.data_structures.ui.ui_component'
@@ -21,9 +20,13 @@ local draw_order = {
 	Slot.T_MENU
 }
 
+-- number of Components kept in memory by a Slot (basically the hist)
+
 -- associated default UI components to their Slots
-Slot.set_component(Slot.INFO_PANEL, Component.DIAGNOSTICS)
-Slot.set_component(Slot.L_MENU, Component.TREE)
+Slot.set_fallback(Slot.T_MENU, Component.NONE)
+Slot.set_fallback(Slot.L_MENU, Component.TREE)
+Slot.set_fallback(Slot.R_MENU, Component.NONE)
+Slot.set_fallback(Slot.INFO_PANEL, Component.DIAGNOSTICS)
 
 -- correspondance between Component and their allowed Slots
 local slot_correspondance = {}
@@ -47,6 +50,12 @@ slot_correspondance[Component.TREE] = Slot.L_MENU
 -- |		|	 LSP DIAGNOSTICS	|		|
 -- +--------+-----------------------+-------+
 function ignite_ui.defaults()
+	-- flushes history for all Slots
+	Slot.flush_history(Slot.T_MENU)
+	Slot.flush_history(Slot.L_MENU)
+	Slot.flush_history(Slot.R_MENU)
+	Slot.flush_history(Slot.INFO_PANEL)
+
 	-- sets Left Menu to contain File Tree
 	Slot.set_component(Slot.L_MENU, Component.TREE)
 	-- sets Info Panel to contain LSP Diagnostics

@@ -67,6 +67,12 @@ Component.TERMINAL = new_component(
 	end
 )
 
+-- non-nil representation of an absent component
+Component.NONE = new_component(
+	function ()	end,
+	function ()	end
+)
+
 -- calls the draw() function for a Component
 -- @param component (Component): the Component to draw
 function Component.draw(component)

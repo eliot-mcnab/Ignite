@@ -5,7 +5,8 @@ local Class = {
 			'but normal table was passed instead',
 		class_change = 'Cannot change class after type' ..
 			'after it has been initialised',
-		not_a_name = 'Incorrect value, Class name must be a string'
+		not_a_name = 'Incorrect value, Class name must be a string',
+		illegal_nil = 'value cannot be nil'
 	}
 }
 
@@ -142,7 +143,7 @@ end
 -- @return true if the table is an instance of the class, false otherwise
 function Class.is_instance(instance, class)
 	assert(Class.is_class(class), Class.__error.not_a_class)
-	--return instance.__class == class.__class_id
+	assert(instance ~= nil, Class.__error.illegal_nil)
 
 	-- for all class ids in the class...
 	for class_id, _ in pairs(class.__class_id) do

@@ -10,6 +10,7 @@ local Class = require 'user.ignite_core.ignite_classes'
 -- it is not necessary to inifinitely track all changes. A simple example of
 -- this would be a modification history, which would would only store in memory
 -- a fixed number of elements before overwritting them.
+-- TODO: implement propper iteration for this fuckery
 local Circular_Stack = Class.new()
 
 -- Stack-related errors
@@ -106,7 +107,7 @@ local function stack_to_string(stack)
 	local stack_string = '}'
 
 	-- current index in the Stack
-	local index = stack.first
+	local index = stack.__private.first
 
 	-- keeps track of whether we have displayed all elements in the Stack
 	local elem_count = 0
@@ -154,7 +155,9 @@ Circular_Stack.new = function (elements, max_size)
 
 	-- private attributes
 	stack.add_private {
-		size = 0	-- the Stack's size
+		first = -1,		-- current index of the Stack head
+		size = 0,		-- the Stack's size
+		fallback = nil	-- default value if Stack is empty
 	}
 
 	-- sets the Stack's metatable
@@ -162,18 +165,15 @@ Circular_Stack.new = function (elements, max_size)
 		__tostring = stack_to_string
 	})
 
-	-- initialises the stack's head index
-	stack.first = -1
-
 	-- sets the Stack's max_size
 	stack.max_size = max_size
 
 	-- adds all elements to the Stack, in order
 	for _, element in ipairs(elements) do
 		-- updates the Stack's head index
-		stack.first = stack.first + 1
+		stack.__private.first = stack.__private.first + 1
 		-- adds the element
-		stack[wrap_around(stack, stack.first)] = element
+		stack[wrap_around(stack, stack.__private.first)] = element
 		-- updates the Stack's size
 		stack.__private.size = stack.__private.size + 1
 	end
@@ -212,6 +212,34 @@ function Circular_Stack.get_max_size(stack)
 	return stack.max_size
 end
 
+-- sets the fallback value associated to a Stack. Fallback value is related
+-- whenever a Stack is polled empty instead of throwing an error. Note that
+-- fallback value should not be nil as that will trigger error when polling.
+-- @param stack (Stack): the Stack for which to set the fallback value
+-- @param fallback (any): fallback value used by the Stack
+function Circular_Stack.set_fallback(stack, fallback_new)
+	-- makes sure function arguments are valid
+	assert(Class.is_instance(stack, Circular_Stack),
+		Circular_Stack.__error.not_a_stack)
+
+	-- sets the Stack's fallback value
+	stack.__private.fallback = fallback_new
+end
+
+-- gest teh fallback value associated to a Stack. Fallback value is related
+-- whenever a Stack is polled empty instead of throwing an error. Note that
+-- fallback value should not be nil as that will trigger error when polling.
+-- @param stack (Stack): the Stack for which to set the fallback value
+-- @return (any): Fallback value associated to a Stack
+function Circular_Stack.get_fallback(stack)
+	-- makes sure function arguments are valid
+	assert(Class.is_instance(stack, Circular_Stack),
+		Circular_Stack.__error.not_a_stack)
+
+	-- gets the stack's fallback value
+	return stack.__private.fallback
+end
+
 -- determines if a Stack is empty
 -- @param stack (Circular_Stack): the Stack to check
 -- @return (boolean): true if the Stack is empty, false otherwise
@@ -221,7 +249,7 @@ function Circular_Stack.is_empty(stack)
 		Circular_Stack.__error.not_a_stack)
 
 	-- determines if the Stack is empty
-	return stack[stack.first] == nil
+	return stack[stack.__private.first] == nil
 end
 
 -- gets the value at the head of the Stack, but does not remove it
@@ -233,27 +261,48 @@ function Circular_Stack.peek_head(stack)
 		Circular_Stack.__error.not_a_stack)
 
 	-- if Stack is empty ...
-	if stack[stack.first] == nil then
-		-- ... throws an error
+	if stack[stack.__private.first] == nil then
+		-- ... checks if Stack has a fallback value ...
+		if stack.__private.fallback then
+			-- ... if stack has a fallback value, returns it instead
+			return stack.__private.fallback
+		end
+		-- ... otherwise, throws an error
 		error(Circular_Stack.__error.empty_stack)
 	end
 
 	-- gets the value at the head of the Stack
-	return stack[stack.first]
+	return stack[stack.__private.first]
 end
 
 -- gets the value at the head ot the Stack and removes it from the Stack
 -- @param stack (Circular_Stack): the Stack to get the value from
 -- @return (any): the value previously stored at the head of the Stack
 function Circular_Stack.poll_head(stack)
-	-- gets the value at the head of the Stack
-	local head = Circular_Stack.peek_head(stack)
+	-- makes sure function arguments are valid
+	assert(Class.is_instance(stack, Circular_Stack),
+		Circular_Stack.__error.not_a_stack)
+
+	-- gets the head of the Stack
+	local head = stack[stack.__private.first]
+
+	-- if Stack is empty ...
+	if head == nil then
+		-- ... checks if Stack has a fallback value ...
+		if stack.__private.fallback then
+			-- ... if Stack has fallback value returns it and does not update
+			-- head index
+			return stack.__private.fallback
+		end
+		-- ... if Stack does not have a fallback, throws an error
+		error(Circular_Stack.__error.empty_stack)
+	end
 
 	-- sets the Stack's current head to nil to allow for garbage collection
-	stack[stack.first] = nil
+	stack[stack.__private.first] = nil
 
 	-- updates the Stack's head index
-	stack.first = wrap_around(stack, stack.first - 1)
+	stack.__private.first = wrap_around(stack, stack.__private.first - 1)
 
 	-- updates the Stack's size
 	stack.__private.size = stack.__private.size - 1
@@ -271,13 +320,13 @@ function Circular_Stack.push_head(stack, value)
 		Circular_Stack.__error.not_a_stack)
 
 	-- updates the Stack's head index
-	stack.first = wrap_around(stack, stack.first + 1)
+	stack.__private.first = wrap_around(stack, stack.__private.first + 1)
 
 	-- updates the Stack's size
 	stack.__private.size = stack.__private.size + 1
 
 	-- adds the new value at the head of the Stack
-	stack[stack.first] = value
+	stack[stack.__private.first] = value
 end
 
 -- gets a Stack's size
@@ -290,6 +339,23 @@ function Circular_Stack.size(stack)
 
 	-- gets the Stack's size
 	return stack.__private.size
+end
+
+-- removes all elements in the Stack
+-- @param stack (Circular_Stack): the Stack to flush
+function Circular_Stack.flush(stack)
+	-- makes sure all function arguments are valid
+	assert(Class.is_instance(stack, Circular_Stack),
+		Circular_Stack.__error.not_a_stack)
+
+	-- current index in the stack
+	local index = stack.__private.first
+
+	-- while the previous element in the Stack is not empty ...
+	while (stack[wrap_around(stack, index - 1)] ~= nil) do
+		-- sets the current element to nil to allow for garbage collection
+		stack[index] = nil
+	end
 end
 
 return Circular_Stack
