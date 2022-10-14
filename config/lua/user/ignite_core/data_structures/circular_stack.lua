@@ -152,6 +152,11 @@ Circular_Stack.new = function (elements, max_size)
 	-- creates the new Stack instance
 	local stack = Class.new_instance(Circular_Stack)
 
+	-- private attributes
+	stack.add_private {
+		size = 0	-- the Stack's size
+	}
+
 	-- sets the Stack's metatable
 	setmetatable(stack, {
 		__tostring = stack_to_string
@@ -169,6 +174,8 @@ Circular_Stack.new = function (elements, max_size)
 		stack.first = stack.first + 1
 		-- adds the element
 		stack[wrap_around(stack, stack.first)] = element
+		-- updates the Stack's size
+		stack.__private.size = stack.__private.size + 1
 	end
 
 	-- returns the new Stack instance
@@ -248,6 +255,9 @@ function Circular_Stack.poll_head(stack)
 	-- updates the Stack's head index
 	stack.first = wrap_around(stack, stack.first - 1)
 
+	-- updates the Stack's size
+	stack.__private.size = stack.__private.size - 1
+
 	-- returns the stack's previous head value
 	return head
 end
@@ -263,8 +273,23 @@ function Circular_Stack.push_head(stack, value)
 	-- updates the Stack's head index
 	stack.first = wrap_around(stack, stack.first + 1)
 
+	-- updates the Stack's size
+	stack.__private.size = stack.__private.size + 1
+
 	-- adds the new value at the head of the Stack
 	stack[stack.first] = value
+end
+
+-- gets a Stack's size
+-- @param stack (Circular_Stack): the Stack to get the size of
+-- @return (number): the Stack's size
+function Circular_Stack.size(stack)
+	-- makes sure function arguments are valid
+	assert(Class.is_instance(stack, Circular_Stack),
+		Circular_Stack.__error.not_a_stack)
+
+	-- gets the Stack's size
+	return stack.__private.size
 end
 
 return Circular_Stack
