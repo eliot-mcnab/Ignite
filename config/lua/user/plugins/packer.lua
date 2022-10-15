@@ -195,9 +195,6 @@ return packer.startup(function(use)
 
 	-- SYNTAX
 
-	-- theme
-	use	'morhetz/gruvbox'
-	use 'joshdick/onedark.vim'
 	-- syntax highlighting
 	use 'nvim-treesitter/nvim-treesitter'
 	-- rainbow brackets
@@ -217,4 +214,13 @@ return packer.startup(function(use)
 
 	-- PERFORMANCE
 	use 'lewis6991/impatient.nvim'
+
+	-- THEMES
+
+	use	'morhetz/gruvbox'
+	use 'joshdick/onedark.vim'
+	use {
+		'catppuccin/nvim',
+		as = 'catppuccin',
+	}
 end)

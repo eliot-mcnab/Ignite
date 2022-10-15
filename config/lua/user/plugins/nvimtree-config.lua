@@ -7,7 +7,7 @@ if not plugins.nvim_tree then
 end
 
 -- nvim tree setup
-plugins.nvim_tree.setup {
+plugins.nvim_tree.base.setup {
 	-- disables and replaces netrw
 	disable_netrw = true,
 	hijack_netrw = true,

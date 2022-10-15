@@ -1,5 +1,6 @@
 -- dependencies
 local plugins = require 'user.ignite_core.ignite_plugins'
+local ignite_style = require 'user.ignite_core.ignite_style'
 
 -- makes sure that the plugin is correctly loaded
 if not plugins.lualine then
@@ -15,6 +16,20 @@ local nvimbattery = {
 	end,
 	color = { fg = 'violet' },
 }
+
+local function generate_options()
+	local options_table = {}
+
+	-- only one global lualine throughout all buffers
+	options_table.globalstatus = true
+
+	-- if the current Ignite theme is catpuccin...
+	if ignite_style.theme == 'catppuccin' then
+		options_table.theme = 'catpuccin'
+	end
+
+	return options_table
+end
 
 -- setting up lualine
 plugins.lualine.setup {
@@ -38,8 +53,13 @@ plugins.lualine.setup {
 		lualine_z = {}
 	},
 
-	options = {
-		-- only one global lualine throughout all buffers
-		globalstatus = true,
-	}
+	--options = {
+		---- only one global lualine throughout all buffers
+		--globalstatus = true,
+
+		---- lualine theme
+		--theme = 'catpuccin'
+	--}
+
+	options = generate_options()
 }

@@ -11,7 +11,7 @@ end
 require 'user.plugins'
 require 'user.ignite_core'
 require 'user.options'
-require 'user.lsp'
+--require 'user.lsp'
 require 'user.dap'
 
 -- checks for errors
@@ -20,7 +20,9 @@ errors.check_all()
 
 -- style-related setup
 local style = require 'user.ignite_core.ignite_style'
-style.setup_all()
+style.setup_all {
+	theme = 'catppuccin'
+}
 
 -- UI setup
 local ui = require 'user.ignite_core.ignite_ui'

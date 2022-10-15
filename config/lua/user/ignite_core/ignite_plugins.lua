@@ -27,6 +27,11 @@ end
 plugins.luasnip = require_plugin('luasnip')
 plugins.barbar = require_plugin('bufferline')
 plugins.battery = require_plugin('battery')
+plugins.bufferline = {
+	base = require_plugin('bufferline'),
+	api = require_plugin('bufferline.api')
+}
+plugins.catppuccin = require_plugin('catppuccin')
 plugins.cmp = require_plugin('cmp')
 plugins.dressing = require_plugin('dressing')
 plugins.gitsigns = require_plugin('gitsigns')
@@ -43,7 +48,11 @@ plugins.dap = require_plugin('dap')
 plugins.dap_ui = require_plugin('dapui')
 plugins.lspconfig = require_plugin('lspconfig')
 plugins.notify = require_plugin('notify')
-plugins.nvim_tree = require_plugin('nvim-tree')
+plugins.nvim_tree = {
+	base = require_plugin('nvim-tree'),
+	events = require_plugin('nvim-tree.events'),
+	view = require_plugin('nvim-tree.view')
+}
 plugins.treesitter = require_plugin('nvim-treesitter')
 plugins.web_devicons = require_plugin('nvim-web-devicons')
 plugins.packer = require_plugin('packer')
