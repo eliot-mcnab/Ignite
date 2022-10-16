@@ -193,6 +193,10 @@ return packer.startup(function(use)
 	use {
 		'simrat39/symbols-outline.nvim'
 	}
+	-- lsp server status
+	use {
+		'j-hui/fidget.nvim'
+	}
 
 	-- DAP
 

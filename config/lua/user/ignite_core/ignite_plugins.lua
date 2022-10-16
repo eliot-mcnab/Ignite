@@ -38,6 +38,7 @@ plugins.cmp = {
 plugins.dap = require_plugin('dap')
 plugins.dap_ui = require_plugin('dapui')
 plugins.dressing = require_plugin('dressing')
+plugins.fidget = require_plugin('fidget')
 plugins.gitsigns = require_plugin('gitsigns')
 plugins.glow = require_plugin('glow')
 plugins.impatient = require_plugin('impatient')
