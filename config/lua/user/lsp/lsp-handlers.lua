@@ -1,3 +1,6 @@
+-- dependencies
+local plugins = require 'user.ignite_core.ignite_plugins'
+
 -- list of functions called externally to setup lsp
 local M = {}
 
@@ -9,11 +12,11 @@ M.setup = function()
 		{ name = "DiagnosticSignHint", text = "" },
 		{ name = "DiagnosticSignInfo", text = "" },
 	}
-	
+
 	-- sets up the signs
 	for _, sign in ipairs(signs) do
-    	vim.fn.sign_define(sign.name, { 
-			texthl = sign.name, text = sign.text, numhl = "" 
+    	vim.fn.sign_define(sign.name, {
+			texthl = sign.name, text = sign.text, numhl = ""
 		})
   	end
 
@@ -40,12 +43,12 @@ M.setup = function()
 	vim.diagnostic.config(config)
 
 	-- sets rounded borders for popup windows
-	vim.lsp.handlers["textDocument/hover"] = 
+	vim.lsp.handlers["textDocument/hover"] =
 		vim.lsp.with(vim.lsp.handlers.hover, {
     		border = "rounded",
 		})
 
-  	vim.lsp.handlers["textDocument/signatureHelp"] = 
+  	vim.lsp.handlers["textDocument/signatureHelp"] =
 		vim.lsp.with(vim.lsp.handlers.signature_help, {
 			border = "rounded",
 		})
@@ -58,7 +61,6 @@ if not cmp_lsp_loaded then
 end
 
 -- used to update cmp to handle lsp
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-M.capabilities = cmp_lsp.update_capabilities(capabilities)
+M.capabilities = cmp_lsp.default_capabilities()
 
 return M

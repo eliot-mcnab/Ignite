@@ -10,22 +10,28 @@ if not lspconfig_loaded then
 	return
 end
 
--- sets up automatic handlers for every server
-mason_lsp.setup_handlers {
-	-- default handler
-	function(server_name)
-		-- global options for every language server
-		local opts = {
-			capabilities = require('user.lsp.handlers').capabilities
-		}
+local M = {}
 
-		-- options specific to sumneko_lua
-		if server_name == 'sumneko_lua' then
-			local sumneko_opts = require('user.lsp.settings.sumneko_lua')
-			opts = vim.tbl_deep_extend('force', sumneko_opts, opts)
-		end
+M.setup = function()
+	-- sets up automatic handlers for every server
+	mason_lsp.setup_handlers {
+		-- default handler
+		function(server_name)
+			-- global options for every language server
+			local opts = {
+					capabilities = require('user.lsp.lsp-handlers').capabilities
+			}
 
-		-- sets up the server with the correct options
-		lspconfig[server_name].setup(opts)
-	end,
-}
+			-- options specific to sumneko_lua
+			if server_name == 'sumneko_lua' then
+				local sumneko_opts = require('user.lsp.settings.sumneko_lua')
+				opts = vim.tbl_deep_extend('force', sumneko_opts, opts)
+			end
+
+			-- sets up the server with the correct options
+			lspconfig[server_name].setup(opts)
+		end,
+	}
+end
+
+return M

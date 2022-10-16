@@ -5,6 +5,6 @@ if not lsp_loaded then
 end
 
 require('user.lsp.lsp-package-setup').setup()
-require('user.lsp.lsp-installer')
-require('user.lsp.handlers').setup()
+require('user.lsp.lsp-installer').setup()
+require('user.lsp.lsp-handlers').setup()
 

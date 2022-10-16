@@ -11,7 +11,7 @@ end
 require 'user.plugins'
 require 'user.ignite_core'
 require 'user.options'
---require 'user.lsp'
+require 'user.lsp'
 require 'user.dap'
 
 -- checks for errors
