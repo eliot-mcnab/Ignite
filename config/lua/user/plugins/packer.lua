@@ -161,7 +161,10 @@ return packer.startup(function(use)
 	-- session restoring
 	use 'tpope/vim-obsession'
 	use 'dhruvasagar/vim-prosession'
-	-- lsp
+
+	-- LSP
+
+	-- lsp integration
 	use 'hrsh7th/cmp-nvim-lsp'
 	use {
 		-- lsp package manager
@@ -178,7 +181,14 @@ return packer.startup(function(use)
 		'folke/trouble.nvim',
 		requires = 'kyazdani42/nvim-web-devicons',
 	}
-	-- debugger adapter protocol
+	-- function signature
+	use {
+		'ray-x/lsp_signature.nvim'
+	}
+
+	-- DAP
+
+	-- dap integration
 	use 'mfussenegger/nvim-dap'
 	use {
 		'rcarriga/nvim-dap-ui',

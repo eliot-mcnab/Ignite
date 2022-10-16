@@ -39,6 +39,7 @@ ignite_terminal.lazygit = Terminal:new {
 -- @see ignite_ui, ui_slots, ui_components
 ignite_terminal.default = Terminal:new {
 	hidden = true,
+	direction = DIRECTION_HORIZONTAL,
 	on_open = function ()
 		vim.cmd	[[startinsert!]]
 	end,

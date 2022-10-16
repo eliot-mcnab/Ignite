@@ -24,7 +24,6 @@ local function require_plugin(plugin_name)
 end
 
 -- tries to load all plugins
-plugins.luasnip = require_plugin('luasnip')
 plugins.barbar = require_plugin('bufferline')
 plugins.battery = require_plugin('battery')
 plugins.bufferline = {
@@ -43,7 +42,9 @@ plugins.impatient = require_plugin('impatient')
 plugins.indent_blankline = require_plugin('indent_blankline')
 plugins.legendary = require_plugin('legendary')
 plugins.lsp_colors = require_plugin('lsp-colors')
+plugins.lsp_signature = require_plugin('lsp_signature')
 plugins.lualine = require_plugin('lualine')
+plugins.luasnip = require_plugin('luasnip')
 plugins.mason = {
 	base = require_plugin('mason'),
 	lspconfig = require_plugin('mason-lspconfig')

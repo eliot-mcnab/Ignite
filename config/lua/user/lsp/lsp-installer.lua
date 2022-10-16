@@ -20,7 +20,18 @@ M.setup = function()
 		function(server_name)
 			-- global options for every language server
 			local opts = {
-					capabilities = require('user.lsp.lsp-handlers').capabilities
+				-- nvim-cmp support
+				capabilities = require('user.lsp.lsp-handlers').capabilities,
+
+				-- called whenever a LSP server is attached to a buffer
+				on_attach = function (_, bufnr)
+					plugins.lsp_signature.on_attach({
+						bind = true,
+						handler_opts = {
+							border = 'rounded'
+						}
+					}, bufnr)
+				end
 			}
 
 			-- options specific to sumneko_lua
