@@ -35,13 +35,17 @@ plugins.cmp = {
 	base = require_plugin('cmp'),
 	lsp = require_plugin('cmp_nvim_lsp')
 }
+plugins.dap = require_plugin('dap')
+plugins.dap_ui = require_plugin('dapui')
 plugins.dressing = require_plugin('dressing')
 plugins.gitsigns = require_plugin('gitsigns')
 plugins.glow = require_plugin('glow')
 plugins.impatient = require_plugin('impatient')
 plugins.indent_blankline = require_plugin('indent_blankline')
 plugins.legendary = require_plugin('legendary')
+plugins.lightbulb = require_plugin('nvim-lightbulb')
 plugins.lsp_colors = require_plugin('lsp-colors')
+plugins.lspconfig = require_plugin('lspconfig')
 plugins.lsp_signature = require_plugin('lsp_signature')
 plugins.lualine = require_plugin('lualine')
 plugins.luasnip = require_plugin('luasnip')
@@ -50,15 +54,13 @@ plugins.mason = {
 	lspconfig = require_plugin('mason-lspconfig')
 }
 plugins.nvim_autopairs = require_plugin('nvim-autopairs')
-plugins.dap = require_plugin('dap')
-plugins.dap_ui = require_plugin('dapui')
-plugins.lspconfig = require_plugin('lspconfig')
 plugins.notify = require_plugin('notify')
 plugins.nvim_tree = {
 	base = require_plugin('nvim-tree'),
 	events = require_plugin('nvim-tree.events'),
 	view = require_plugin('nvim-tree.view')
 }
+plugins.symbols_outline = require_plugin('symbols-outline')
 plugins.treesitter = require_plugin('nvim-treesitter')
 plugins.web_devicons = require_plugin('nvim-web-devicons')
 plugins.packer = require_plugin('packer')

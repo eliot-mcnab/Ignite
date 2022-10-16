@@ -185,6 +185,14 @@ return packer.startup(function(use)
 	use {
 		'ray-x/lsp_signature.nvim'
 	}
+	-- clearer code actions
+	use {
+		'kosayoda/nvim-lightbulb'
+	}
+	-- symbols view
+	use {
+		'simrat39/symbols-outline.nvim'
+	}
 
 	-- DAP
 

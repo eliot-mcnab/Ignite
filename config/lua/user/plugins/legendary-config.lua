@@ -399,7 +399,7 @@ plugins.legendary.setup({
 			'<cmd> lua vim.lsp.buf.hover()<CR>',
 			description =
 				'[LSP] Displays hover information' ..
-				'about the symbol under the cursor',
+				' about the symbol under the cursor',
 			opts = mapping_opts
 		},
 		-- lists all implementation
@@ -408,7 +408,7 @@ plugins.legendary.setup({
 			'<cmd> lua vim.lsp.buf.implementation()<CR>',
 			description =
 				'[LSP] Lists all implementations' ..
-				'of the symbol under the cursor',
+				' of the symbol under the cursor',
 			opts = mapping_opts
 		},
 		-- lists all references
@@ -417,7 +417,7 @@ plugins.legendary.setup({
 			'<cmd> lua vim.lsp.buf.references()<CR>',
 			description =
 				'[LSP] Lists all the references' ..
-				'to the symbol under the cursor',
+				' to the symbol under the cursor',
 			opts = mapping_opts
 		},
 		-- rename symbol
@@ -426,7 +426,7 @@ plugins.legendary.setup({
 			'<cmd> lua vim.lsp.buf.rename()<CR>',
 			description =
 				'[LSP] Renames all the occurences' ..
-				'of the symbol under the cursor',
+				' of the symbol under the cursor',
 			opts = mapping_opts
 		},
 		-- signature help
@@ -434,8 +434,15 @@ plugins.legendary.setup({
 			'<C-l>s',
 			'<cmd> lua vim.lsp.buf.signature_help()<CR>',
 			description =
-				'[LSP] Desiplays signature information' ..
-				'about the symbol under the cursor'
+				'[LSP] Displays signature information' ..
+				' about the symbol under the cursor'
+		},
+		-- code action
+		{
+			[[<C-l>a]],
+			'<cdm> lua vim.lsp.buf.code_action()<CR>',
+			description = '[LSP] Selects a code action available' ..
+				' at the current cursor position'
 		},
 
 		-- DAP
