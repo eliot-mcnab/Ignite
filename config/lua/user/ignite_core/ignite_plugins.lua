@@ -30,7 +30,11 @@ plugins.bufferline = {
 	base = require_plugin('bufferline'),
 	api = require_plugin('bufferline.api')
 }
-plugins.catppuccin = require_plugin('catppuccin')
+plugins.catppuccin = {
+	base = require_plugin('catppuccin'),
+	palettes = require_plugin('catppuccin.palettes')
+}
+plugins.ccc = require_plugin('ccc')
 plugins.cmp = {
 	base = require_plugin('cmp'),
 	lsp = require_plugin('cmp_nvim_lsp')
@@ -61,6 +65,7 @@ plugins.nvim_tree = {
 	events = require_plugin('nvim-tree.events'),
 	view = require_plugin('nvim-tree.view')
 }
+plugins.scrollbar = require_plugin('scrollbar')
 plugins.symbols_outline = require_plugin('symbols-outline')
 plugins.treesitter = require_plugin('nvim-treesitter')
 plugins.web_devicons = require_plugin('nvim-web-devicons')

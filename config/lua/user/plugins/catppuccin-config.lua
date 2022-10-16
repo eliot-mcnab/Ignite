@@ -2,7 +2,7 @@
 local plugins = require 'user.ignite_core.ignite_plugins'
 
 -- makes sure catppuccin is loaded
-if not plugins.catppuccin then
+if not plugins.catppuccin.base then
 	return
 end
 
@@ -10,7 +10,7 @@ end
 vim.g.catppuccin_flavour = 'macchiato'
 
 -- catppuccin setup
-plugins.catppuccin.setup {
+plugins.catppuccin.base.setup {
 	-- enables plugins integration
 	integrations = {
 		barbar = true,

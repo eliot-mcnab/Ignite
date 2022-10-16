@@ -132,10 +132,11 @@ return packer.startup(function(use)
 			'nvim-telescope/telescope.nvim',
 			'nvim-lua/plenary.nvim',
 		},
-		--config = function()
-			--require"startup".setup()
-		--end
 	}
+	-- scrollbar
+	use 'petertriho/nvim-scrollbar'
+	-- color support
+	use 'uga-rosa/ccc.nvim'
 
 	-- EDITING
 
@@ -182,21 +183,13 @@ return packer.startup(function(use)
 		requires = 'kyazdani42/nvim-web-devicons',
 	}
 	-- function signature
-	use {
-		'ray-x/lsp_signature.nvim'
-	}
+	use 'ray-x/lsp_signature.nvim'
 	-- clearer code actions
-	use {
-		'kosayoda/nvim-lightbulb'
-	}
+	use 'kosayoda/nvim-lightbulb'
 	-- symbols view
-	use {
-		'simrat39/symbols-outline.nvim'
-	}
+	use 'simrat39/symbols-outline.nvim'
 	-- lsp server status
-	use {
-		'j-hui/fidget.nvim'
-	}
+	use 'j-hui/fidget.nvim'
 
 	-- DAP
 
@@ -227,12 +220,7 @@ return packer.startup(function(use)
 	-- GIT INTEGRATION
 
 	-- git signs
-	use {
-		'lewis6991/gitsigns.nvim',
-		--config = function ()
-			--require('gitsigns').setup()
-		--end
-	}
+	use 'lewis6991/gitsigns.nvim'
 
 	-- PERFORMANCE
 	use 'lewis6991/impatient.nvim'

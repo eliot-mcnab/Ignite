@@ -1,8 +1,3 @@
--- dependencies
-local plugins = require 'user.ignite_core.ignite_plugins'
-local notify = require 'user.ignite_core.ignite_notify'
-local Notif = require 'user.ignite_core.data_structures.notification'
-
 -- responsible for handling visuals in Ignite
 local ignite_style = {}
 
