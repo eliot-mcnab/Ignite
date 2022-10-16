@@ -1,9 +1,6 @@
--- dependencies
-local Class =  require 'user.ignite_core.ignite_classes'
 local Slot = require 'user.ignite_core.data_structures.ui.ui_slots'
 local Component = require 'user.ignite_core.data_structures.ui.ui_component'
---local Notif = require 'user.ignite_core.data_structures.notification'
---local ignite_notify = require 'user.ignite_core.ignite_notify'
+local Class = require 'user.ignite_core.ignite_classes'
 
 -- responsible for displaying the UI to the user and handling the interaction
 -- between various UI plugins

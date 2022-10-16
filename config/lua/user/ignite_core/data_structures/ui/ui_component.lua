@@ -1,5 +1,6 @@
 -- dependencies
 local Class = require 'user.ignite_core.ignite_classes'
+local ignite_terminal = require 'user.ignite_core.ignite_terminal'
 
 -- represents a UI Component used by Ignite. UI Components are UI elements that
 -- are provided in seperate plugins. Ignite handles their display logic to
@@ -57,13 +58,15 @@ Component.DIAGNOSTICS = new_component(
 	end
 )
 
+-- stores the current terminal
+
 -- Terminal Component, handled by ToggleTerm
 Component.TERMINAL = new_component(
 	function ()
-		vim.cmd [[ToggleTerm]]
+		ignite_terminal.default:toggle()	-- opens the terminal
 	end,
 	function ()
-		vim.cmd [[ToggleTerm]]
+		ignite_terminal.default:shutdown()
 	end
 )
 
