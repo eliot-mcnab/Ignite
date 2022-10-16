@@ -1,12 +1,13 @@
+-- dependencies
+local plugins = require 'user.ignite_core.ignite_plugins'
+
 -- makes mason registry is correctly loaded
-local mason_lsp_loaded, mason_lsp = pcall(require, 'mason-lspconfig')
-if not mason_lsp_loaded then
+if not plugins.mason.lspconfig then
 	return
 end
 
 -- makes sure lspconfig is correctly loaded
-local lspconfig_loaded, lspconfig = pcall(require, 'lspconfig')
-if not lspconfig_loaded then
+if not plugins.lspconfig then
 	return
 end
 
@@ -14,7 +15,7 @@ local M = {}
 
 M.setup = function()
 	-- sets up automatic handlers for every server
-	mason_lsp.setup_handlers {
+	plugins.mason.lspconfig.setup_handlers {
 		-- default handler
 		function(server_name)
 			-- global options for every language server
@@ -29,7 +30,7 @@ M.setup = function()
 			end
 
 			-- sets up the server with the correct options
-			lspconfig[server_name].setup(opts)
+			plugins.lspconfig[server_name].setup(opts)
 		end,
 	}
 end

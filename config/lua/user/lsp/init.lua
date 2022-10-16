@@ -1,6 +1,8 @@
+-- dependencies
+local plugins = require 'user.ignite_core.ignite_plugins'
+
 -- makes sure that lspconfig is loaded
-local lsp_loaded, _ = pcall(require, 'lspconfig') 
-if not lsp_loaded then
+if not plugins.lspconfig then
 	return
 end
 

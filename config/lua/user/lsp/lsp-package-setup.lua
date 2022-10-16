@@ -1,12 +1,13 @@
+-- dependencies
+local plugins = require 'user.ignite_core.ignite_plugins'
+
 -- makes sure that mason is loaded
-local mason_loaded, mason = pcall(require, 'mason')
-if not mason_loaded then
+if not plugins.mason.base then
 	return
 end
 
 -- makes sure that mason-lspconfig is loaded
-local mason_lspconf_loaded, mason_lspconf = pcall(require, 'mason-lspconfig')
-if not mason_lspconf_loaded then
+if not plugins.mason.lspconfig then
 	return
 end
 
@@ -18,12 +19,12 @@ local M = {}
 -- 3) lspconfig
 M.setup = function()
 	-- mason setup
-	mason.setup {
+	plugins.mason.base.setup {
 
 	}
 
 	-- mason-lspconfig setup
-	mason_lspconf.setup {
+	plugins.mason.lspconfig.setup {
 
 	}
 end

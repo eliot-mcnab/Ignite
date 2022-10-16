@@ -2,7 +2,7 @@
 local plugins = require 'user.ignite_core.ignite_plugins'
 
 -- makes sure that completion engine is loaded
-if not plugins.cmp then
+if not plugins.cmp.base then
 	return
 end
 
@@ -43,7 +43,7 @@ local kind_icons = {
 }
 
 -- setting up completion engine
-plugins.cmp.setup {
+plugins.cmp.base.setup {
 
 	-- specifies snippet plugin
 	snippet = {
@@ -54,33 +54,33 @@ plugins.cmp.setup {
 
 	-- makes completion windows rounded
 	window = {
-		completion = plugins.cmp.config.window.bordered(),
-		documentation = plugins.cmp.config.window.bordered(),
+		completion = plugins.cmp.base.config.window.bordered(),
+		documentation = plugins.cmp.base.config.window.bordered(),
 	},
 
 	-- plugin mappings
-	mapping = plugins.cmp.mapping.preset.insert({
+	mapping = plugins.cmp.base.mapping.preset.insert({
 		-- navigation mappings
-		['<C-Down>'] = plugins.cmp.mapping.select_next_item(),
-		['<C-Up>'] = plugins.cmp.mapping.select_prev_item(),
-		['<C-S>Down'] = plugins.cmp.mapping.scroll_docs(-4),
-		['<C-S>Up'] = plugins.cmp.mapping.scroll_docs(4),
-		['<C-Space>'] = plugins.cmp.mapping.complete(),
-		['<C-e>'] = plugins.cmp.mapping.abort(),
-		['<CR>'] = plugins.cmp.mapping.confirm({ select = true }),
+		['<C-Down>'] = plugins.cmp.base.mapping.select_next_item(),
+		['<C-Up>'] = plugins.cmp.base.mapping.select_prev_item(),
+		['<C-S>Down'] = plugins.cmp.base.mapping.scroll_docs(-4),
+		['<C-S>Up'] = plugins.cmp.base.mapping.scroll_docs(4),
+		['<C-Space>'] = plugins.cmp.base.mapping.complete(),
+		['<C-e>'] = plugins.cmp.base.mapping.abort(),
+		['<CR>'] = plugins.cmp.base.mapping.confirm({ select = true }),
 
 		-- super-tab mappings
-		["<Tab>"] = plugins.cmp.mapping(function(fallback)
-			if plugins.cmp.visible() then
-				plugins.cmp.select_next_item()
+		["<Tab>"] = plugins.cmp.base.mapping(function(fallback)
+			if plugins.cmp.base.visible() then
+				plugins.cmp.base.select_next_item()
 			else
 				fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
 			end
 		end, { "i", "s" }),
 
-		["<S-Tab>"] = plugins.cmp.mapping(function()
-			if plugins.cmp.visible() then
-				plugins.cmp.select_prev_item()
+		["<S-Tab>"] = plugins.cmp.base.mapping(function()
+			if plugins.cmp.base.visible() then
+				plugins.cmp.base.select_prev_item()
 			elseif plugins.luasnip.jumpable(-1) then
 				plugins.luasnip.jump(-1)
 			end
@@ -113,7 +113,7 @@ plugins.cmp.setup {
 	},
 
 	-- order of sources, with lower indices having higher priority
-	sources = plugins.cmp.config.sources({
+	sources = plugins.cmp.base.config.sources({
 		{ name = 'nvim_lsp' },
 		{ name = 'nvim_lua' },
 		{ name = 'luasnip' },

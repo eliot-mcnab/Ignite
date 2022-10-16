@@ -55,12 +55,11 @@ M.setup = function()
 end
 
 -- makes sure that cmp_nvim_lsp is laoded
-local cmp_lsp_loaded, cmp_lsp = pcall(require, 'cmp_nvim_lsp')
-if not cmp_lsp_loaded then
+if not plugins.cmp.lsp then
 	return
 end
 
 -- used to update cmp to handle lsp
-M.capabilities = cmp_lsp.default_capabilities()
+M.capabilities = plugins.cmp.lsp.default_capabilities()
 
 return M

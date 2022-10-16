@@ -32,7 +32,10 @@ plugins.bufferline = {
 	api = require_plugin('bufferline.api')
 }
 plugins.catppuccin = require_plugin('catppuccin')
-plugins.cmp = require_plugin('cmp')
+plugins.cmp = {
+	base = require_plugin('cmp'),
+	lsp = require_plugin('cmp_nvim_lsp')
+}
 plugins.dressing = require_plugin('dressing')
 plugins.gitsigns = require_plugin('gitsigns')
 plugins.glow = require_plugin('glow')
@@ -41,8 +44,10 @@ plugins.indent_blankline = require_plugin('indent_blankline')
 plugins.legendary = require_plugin('legendary')
 plugins.lsp_colors = require_plugin('lsp-colors')
 plugins.lualine = require_plugin('lualine')
-plugins.mason_lsp_config = require_plugin('mason-lspconfig')
-plugins.mason = require_plugin('mason')
+plugins.mason = {
+	base = require_plugin('mason'),
+	lspconfig = require_plugin('mason-lspconfig')
+}
 plugins.nvim_autopairs = require_plugin('nvim-autopairs')
 plugins.dap = require_plugin('dap')
 plugins.dap_ui = require_plugin('dapui')
