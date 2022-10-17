@@ -162,6 +162,8 @@ return packer.startup(function(use)
 	-- session restoring
 	use 'tpope/vim-obsession'
 	use 'dhruvasagar/vim-prosession'
+	-- navigation
+	use 'mrjones2014/smart-splits.nvim'
 
 	-- LSP
 

@@ -6,9 +6,6 @@ if not plugins.catppuccin.base then
 	return
 end
 
--- set catppuccin style
-vim.g.catppuccin_flavour = 'macchiato'
-
 -- catppuccin setup
 plugins.catppuccin.base.setup {
 	-- enables plugins integration

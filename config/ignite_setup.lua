@@ -8,6 +8,12 @@ if not vim.tbl_contains(vim.opt.runtimepath:get(), ignite_path) then
   vim.opt.runtimepath:append(ignite_path)
 end
 
+-- style-related setup
+local style = require 'user.ignite_core.ignite_style'
+style.setup_all {
+	theme = 'catppuccin'
+}
+
 require 'user.plugins'
 require 'user.ignite_core'
 require 'user.options'
@@ -17,12 +23,6 @@ require 'user.dap'
 -- checks for errors
 local errors = require 'user.ignite_core.ignite_errors'
 errors.check_all()
-
--- style-related setup
-local style = require 'user.ignite_core.ignite_style'
-style.setup_all {
-	theme = 'catppuccin'
-}
 
 -- UI setup
 local ui = require 'user.ignite_core.ignite_ui'

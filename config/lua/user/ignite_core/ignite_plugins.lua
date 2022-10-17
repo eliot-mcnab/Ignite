@@ -66,6 +66,7 @@ plugins.nvim_tree = {
 	view = require_plugin('nvim-tree.view')
 }
 plugins.scrollbar = require_plugin('scrollbar')
+plugins.smart_split = require_plugin('smart-splits')
 plugins.symbols_outline = require_plugin('symbols-outline')
 plugins.treesitter = require_plugin('nvim-treesitter')
 plugins.web_devicons = require_plugin('nvim-web-devicons')

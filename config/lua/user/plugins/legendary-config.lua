@@ -47,14 +47,18 @@ plugins.legendary.setup({
 		-- horizontal
 		{
 			'<C-S-Right>',
-			':vertical resize +2<CR>',
+			function ()
+				plugins.smart_split.resize_right(2)
+			end,
 			description = '[UI] Expands window horizontally',
 			mode = { NORMAL },
 			opts = mapping_opts
 		},
 		{
 			'<C-S-Left>',
-			':vertical resize -2<CR>',
+			function ()
+				plugins.smart_split.resize_left(2)
+			end,
 			description = '[UI] Shrinks window horizontally',
 			mode = { NORMAL },
 			opts = mapping_opts
@@ -62,14 +66,18 @@ plugins.legendary.setup({
 		-- vertical
 		{
 			'<C-S-Up>',
-			':resize -2<CR>',
+			function ()
+				plugins.smart_split.resize_up(2)
+			end,
 			description = '[UI] Shrinks window vertically',
 			mode = { NORMAL },
 			opts = mapping_opts
 		},
 		{
 			'<C-S-Down>',
-			':resize +2<CR>',
+			function ()
+				plugins.smart_split.resize_down(2)
+			end,
 			description = '[UI] Expands window vertically',
 			mode = { NORMAL },
 			opts = mapping_opts
@@ -79,32 +87,40 @@ plugins.legendary.setup({
 
 		-- move to right window
 		{
-			'<C-Right>',
-			'<Cmd>wincmd l<CR>',
+			'<S-Right>',
+			function ()
+				plugins.smart_split.move_cursor_right()
+			end,
 			description = '[NAV] Moves cursor to right window',
 			mode = { NORMAL, TERMINAL },
 			opts = mapping_opts
 		},
 		-- move to left window
 		{
-			'<C-Left>',
-			'<Cmd>wincmd h<CR>',
+			'<S-Left>',
+			function ()
+				plugins.smart_split.move_cursor_left()
+			end,
 			description = '[NAV] Moves cursor ot the left window',
 			mode = { NORMAL, TERMINAL },
 			opts = mapping_opts
 		},
 		-- move to the upper window
 		{
-			'<C-Up>',
-			'<Cmd>wincmd k<CR>',
+			'<S-Up>',
+			function ()
+				plugins.smart_split.move_cursor_up()
+			end,
 			description = '[NAV] Moves cursor to the top window',
 			mode = { NORMAL, TERMINAL },
 			opts = mapping_opts
 		},
 		-- move to the lower window
 		{
-			'<C-Down>',
-			'<Cmd>wincmd j<CR>',
+			'<S-Down>',
+			function ()
+				plugins.smart_split.move_cursor_down()
+			end,
 			description = '[NAV] Moves cursor to the bottom window',
 			mode = { NORMAL, TERMINAL },
 			opts = mapping_opts

@@ -23,10 +23,8 @@ local function generate_options()
 	-- only one global lualine throughout all buffers
 	options_table.globalstatus = true
 
-	-- if the current Ignite theme is catpuccin...
-	if ignite_style.theme == 'catppuccin' then
-		options_table.theme = 'catpuccin'
-	end
+	-- sets the lualine theme in accordrance with the current theme
+	options_table.theme = ignite_style.theme
 
 	return options_table
 end

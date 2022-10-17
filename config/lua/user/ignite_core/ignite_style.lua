@@ -10,6 +10,9 @@ ignite_style.__error = {
 -- default theme
 ignite_style.theme = 'gruvbox'
 
+-- set catppuccin style
+vim.g.catppuccin_flavour = 'macchiato'
+
 -- ============================================================================
 --								AUTOCOMMANDS
 -- ============================================================================
