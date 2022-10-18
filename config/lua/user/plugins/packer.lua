@@ -157,7 +157,7 @@ return packer.startup(function(use)
 	}
 	use 'rafamadriz/friendly-snippets'
 	-- commenting
-	use 'preservim/nedrcommenter'
+	use 'numToStr/Comment.nvim'
 	-- session restoring
 	use 'tpope/vim-obsession'
 	use 'dhruvasagar/vim-prosession'

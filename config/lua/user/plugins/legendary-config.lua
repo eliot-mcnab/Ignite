@@ -541,9 +541,11 @@ plugins.legendary.setup({
 		-- toggle comment
 		{
 			'<C-c>',
-			'<Plug>NERDCommenterToggle',
+			{
+				n = {'<Plug>(comment_toggle_linewise_current)'},
+				v = {'<Plug>(comment_toggle_blockwise_visual)'}
+			},
 			description = '[EDIT] Toggles the comment state of the selection',
-			mode = { VISUAL },
 			opts = mapping_opts
 		},
 
