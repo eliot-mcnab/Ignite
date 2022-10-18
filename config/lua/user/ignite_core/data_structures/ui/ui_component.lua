@@ -74,7 +74,7 @@ Component.TERMINAL = new_component(
 -- Symbols Component, handled by Symbols-Outline
 Component.SYMBOLS = new_component(
 	function ()
-		vim.cmd [[SymbolsOutlineOpen]]
+		vim.cmd [[SymbolsOutline]]
 	end,
 	function ()
 		vim.cmd [[SymbolsOutline]]

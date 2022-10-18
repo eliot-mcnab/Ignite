@@ -25,8 +25,8 @@ local draw_order = {
 
 -- associated default UI components to their Slots
 Slot.set_fallback(Slot.T_MENU, Component.NONE)
-Slot.set_fallback(Slot.L_MENU, Component.NONE)
 Slot.set_fallback(Slot.R_MENU, Component.NONE)
+Slot.set_fallback(Slot.L_MENU, Component.NONE)
 Slot.set_fallback(Slot.INFO_PANEL, Component.NONE)
 
 -- correspondance between Component and their allowed Slots
@@ -35,6 +35,14 @@ slot_correspondance[Component.DIAGNOSTICS] = Slot.INFO_PANEL
 slot_correspondance[Component.TERMINAL] = Slot.INFO_PANEL
 slot_correspondance[Component.FILE_TREE] = Slot.L_MENU
 slot_correspondance[Component.SYMBOLS] = Slot.R_MENU
+
+-- correspondance between Slot and the command used to move curso to main 
+-- buffer
+local return_to_center = {}
+return_to_center[Slot.INFO_PANEL] = [[wincmd k]]
+return_to_center[Slot.R_MENU] = [[wincmd h]]
+return_to_center[Slot.L_MENU] = [[wincmd l]]
+return_to_center[Slot.T_MENU] = [[wincmd j]]
 
 -- resets UI to default layout
 --
@@ -80,7 +88,7 @@ end
 -- Draws the UI as specified by each Slot
 function ignite_ui.draw_ui()
 	-- gets the current buffer name
-	local bufname = vim.api.nvim_buf_get_name(0)
+	--local bufname = vim.api.nvim_buf_get_name(0)
 
 	-- for every slot...
 	for _, slot in ipairs(draw_order) do
@@ -96,7 +104,8 @@ function ignite_ui.draw_ui()
 		Component.draw(component)
 
 		-- returns to the original buffer
-		vim.cmd('buffer ' .. bufname)
+		--vim.cmd('buffer ' .. bufname)
+		vim.cmd(return_to_center[slot])
 
 		::continue::
 	end
@@ -105,7 +114,7 @@ function ignite_ui.draw_ui()
 	ignite_ui.is_active = true
 
 	-- returns to the original buffer
-	vim.cmd('buffer ' .. bufname)
+	--vim.cmd('buffer ' .. bufname)
 end
 
 -- Erases the UI as specified by each slot
