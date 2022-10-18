@@ -258,7 +258,7 @@ plugins.legendary.setup({
 
 		-- markdown preview
 		{
-			'<C-g>',
+			'<A-m>',
 			':Glow<CR>',
 			description = '[PREVIEW] Renders markdown file in a floating window',
 			mode = { NORMAL },

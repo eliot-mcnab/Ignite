@@ -87,9 +87,6 @@ end
 
 -- Draws the UI as specified by each Slot
 function ignite_ui.draw_ui()
-	-- gets the current buffer name
-	--local bufname = vim.api.nvim_buf_get_name(0)
-
 	-- for every slot...
 	for _, slot in ipairs(draw_order) do
 		-- gets the component stored in that Slot
@@ -104,7 +101,6 @@ function ignite_ui.draw_ui()
 		Component.draw(component)
 
 		-- returns to the original buffer
-		--vim.cmd('buffer ' .. bufname)
 		vim.cmd(return_to_center[slot])
 
 		::continue::
@@ -112,9 +108,6 @@ function ignite_ui.draw_ui()
 
 	-- updates the state of the UI
 	ignite_ui.is_active = true
-
-	-- returns to the original buffer
-	--vim.cmd('buffer ' .. bufname)
 end
 
 -- Erases the UI as specified by each slot
