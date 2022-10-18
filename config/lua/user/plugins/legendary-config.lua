@@ -266,7 +266,7 @@ plugins.legendary.setup({
 		},
 		-- file search
 		{
-			'<C-f>',
+			'<C-f>f',
 			':Telescope find_files<CR>',
 			description = '[FIND] Search for specific files',
 			mode = { NORMAL },
@@ -277,14 +277,6 @@ plugins.legendary.setup({
 			'<C-f>m',
 			':Telescope media_files<CR>',
 			description = '[FIND] Search for specific media files',
-			mode = { NORMAL },
-			opts = mapping_opts
-		},
-		-- font glyph search
-		{
-			'<C-f>f',
-			':Telescope glyph<CR>',
-			description = '[FIND]  BETA: Search for specific font glyphs',
 			mode = { NORMAL },
 			opts = mapping_opts
 		},

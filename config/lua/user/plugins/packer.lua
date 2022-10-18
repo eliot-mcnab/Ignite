@@ -113,8 +113,6 @@ return packer.startup(function(use)
 	-- media preview
 	use 'nvim-lua/popup.nvim'
 	use 'nvim-telescope/telescope-media-files.nvim'
-	-- gliphs preview
-	use 'ghassan0/telescope-glyph.nvim'
 	-- file tree
 	use {
 		'kyazdani42/nvim-tree.lua',
@@ -137,6 +135,8 @@ return packer.startup(function(use)
 	use 'petertriho/nvim-scrollbar'
 	-- color support
 	use 'uga-rosa/ccc.nvim'
+	-- cursor line
+	use 'yamatsum/nvim-cursorline'
 
 	-- EDITING
 
