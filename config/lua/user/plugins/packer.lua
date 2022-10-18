@@ -1,4 +1,4 @@
--- shoter call to vim.fn
+-- shorter call to vim.fn
 local fn = vim.fn
 
 -- determines install path for packer from root
@@ -62,7 +62,9 @@ packer.init {
 
 return packer.startup(function(use)
 
-	-- SETUP
+	-- ========================================================================
+	--									SETUP
+	-- ========================================================================
 
 	-- allows packer to manage itself
 	use 'wbthomason/packer.nvim'
@@ -72,8 +74,12 @@ return packer.startup(function(use)
 	use 'mrjones2014/legendary.nvim'
 	-- vim.input replacement
 	use 'stevearc/dressing.nvim'
+	-- performance
+	use 'lewis6991/impatient.nvim'
 
-	-- UI
+	-- ========================================================================
+	--									 UI
+	-- ========================================================================
 
 	-- notifications
 	use 'rcarriga/nvim-notify'
@@ -138,7 +144,9 @@ return packer.startup(function(use)
 	-- cursor line
 	use 'yamatsum/nvim-cursorline'
 
-	-- EDITING
+	-- ========================================================================
+	--									EDITING
+	-- ========================================================================
 
 	-- easier line moving
 	-- automatic paring
@@ -166,7 +174,9 @@ return packer.startup(function(use)
 	-- navigation
 	use 'mrjones2014/smart-splits.nvim'
 
-	-- LSP
+	-- ========================================================================
+	--									LSP
+	-- ========================================================================
 
 	-- lsp integration
 	use 'hrsh7th/cmp-nvim-lsp'
@@ -194,7 +204,9 @@ return packer.startup(function(use)
 	-- lsp server status
 	use 'j-hui/fidget.nvim'
 
-	-- DAP
+	-- ========================================================================
+	--									DAP
+	-- ========================================================================
 
 	-- dap integration
 	use 'mfussenegger/nvim-dap'
@@ -211,7 +223,9 @@ return packer.startup(function(use)
 		requires = 'mfussenegger/nvim-dap'
 	}
 
-	-- SYNTAX
+	-- ========================================================================
+	--									SYNTAX
+	-- ========================================================================
 
 	-- syntax highlighting
 	use 'nvim-treesitter/nvim-treesitter'
@@ -220,15 +234,16 @@ return packer.startup(function(use)
 	-- better tab visibility
 	use 'lukas-reineke/indent-blankline.nvim'
 
-	-- GIT INTEGRATION
+	-- ========================================================================
+	--								GIT INTEGRATION
+	-- ========================================================================
 
 	-- git signs
 	use 'lewis6991/gitsigns.nvim'
 
-	-- PERFORMANCE
-	use 'lewis6991/impatient.nvim'
-
-	-- THEMES
+	-- ========================================================================
+	--									THEMES
+	-- ========================================================================
 
 	use	'morhetz/gruvbox'
 	use 'joshdick/onedark.vim'
