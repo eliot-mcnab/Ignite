@@ -141,7 +141,6 @@ return packer.startup(function(use)
 	-- EDITING
 
 	-- easier line moving
-	use 'matze/vim-move'
 	-- automatic paring
 	use 'windwp/nvim-autopairs'
 	-- autocompletion
@@ -158,7 +157,7 @@ return packer.startup(function(use)
 	}
 	use 'rafamadriz/friendly-snippets'
 	-- commenting
-	use 'preservim/nerdcommenter'
+	use 'preservim/nedrcommenter'
 	-- session restoring
 	use 'tpope/vim-obsession'
 	use 'dhruvasagar/vim-prosession'

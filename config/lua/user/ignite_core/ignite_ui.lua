@@ -2,6 +2,10 @@ local Slot = require 'user.ignite_core.data_structures.ui.ui_slots'
 local Component = require 'user.ignite_core.data_structures.ui.ui_component'
 local Class = require 'user.ignite_core.ignite_classes'
 
+-- debugging
+local ignite_notify = require 'user.ignite_core.ignite_notify'
+local Notification = require 'user.ignite_core.data_structures.notification'
+
 -- responsible for displaying the UI to the user and handling the interaction
 -- between various UI plugins
 local ignite_ui = {}
@@ -12,8 +16,8 @@ ignite_ui.is_active = false
 -- a table of all Slots in the order in which they must be drawn
 local draw_order = {
 	Slot.INFO_PANEL,
-	Slot.L_MENU,
 	Slot.R_MENU,
+	Slot.L_MENU,
 	Slot.T_MENU
 }
 
@@ -21,15 +25,16 @@ local draw_order = {
 
 -- associated default UI components to their Slots
 Slot.set_fallback(Slot.T_MENU, Component.NONE)
-Slot.set_fallback(Slot.L_MENU, Component.TREE)
+Slot.set_fallback(Slot.L_MENU, Component.NONE)
 Slot.set_fallback(Slot.R_MENU, Component.NONE)
-Slot.set_fallback(Slot.INFO_PANEL, Component.DIAGNOSTICS)
+Slot.set_fallback(Slot.INFO_PANEL, Component.NONE)
 
 -- correspondance between Component and their allowed Slots
 local slot_correspondance = {}
 slot_correspondance[Component.DIAGNOSTICS] = Slot.INFO_PANEL
 slot_correspondance[Component.TERMINAL] = Slot.INFO_PANEL
-slot_correspondance[Component.TREE] = Slot.L_MENU
+slot_correspondance[Component.FILE_TREE] = Slot.L_MENU
+slot_correspondance[Component.SYMBOLS] = Slot.R_MENU
 
 -- resets UI to default layout
 --
@@ -53,10 +58,10 @@ function ignite_ui.defaults()
 	Slot.flush_history(Slot.R_MENU)
 	Slot.flush_history(Slot.INFO_PANEL)
 
-	-- sets Left Menu to contain File Tree
-	Slot.set_component(Slot.L_MENU, Component.TREE)
 	-- sets Info Panel to contain LSP Diagnostics
 	Slot.set_component(Slot.INFO_PANEL, Component.DIAGNOSTICS)
+	-- sets Left Menu to contain File Tree
+	Slot.set_component(Slot.L_MENU, Component.FILE_TREE)
 end
 
 -- resets the UI by removing all Components associated to every Slot
@@ -74,6 +79,9 @@ end
 
 -- Draws the UI as specified by each Slot
 function ignite_ui.draw_ui()
+	-- gets the current buffer name
+	local bufname = vim.api.nvim_buf_get_name(0)
+
 	-- for every slot...
 	for _, slot in ipairs(draw_order) do
 		-- gets the component stored in that Slot
@@ -87,11 +95,17 @@ function ignite_ui.draw_ui()
 		-- draws the component onto the UI
 		Component.draw(component)
 
+		-- returns to the original buffer
+		vim.cmd('buffer ' .. bufname)
+
 		::continue::
 	end
 
 	-- updates the state of the UI
 	ignite_ui.is_active = true
+
+	-- returns to the original buffer
+	vim.cmd('buffer ' .. bufname)
 end
 
 -- Erases the UI as specified by each slot
@@ -152,8 +166,6 @@ function ignite_ui.toggle_component(component)
 	if was_active and (Slot.get_component(slot) == component) then
 		-- ... removes the component from its current slot
 		Slot.remove_component(slot)
-		-- ... calls the component's erase() function
-		slot.component = nil
 	else
 		-- updates the Slot's component
 		Slot.set_component(slot, component)

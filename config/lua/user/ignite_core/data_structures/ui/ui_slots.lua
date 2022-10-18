@@ -121,8 +121,14 @@ function Slot.remove_component(slot)
 	-- makes sure function arguments are valid
 	assert(Class.is_instance(slot, Slot), Slot.__error.not_a_slot)
 
+	-- gest the Component currently associated to the Slot
+	local component = Circ_Stack.poll_head(slot.__private.components)
+
+	-- erases the Component from the UI
+	Component.erase(component)
+
 	-- returns the component that was associated to the slot
-	return Circ_Stack.poll_head(slot.__private.components)
+	return component
 end
 
 -- Adds new Component to Slot Component Stack. If Slot already has a Component 

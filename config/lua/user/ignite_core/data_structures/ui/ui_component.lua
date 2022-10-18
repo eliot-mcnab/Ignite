@@ -29,9 +29,12 @@ local function new_component(draw_function, erase_function)
 	-- the new Component instance
 	local component = Class.new_instance(Component)
 
-	-- sets the Component's draw and erase functions
-	component.draw = draw_function
-	component.erase = erase_function
+	-- private fields
+	component.add_private {
+		is_drawn = false,
+		draw = draw_function,
+		erase = erase_function
+	}
 
 	-- returns the new component
 	return component
@@ -39,7 +42,7 @@ end
 -- all Components available to Ignite
 
 -- Tree Component, handled by NvimTree
-Component.TREE = new_component(
+Component.FILE_TREE = new_component(
 	function ()
 		vim.cmd [[NvimTreeOpen]]
 	end,
@@ -58,8 +61,6 @@ Component.DIAGNOSTICS = new_component(
 	end
 )
 
--- stores the current terminal
-
 -- Terminal Component, handled by ToggleTerm
 Component.TERMINAL = new_component(
 	function ()
@@ -67,6 +68,16 @@ Component.TERMINAL = new_component(
 	end,
 	function ()
 		ignite_terminal.default:shutdown()
+	end
+)
+
+-- Symbols Component, handled by Symbols-Outline
+Component.SYMBOLS = new_component(
+	function ()
+		vim.cmd [[SymbolsOutlineOpen]]
+	end,
+	function ()
+		vim.cmd [[SymbolsOutline]]
 	end
 )
 
@@ -84,7 +95,10 @@ function Component.draw(component)
 		Component.__error.not_a_component)
 
 	-- calls the Component's draw() function
-	component.draw()
+	component.__private.draw()
+
+	-- updates the Component's state
+	component.__private.is_drawn = true
 end
 
 -- calls the  erase() function for a Component
@@ -95,7 +109,22 @@ function Component.erase(component)
 		Component.__error.not_a_component)
 
 	-- calls the Component's erase() function
-	component.erase()
+	component.__private.erase()
+
+	-- updates the Component's state
+	component.__private.is_drawn = false
+end
+
+-- determines if a Component is currently being drawn
+-- @param component (Component): the Component to check
+-- @return (boolean): true if the Component is being drawn, false otherwise
+function Component.is_drawn(component)
+	-- makes sure function arguments are valid
+	assert(Class.is_instance(component, Component),
+		Component.__error.not_a_component)
+
+	-- determines if the Component is being drawn
+	return component.__private.is_drawn
 end
 
 return Component

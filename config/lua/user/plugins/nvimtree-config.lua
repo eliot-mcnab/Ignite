@@ -23,6 +23,10 @@ plugins.nvim_tree.base.setup {
 	-- sorting mode
 	sort_by = "case_sensitive",
 
+	view = {
+		adaptive_size = true
+	},
+
 	-- keeps focused file updated
 	update_focused_file = {
 		enable = true,

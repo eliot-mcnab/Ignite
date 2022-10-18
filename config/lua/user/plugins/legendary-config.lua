@@ -303,17 +303,25 @@ plugins.legendary.setup({
 			opts = mapping_opts
 		},
 
-		-- FILE EXPLORER
+		-- FILE TREE
 
 		-- toggle file tree
 		{
 			'<C-t>t',
 			function ()
-				ignite_ui.toggle_component(Component.TREE)
+				ignite_ui.toggle_component(Component.FILE_TREE)
 			end,
 			description = '[TREE] Toggles file tree',
 			mode = { NORMAL },
 			opts = mapping_opts
+		},
+		-- toggles symbols tree
+		{
+			[[<C-s>s]],
+			function ()
+				ignite_ui.toggle_component(Component.SYMBOLS)
+			end,
+			description = '[UI] Toggles symbols tree'
 		},
 		-- opens file tree
 		{
