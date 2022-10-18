@@ -1,4 +1,4 @@
--- dependencies
+-- dependencieslege
 local plugins = require 'user.ignite_core.ignite_plugins'
 local ignite_ui = require 'user.ignite_core.ignite_ui'
 local ignite_terminal = require 'user.ignite_core.ignite_terminal'
@@ -554,7 +554,7 @@ plugins.legendary.setup({
 		-- move current block up
 		{
 			'<C-Up>',
-			'<Plug>MoveBlockUp',
+			[[:MoveBlock(-1)<CR>]],
 			description = '[EDIT] Moves selected text up a line',
 			mode = { VISUAL },
 			opts = mapping_opts
@@ -562,7 +562,7 @@ plugins.legendary.setup({
 		-- move current block down
 		{
 			'<C-Down>',
-			'<Plug>MoveBlockDown',
+			[[:MoveBlock(1)<CR>]],
 			description = '[EDIT] Moves selected text down a line',
 			mode = { VISUAL },
 			opts = mapping_opts

@@ -5,7 +5,7 @@ local ignite_path = home .. '/.config/ignite/config'
 
 -- adds Ignite path to vim's runtimepaths
 if not vim.tbl_contains(vim.opt.runtimepath:get(), ignite_path) then
-  vim.opt.runtimepath:append(ignite_path)
+	vim.opt.runtimepath:append(ignite_path)
 end
 
 -- style-related setup

@@ -158,6 +158,8 @@ return packer.startup(function(use)
 	use 'rafamadriz/friendly-snippets'
 	-- commenting
 	use 'numToStr/Comment.nvim'
+	-- line movement
+	use 'fedepujol/move.nvim'
 	-- session restoring
 	use 'tpope/vim-obsession'
 	use 'dhruvasagar/vim-prosession'
