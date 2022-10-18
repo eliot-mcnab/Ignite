@@ -39,6 +39,7 @@ plugins.cmp = {
 	base = require_plugin('cmp'),
 	lsp = require_plugin('cmp_nvim_lsp')
 }
+plugins.cursorline = require_plugin('nvim-cursorline')
 plugins.dap = require_plugin('dap')
 plugins.dap_ui = require_plugin('dapui')
 plugins.dressing = require_plugin('dressing')

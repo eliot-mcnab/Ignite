@@ -8,7 +8,6 @@ end
 
 --telescope.load_extension('fzf')
 plugins.telescope.load_extension('media_files')
-plugins.telescope.load_extension('glyph')
 
 -- telescope setup
 plugins.telescope.setup {
@@ -28,19 +27,6 @@ plugins.telescope.setup {
 			-- defaults to {"png", "jpg", "mp4", "webm", "pdf"}
 			filetypes = {"png", "webp", "jpg", "jpeg"},
 			find_cmd = "rg" -- find command (defaults to `fd`)
-		},
-		-- preview font gliphs with telescope
-		glyph = {
-			action = function(glyph)
-				-- argument glyph is a table.
-				-- {name="", value="", category="", description=""}
-
-				vim.fn.setreg("*", glyph.value)
-				print([[Press p or "*p to paste this glyph]] .. glyph.value)
-
-				-- insert glyph when picked
-				-- vim.api.nvim_put({ glyph.value }, 'c', false, true)
-			end,
 		},
 	}
 }
