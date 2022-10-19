@@ -240,6 +240,8 @@ return packer.startup(function(use)
 
 	-- git signs
 	use 'lewis6991/gitsigns.nvim'
+	-- diff view
+	use 'sindrets/diffview.nvim'
 
 	-- ========================================================================
 	--									THEMES

@@ -43,6 +43,10 @@ plugins.comment = require_plugin('Comment')
 plugins.cursorline = require_plugin('nvim-cursorline')
 plugins.dap = require_plugin('dap')
 plugins.dap_ui = require_plugin('dapui')
+plugins.diffview = {
+	base = require_plugin('diffview'),
+	actions = require_plugin('diffview.actions')
+}
 plugins.dressing = require_plugin('dressing')
 plugins.fidget = require_plugin('fidget')
 plugins.gitsigns = require_plugin('gitsigns')
