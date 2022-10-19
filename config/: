@@ -16,6 +16,6 @@ vim.cmd [[
 	let g:VM_maps["Goto Next"]					= '}'
 	let g:VM_maps["Goto Prev"]					= '{'
 	let g:VM_maps["Surround"]					= '<C-w>'
-	let g:VM_maps["Replace Pattern"]			= '<C-r>'
+	let g:VM_maps["Replace Pattern"]			= '<C-R>'
 	let g:VM_maps["Align"]						= '<C-a>'
 ]]

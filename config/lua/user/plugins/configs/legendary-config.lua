@@ -28,7 +28,7 @@ vim.cmd [[
 ]]
 
 -- sets leader key
-vim.g.mapleader = '<Space>'
+vim.g.mapleader = ' '
 
 -- setting up legendary
 plugins.legendary.setup({
