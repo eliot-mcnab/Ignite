@@ -37,9 +37,9 @@ plugins.legendary.setup({
 	include_builtin = false,
 
 	-- initialises keymaps
-	keymaps = {
+	keymaps = {	
 		-- ====================================================================
-		-- 								NORMAL MODE 
+		-- 									WINDOWS
 		-- ====================================================================
 
 		-- WINDOW RESIZING
@@ -125,6 +125,10 @@ plugins.legendary.setup({
 			mode = { NORMAL, TERMINAL },
 			opts = mapping_opts
 		},
+
+		-- ====================================================================
+		-- 									TABS
+		-- ====================================================================
 
 		-- TAB NAVIGATION
 
@@ -254,7 +258,9 @@ plugins.legendary.setup({
 			opts = mapping_opts
 		},
 
-		-- POPUP WINDOWS
+		-- ====================================================================
+		-- 								PREVIEWS
+		-- ====================================================================
 
 		-- markdown preview
 		{
@@ -264,6 +270,11 @@ plugins.legendary.setup({
 			mode = { NORMAL },
 			opts = mapping_opts
 		},
+
+		-- ====================================================================
+		-- 								TELESCOPE
+		-- ====================================================================
+
 		-- file search
 		{
 			'<C-f>f',
@@ -295,7 +306,9 @@ plugins.legendary.setup({
 			opts = mapping_opts
 		},
 
-		-- FILE TREE
+		-- ====================================================================
+		-- 								NVIMTREE 
+		-- ====================================================================
 
 		-- toggle file tree
 		{
@@ -348,7 +361,9 @@ plugins.legendary.setup({
 			opts = mapping_opts
 		},
 
-		-- TERMINAL
+		-- ====================================================================
+		-- 								TERMINAL
+		-- ====================================================================
 
 		-- open terminal
 		{
@@ -370,7 +385,9 @@ plugins.legendary.setup({
 			opts = mapping_opts
 		},
 
-		-- GIT INTEGRATION
+		-- ====================================================================
+		-- 								GIT INTEGRATION
+		-- ====================================================================
 
 		-- lazygit terminal integration
 		{
@@ -383,7 +400,9 @@ plugins.legendary.setup({
 			opts = mapping_opts
 		},
 
-		-- LSP
+		-- ====================================================================
+		-- 									LSP
+		-- ====================================================================
 
 		-- lsp menu
 		{
@@ -461,9 +480,9 @@ plugins.legendary.setup({
 				' at the current cursor position'
 		},
 
-		-- DAP
-
-		-- TODO: update command descriptions
+		-- ====================================================================
+		-- 									DAP
+		-- ====================================================================
 
 		-- continue debugging
 		{
@@ -504,7 +523,7 @@ plugins.legendary.setup({
 		--},
 
 		-- ====================================================================
-		-- 									VISUAL MODE
+		-- 									EDITING
 		-- ====================================================================	
 
 		-- BETTER PASTING
@@ -567,7 +586,7 @@ plugins.legendary.setup({
 			mode = { VISUAL },
 			opts = mapping_opts
 		},
-	},
+},
 
 	-- initialises commands
 	commands = {
