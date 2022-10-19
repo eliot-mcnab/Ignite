@@ -173,6 +173,8 @@ return packer.startup(function(use)
 	use 'dhruvasagar/vim-prosession'
 	-- navigation
 	use 'mrjones2014/smart-splits.nvim'
+	-- mutiple cursor support
+	use 'mg979/vim-visual-multi'
 
 	-- ========================================================================
 	--									LSP
