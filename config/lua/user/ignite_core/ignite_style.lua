@@ -57,10 +57,28 @@ local function setup_colorcolumn(color)
 	end
 end
 
+-- disables listchars when in the startup buffer
+local function setup_listchars()
+	vim.api.nvim_create_autocmd(
+		'FileType',
+		{
+			pattern = 'startup',
+			group = vim.api.nvim_create_augroup(
+				'listchars_cmds',
+				{ clear = true}
+			),
+			desc = 'Disables listchars in startup buffer',
+			command = 'setlocal nolist'
+		}
+	)
+end
+
 -- sets up style-related autocommands
 function ignite_style.setup_aucommands()
 	-- enables colorcolumn 
 	setup_colorcolumn()
+	-- disables listchars when in the startup buffer
+	setup_listchars()
 end
 
 -- ============================================================================
