@@ -10,8 +10,6 @@ if not plugins.null_ls then
 	return
 end
 
-local norminette = require 'user.linting.linters.norminette'
-
 -- null-ls setup
 plugins.null_ls.setup {
 	debounce = 10

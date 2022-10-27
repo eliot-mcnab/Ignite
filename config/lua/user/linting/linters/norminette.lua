@@ -44,4 +44,5 @@ local norminette = {
 	}
 }
 
+-- registers norminette to null-ls
 plugins.null_ls.register(norminette)
