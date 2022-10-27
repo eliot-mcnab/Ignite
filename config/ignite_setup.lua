@@ -19,6 +19,7 @@ require 'user.ignite_core'
 require 'user.options'
 require 'user.lsp'
 require 'user.dap'
+require 'user.linting'
 
 -- checks for errors
 local errors = require 'user.ignite_core.ignite_errors'

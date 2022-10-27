@@ -11,13 +11,13 @@ if not plugins.null_ls then
 end
 
 -- shorthands
-local helpers = plugins.null_ls.helpers
-local methods = plugins.null_ls.methods
+local helpers = require("null-ls.helpers")
+local methods = require("null-ls.methods")
 
 local DIAGNOSTICS_ON_SAVE = methods.internal.DIAGNOSTICS_ON_SAVE
 
--- adds norminette to builtin diagnostics linters
-return helpers.make_builtin({
+-- sets up norminette linter
+local norminette = {
     name = 'norminette',
     meta = {
         url = 'https://github.com/42School/norminette',
@@ -28,21 +28,20 @@ return helpers.make_builtin({
     },
     method = DIAGNOSTICS_ON_SAVE,
     filetypes = { 'c' },
-    generator_opts = {
-        command = 'norminette',
-        args = {
+    generator = helpers.generator_factory {
+		command = 'norminette',
+		args = {
 			'-d',
-           '$FILENAME',
-        },
-        from_stderr = true,
-        format = "line",
-        check_exit_code = function(code)
-            return code <= 1
-        end,
-        on_output = helpers.diagnostics.from_pattern(
-			":(%d+):(%d+):(.*)$",
+			'$FILENAME'
+		},
+		format = 'line',
+		from_stderr = true,
+		on_output = helpers.diagnostics.from_pattern(
+			-- '.+(%d+):(%d+):(.*)$',
+			"[^%d]+(%d+)[^%d]+(%d+)%):[%s]+(.*)$",
 			{ "row", "col", "message" }
-		),
-    },
-    factory = helpers.generator_factory,
-})
+		)
+	}
+}
+
+return norminette

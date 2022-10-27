@@ -7,6 +7,5 @@ void greet(char* message) {
 int main (int argc, char *argv[])
 {
 	greet("Hello World !");
-
 	return 0;
 }
