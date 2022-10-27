@@ -1,2 +1,2 @@
-# ignores plugin files
-dependencies/**
+# ignores sessions
+session/**
