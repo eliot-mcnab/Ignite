@@ -192,6 +192,8 @@ return packer.startup(function(use)
 	}
 	-- auto theme support for lsp
 	use 'folke/lsp-colors.nvim'
+	-- linting
+	use 'jose-elias-alvarez/null-ls.nvim'
 	-- error display menu
 	use {
 		'folke/trouble.nvim',

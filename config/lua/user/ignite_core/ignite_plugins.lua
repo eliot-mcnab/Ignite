@@ -66,6 +66,7 @@ plugins.mason = {
 }
 plugins.nvim_autopairs = require_plugin('nvim-autopairs')
 plugins.notify = require_plugin('notify')
+plugins.null_ls = require_plugin('null-ls')
 plugins.nvim_tree = {
 	base = require_plugin('nvim-tree'),
 	events = require_plugin('nvim-tree.events'),
