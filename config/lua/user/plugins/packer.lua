@@ -175,6 +175,8 @@ return packer.startup(function(use)
 	use 'mrjones2014/smart-splits.nvim'
 	-- mutiple cursor support
 	use 'mg979/vim-visual-multi'
+	-- 42 header
+	use '42Paris/42header'
 
 	-- ========================================================================
 	--									LSP
