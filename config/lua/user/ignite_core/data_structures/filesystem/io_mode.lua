@@ -63,7 +63,7 @@ local function io_mode_new(lua_mode)
 end
 
 -- ============================================================================
---								    ENUM CONSTANTS
+--								 ENUM CONSTANTS
 -- ============================================================================
 
 -- opens a file in read-only mode
