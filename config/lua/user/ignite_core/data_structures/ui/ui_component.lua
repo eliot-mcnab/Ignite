@@ -7,6 +7,10 @@ local ignite_terminal = require 'user.ignite_core.ignite_terminal'
 -- ensure a consistent UI
 local Component = Class.new()
 
+Component.add_private('is_drawn', false)
+Component.add_private('draw', nil)
+Component.add_private('erase', nil)
+
 -- Component-related errors
 Component.add_error {
 	not_a_component = 'table is not a Component but is treated as such.'  ..
@@ -14,6 +18,10 @@ Component.add_error {
 	no_a_draw_function = 'Component draw_function must be a function',
 	not_a_erase_function = 'Component erase_function must be a function'
 }
+
+-- ============================================================================
+--									CONSTRUCTOR
+-- ============================================================================
 
 -- private constructor for new Components
 -- @param draw_function (function()): the function called to display the
@@ -29,17 +37,17 @@ local function new_component(draw_function, erase_function)
 	-- the new Component instance
 	local component = Class.new_instance(Component)
 
-	-- private fields
-	component.add_private {
-		is_drawn = false,
-		draw = draw_function,
-		erase = erase_function
-	}
+	-- sets private fields
+	component.__private.draw = draw_function
+	component.__private.erase = erase_function
 
 	-- returns the new component
 	return component
 end
--- all Components available to Ignite
+
+-- ============================================================================
+--									COMPONENTS
+-- ============================================================================
 
 -- Tree Component, handled by NvimTree
 Component.FILE_TREE = new_component(

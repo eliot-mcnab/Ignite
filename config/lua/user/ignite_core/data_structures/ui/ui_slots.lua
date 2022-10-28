@@ -10,6 +10,8 @@ local Circ_Stack = require 'user.ignite_core.data_structures.circular_stack'
 -- development
 local Slot = Class.new()
 
+Slot.add_private("components", nil)
+
 -- Slot-related errors
 Slot.add_error {
 	not_a_slot = 'table is not a Slot but is treated as such' ..
@@ -17,22 +19,27 @@ Slot.add_error {
 	not_a_depth = 'Slot history depth must be a number.'
 }
 
+-- ============================================================================
+--									CONSTRUCTOR
+-- ============================================================================
+
 -- private Slot constructor
 -- @return (Slot): new Slot instance
 local function new_slot()
 	-- the new Slot instace
 	local slot = Class.new_instance(Slot)
 
-	-- initialises the slot's Component Stack
-	slot.add_private {
-		components = Circ_Stack.new()
-	}
+	-- sets private fields
+	slot.__private.components = Circ_Stack.new()
 
 	-- returns the new Slot instance
 	return slot
 end
 
--- Slots provided by Ignite:
+-- ============================================================================
+--										SLOTS
+-- ============================================================================
+
 -- +----------------------------------------+
 -- |				TOP MENU				|
 -- +----------------------------------------+

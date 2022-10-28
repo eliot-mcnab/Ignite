@@ -4,6 +4,9 @@ local class = require('user.ignite_core.ignite_classes')
 -- simple implementation of an array queue in Lua
 local Queue = class.new()
 
+Queue.add_private('first', 0)
+Queue.add_private('max_size', nil)
+
 Queue.add_error {
 	not_a_queue = 'table is not a queue but is treated as such',
 	empty_queue = 'could not pull head of queue, queue is empty',
@@ -11,17 +14,15 @@ Queue.add_error {
 	no_space = 'could not add element, max queue size reached'
 }
 
+-- ============================================================================
+--									CONSTRUCTOR
+-- ============================================================================
+
 -- creates a new instance of the Queue class
 -- @return new Queue instance
 Queue.new = function (...)
 	-- creates new instance of the Queue class
 	local queue = class.new_instance(Queue)
-
-	-- creates private fields
-	queue.add_private {
-		first = 0,		-- queue head inde
-		max_size = nil	-- max queue size, uncapped by default
-	}
 
 	-- adds all elements to the queue and updates the index of the head
 	for index, value in ipairs({...}) do

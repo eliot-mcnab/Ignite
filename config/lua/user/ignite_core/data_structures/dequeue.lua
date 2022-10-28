@@ -4,12 +4,21 @@ local Class = require 'user.ignite_core.ignite_classes'
 -- Implementation of a single array DeQueue in Lua
 local DeQueue = Class.new()
 
+-- adds class fields
+DeQueue.add_private("first", -1)
+DeQueue.add_private("last", 0)
+DeQueue.add_private("max_size", nil)
+
 DeQueue.add_error {
 	not_a_dequeue = 'table is not a DeQueue but is treated as such',
 	empty_dequeue = 'could not retrieve value from DeQueue, DeQueue is empty',
 	invalid_size = 'DeQueue max size must be a number',
 	max_size_reached = 'could not add value to DeQueue, max size reached'
 }
+
+-- ============================================================================
+--								HELPER FUNCTIONS
+-- ============================================================================
 
 -- utility function for printing a DeQueue, called by the metatable __tostring
 local function dequeue_print(dequeue)
@@ -57,19 +66,16 @@ local function dequeue_print(dequeue)
 	return dequeue_string
 end
 
+-- ============================================================================
+--									CONSTRUCTOR
+-- ============================================================================
+
 -- DeQueue constructor
 -- @param (elements): elements to add to the head of the DeQueue
 -- @return (DeQueue): new DeQueue instance
 DeQueue.new = function (elements)
 	-- creates new instance
 	local dequeue_table = Class.new_instance(DeQueue)
-
-	-- adds private fields
-	dequeue_table.add_private {
-		first = -1,
-		last = 0,
-		max_size = nil
-	}
 
 	-- for every element...
   	for _, element in ipairs(elements) do

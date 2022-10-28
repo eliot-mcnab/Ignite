@@ -13,6 +13,11 @@ local Class = require 'user.ignite_core.ignite_classes'
 -- TODO: implement propper iteration for this fuckery
 local Circular_Stack = Class.new()
 
+Circular_Stack.add_private("first", -1)
+Circular_Stack.add_private("size", 0)
+Circular_Stack.add_private("fallback", nil)
+Circular_Stack.add_public('max_size', nil)
+
 -- Stack-related errors
 Circular_Stack.add_error {
 	not_a_stack = 'table is not a Circular_Stack but is considered as such.',
@@ -22,6 +27,10 @@ Circular_Stack.add_error {
 	empty_stack = 'cannot retrieve value, Stack is empty.',
 	not_an_index = 'Circular_Stack index must be a number.'
 }
+
+-- ============================================================================
+--								HELPER FUNCTIONS
+-- ============================================================================
 
 -- helper function, handles wrapping around stack index
 -- @param stack (Circular_Stack): the Stack to use for max_size
@@ -135,7 +144,11 @@ local function stack_to_string(stack)
 	return stack_string
 end
 
--- stack constructor
+-- ============================================================================
+--									CONSTRUCTOR
+-- ============================================================================
+
+-- Circular Stack constructor
 -- @param elements (table): elements to add to the Stack upon creation
 -- @param max_size (number): the Stack's max size
 -- @return a new Stack instance
@@ -152,13 +165,6 @@ Circular_Stack.new = function (elements, max_size)
 
 	-- creates the new Stack instance
 	local stack = Class.new_instance(Circular_Stack)
-
-	-- private attributes
-	stack.add_private {
-		first = -1,		-- current index of the Stack head
-		size = 0,		-- the Stack's size
-		fallback = nil	-- default value if Stack is empty
-	}
 
 	-- sets the Stack's metatable
 	setmetatable(stack, {
