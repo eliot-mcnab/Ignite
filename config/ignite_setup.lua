@@ -33,7 +33,7 @@ local ui = require 'user.ignite_core.ignite_ui'
 ui.setup()
 
 -- Testing
-local debug = false
+local debug = true
 if debug then
 	require 'user.test'
 end
