@@ -98,7 +98,7 @@ local function serialise_table_recursive(serialised_old, table, indent_level)
 	local serialised_count = 0
 
 	-- iterates over each key-value pair in the table
-	for key, value in ipairs(table) do
+	for key, value in pairs(table) do
 		-- adds key to serialised
 		serialised_new = serialised_new .. string.rep('\t', indent_level) ..
 			key .. ' = '
@@ -111,6 +111,9 @@ local function serialise_table_recursive(serialised_old, table, indent_level)
 					value,
 					indent_level + 1
 				)
+		elseif type(value) == 'string' then
+			-- ...if value is a string, adds quotation marks to it
+			serialised_new = serialised_new .. "'" .. value .. "'"
 		else
 			-- ...otherwise, serialises the value directly
 			serialised_new = serialised_new .. value
@@ -125,23 +128,14 @@ local function serialise_table_recursive(serialised_old, table, indent_level)
 			serialised_new = serialised_new .. ','
 		end
 
-		-- moves on to the next line
+		-- moves on to next line
 		serialised_new = serialised_new .. '\n'
 	end
 
-	--[[ local test = {
-		hi = {
-			there = {
-				no = nil,
-				yes = nil
-			},
-			yolo = 4
-		}
-	} ]]
-
 	-- moves one step up in recursion, returning what has been serialised,
 	-- concatenated to what was already serialised
-	return serialised_old .. serialised_new .. '\n}'
+	return serialised_old .. serialised_new ..
+		string.rep('\t', indent_level - 1) .. '}'
 end
 
 -- serialised a lua table into a human-readable string
@@ -150,7 +144,7 @@ end
 -- @return (string): string containing serialised lua table
 local function serialise_table(serialised_old, table)
 	-- makes sure function arguments are valid
-	assert(type(serialised_old) == string,
+	assert(type(serialised_old) == 'string',
 		ignite_serialiser.__error.not_serialised)
 	assert(type(table) == 'table',
 		ignite_serialiser.__error.not_a_table)
@@ -174,7 +168,7 @@ local function serialise_var_return(serialised_old, var_name)
 	assert(type(var_name) == 'string',
 		ignite_serialiser.__error.not_a_var_name)
 
-	local serialised_new = serialised_old .. 'return ' .. var_name
+	local serialised_new = serialised_old .. '\n\n' .. 'return ' .. var_name
 
 	return serialised_new
 end
@@ -184,7 +178,10 @@ end
 -- ============================================================================
 
 -- serialises a lua table into a .lua file in a human-readable format 
--- which can be required once Ignite is next run. 
+-- which can be required once Ignite is next run. Please not that as a
+-- consequence of how the lua pairs and ipairs function work, any
+-- null-associated key will be discarded. As susch, the table that is to be
+-- serialised should contain only non-nul values !
 -- Note that since lua files are loaded only once this can only be
 -- used to store data BETWEEN sessions, not write and updating existing data.
 -- For that purpouse, and for performance reasons, you should prioritise
@@ -206,7 +203,7 @@ function ignite_serialiser.serialise(table, file_path, var_name)
 		ignite_serialiser.__error.not_a_var_name)
 
 	-- serialised string
-	local serialised
+	local serialised = ''
 
 	-- adds serialisation header
 	serialised = serialise_header()
@@ -216,6 +213,9 @@ function ignite_serialiser.serialise(table, file_path, var_name)
 
 	-- serialised table
 	serialised = serialise_table(serialised, table)
+
+	-- adds return statement
+	serialised = serialise_var_return(serialised, var_name)
 
 	-- writes the serialised data
  	local io_error = ignite_filesystem.write_to_file(file_path, serialised)

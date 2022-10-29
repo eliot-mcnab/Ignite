@@ -12,10 +12,11 @@ function test_serialisation.run()
 	local table = {
 		hi = {
 			there = {
-				no = nil,
-				yes = nil
+				no = 2,
+				yes = 3
 			},
-			yolo = 4
+			yolo = 4,
+			where = "nope"
 		}
 	}
 
