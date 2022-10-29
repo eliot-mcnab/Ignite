@@ -66,7 +66,7 @@ local function serialise_header()
 end
 
 -- begins serialisation by initialising variable
--- @param serialised_old (string): serialisation so far
+-- @param serialised_old (string): data serialised so far
 -- @param var_name (string): the name used to serialise the variable
 -- @return (string): string used to serialise variable
 local function serialise_var_name(serialised_old, var_name)
@@ -81,9 +81,90 @@ local function serialise_var_name(serialised_old, var_name)
 	return serialised_new
 end
 
+-- recursive implementation of lua table serialisation, argument validationd
+-- done in serialise_table(2)
+-- @param serialise_table (string): data serialised so far
+-- @param table (table): table to serialise
+-- @return (string): string containing serialised lua table
+local function serialise_table_recursive(serialised_old, table, indent_level)
+	-- serialisation string
+	local serialised_new = '{\n'
+
+	-- determines the size of the table
+	local size_table = 0
+	for _ in pairs(table) do size_table = size_table + 1 end
+
+	-- elements in the table which have already been serialised
+	local serialised_count = 0
+
+	-- iterates over each key-value pair in the table
+	for key, value in ipairs(table) do
+		-- adds key to serialised
+		serialised_new = serialised_new .. string.rep('\t', indent_level) ..
+			key .. ' = '
+
+		-- if value is a table...
+		if (type(value) == 'table') then
+			-- ...recursively serialises that table
+			serialised_new = serialise_table_recursive(
+					serialised_new,
+					value,
+					indent_level + 1
+				)
+		else
+			-- ...otherwise, serialises the value directly
+			serialised_new = serialised_new .. value
+		end
+
+		-- counts the current value as serialised
+		serialised_count = serialised_count + 1
+
+		-- if all values have not been serialised yet...
+		if serialised_count < size_table then
+			-- ..adds a ',' at the end of the line
+			serialised_new = serialised_new .. ','
+		end
+
+		-- moves on to the next line
+		serialised_new = serialised_new .. '\n'
+	end
+
+	--[[ local test = {
+		hi = {
+			there = {
+				no = nil,
+				yes = nil
+			},
+			yolo = 4
+		}
+	} ]]
+
+	-- moves one step up in recursion, returning what has been serialised,
+	-- concatenated to what was already serialised
+	return serialised_old .. serialised_new .. '\n}'
+end
+
+-- serialised a lua table into a human-readable string
+-- @param serialised_old (string): data serialised so far
+-- @param table (table): table to serialise
+-- @return (string): string containing serialised lua table
+local function serialise_table(serialised_old, table)
+	-- makes sure function arguments are valid
+	assert(type(serialised_old) == string,
+		ignite_serialiser.__error.not_serialised)
+	assert(type(table) == 'table',
+		ignite_serialiser.__error.not_a_table)
+
+	-- keeps track of the current indent level
+	local indent_level = 1
+
+	-- returns the serialised table string
+	return serialise_table_recursive(serialised_old, table, indent_level)
+end
+
 -- ends serialisation by returning serialised table
---- @param serialised_old (string): serialisation so far
---- @param var_name (string): the name used to serialise the variable. MUST be
+-- @param serialised_old (string): data serialised so far
+-- @param var_name (string): the name used to serialise the variable. MUST be
 -- the same as used with serialise_var_name(1)
 -- @return (string): string used to serialise variable
 local function serialise_var_return(serialised_old, var_name)
@@ -124,9 +205,6 @@ function ignite_serialiser.serialise(table, file_path, var_name)
 	assert(type(var_name) == 'string',
 		ignite_serialiser.__error.not_a_var_name)
 
-	-- keeps track of the current indent level
-	local indent_level = 0
-
 	-- serialised string
 	local serialised
 
@@ -135,6 +213,9 @@ function ignite_serialiser.serialise(table, file_path, var_name)
 
 	-- starts serialising variable
 	serialised = serialise_var_name(serialised, var_name)
+
+	-- serialised table
+	serialised = serialise_table(serialised, table)
 
 	-- writes the serialised data
  	local io_error = ignite_filesystem.write_to_file(file_path, serialised)

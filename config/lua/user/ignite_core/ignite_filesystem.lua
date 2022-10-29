@@ -17,6 +17,8 @@ local Class    = require 'user.ignite_core.ignite_classes'
 local ignite_filesystem = Class.new()
 
 -- collection of useful filepaths used by Ignite
+-- root: root Ignite directory
+-- config: cofiguration Ignite directory, root/config
 ignite_filesystem.Paths = {}
 
 -- io errors

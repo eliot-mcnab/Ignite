@@ -9,9 +9,19 @@ local ignite_filesystem = require 'user.ignite_core.ignite_filesystem'
 local test_serialisation = {}
 
 function test_serialisation.run()
+	local table = {
+		hi = {
+			there = {
+				no = nil,
+				yes = nil
+			},
+			yolo = 4
+		}
+	}
+
 	ignite_serialiser.serialise(
-		{},
-		ignite_filesystem.config .. '/test.lua',
+		table,
+		ignite_filesystem.Paths.config .. '/test.lua',
 		'test'
 	)
 end
