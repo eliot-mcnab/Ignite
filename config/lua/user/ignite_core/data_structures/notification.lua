@@ -27,18 +27,16 @@ Notification.Type.add_error {
 
 -- all types of Notifications
 Notification.Type.ERROR = Class.new_instance(Notification.Type)
-Notification.Type.TRACE = Class.new_instance(Notification.Type)
-Notification.Type.DEBUG = Class.new_instance(Notification.Type)
-Notification.Type.WARN = Class.new_instance(Notification.Type)
 Notification.Type.INFO = Class.new_instance(Notification.Type)
+Notification.Type.TRACE = Class.new_instance(Notification.Type)
+Notification.Type.WARN = Class.new_instance(Notification.Type)
 
 -- correspondance between notification types and vim log levels
 local notif_type_converter = {}
 notif_type_converter[Notification.Type.ERROR] = vim.log.levels.ERROR
-notif_type_converter[Notification.Type.TRACE] = vim.log.levels.TRACE
-notif_type_converter[Notification.Type.DEBUG] = vim.log.levels.DEBUG
-notif_type_converter[Notification.Type.WARN] = vim.log.levels.WARN
 notif_type_converter[Notification.Type.INFO] = vim.log.levels.INFO
+notif_type_converter[Notification.Type.TRACE] = vim.log.levels.TRACE
+notif_type_converter[Notification.Type.WARN] = vim.log.levels.WARN
 
 -- convertes notification type to vim log level
 -- @param type (Notification.Type): the notification type
