@@ -6,7 +6,7 @@ local plugins = require 'user.ignite_core.ignite_plugins'
 local async = plugins.plenary.async
 
 -- constants
-local MAX_NOTIF_VISIBLE = 3	-- maximum number of visible notifications
+local MAX_NOTIF_VISIBLE = 5	-- maximum number of visible notifications
 local MAX_NOTIF_PENDING = 5	-- maximum number of pending notifications
 
 -- makes sure that notify is loaded
@@ -110,7 +110,7 @@ end
 -- added waiting queue
 -- - DISCARDED: max number of notifications reached, no new notification may be
 -- displayed
-function ignite_notify.can_notify()
+function ignite_notify.get_display_state()
 	-- determines if notification can be displayed
 	local is_visible = ignite_notify.notif_visible_count < MAX_NOTIF_VISIBLE
 
@@ -153,12 +153,13 @@ function ignite_notify.notify(notif)
 	assert(Class.is_instance(notif, Notif), Notif.__error.not_a_notif)
 
 	-- gets the state of the notification
-	local state = ignite_notify.can_notify()
+	local state = ignite_notify.get_display_state()
 
 	-- if the notification can be displayed...
 	if state == Notif.State.VISIBLE then
 		-- ...displays the notification
 		notify(notif)
+
 		-- exits function
 		return state
 	end

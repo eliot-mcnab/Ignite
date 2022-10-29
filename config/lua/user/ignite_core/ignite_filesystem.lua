@@ -3,9 +3,9 @@
 -- ============================================================================
 
 -- dependencies
-local Io_Mode = require 'user.ignite_core.data_structures.filesystem.io_mode'
+local Io_Mode  = require 'user.ignite_core.data_structures.filesystem.io_mode'
 local Io_Error = require 'user.ignite_core.data_structures.filesystem.io_error'
-local Class = require 'user.ignite_core.ignite_classes'
+local Class    = require 'user.ignite_core.ignite_classes'
 
 -- ============================================================================
 --							FILE HANDLING ERRORS
@@ -14,9 +14,12 @@ local Class = require 'user.ignite_core.ignite_classes'
 -- Ignite file handler for simple file manipulation
 -- (mainly opening and writing to files, reading not yeat implemented till
 -- there is an actual need for parsing)
-local ignite_filesystem = {}
+local ignite_filesystem = Class.new()
 
-ignite_filesystem = Class.new()
+-- collection of useful filepaths used by Ignite
+ignite_filesystem.Paths = {}
+
+-- io errors
 ignite_filesystem.add_error {
 	not_a_file_path = 'File path must be a string.',
 	not_a_file_content = 'File content must be a string.'
@@ -83,7 +86,7 @@ function ignite_filesystem.open_file(file_path, io_mode)
 	end
 
 	-- returns the opened file
-	return {file, io_error}
+	return file, io_error
 end
 
 -- writes a string directly to a file, overwriting its content
@@ -96,10 +99,13 @@ function ignite_filesystem.write_to_file(file_path, content_string)
 	assert(type(content_string) == 'string', ignite_io_errors.not_a_file_content)
 
 	-- opens file at the given path
-	local file, io_error = ignite_filesystem.open_file(file_path, Io_Mode.WRITE)
+	local file, io_error = ignite_filesystem.open_file(
+		file_path,
+		Io_Mode.POWER_WRITE
+	)
 
 	-- if error was detected, exits function
-	if Io_Error.error_occured(io_error) then
+	if Io_Error.error_occured(io_error) or file == nil then
 		goto function_end
 	end
 
@@ -111,6 +117,17 @@ function ignite_filesystem.write_to_file(file_path, content_string)
 	::function_end::
 
 	return io_error
+end
+
+-- saves ignite location in file system
+-- @param ignite_path (string): path to ignite main folder in file system
+function ignite_filesystem.save_location(ignite_path)
+	-- makes sure function arguments are valid
+	assert(type(ignite_path) == 'string', ignite_io_errors.not_a_file_path)
+
+	-- saves file paths
+	ignite_filesystem.Paths.root = ignite_path
+	ignite_filesystem.Paths.config = ignite_path .. '/config'
 end
 
 return ignite_filesystem

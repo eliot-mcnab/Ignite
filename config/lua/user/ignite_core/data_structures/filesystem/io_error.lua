@@ -46,7 +46,7 @@ Io_Error.NO_ERROR = io_error_new(
 )
 
 Io_Error.OPEN_INEXISTANT_FILE = io_error_new(
-	'File could not be opened because given path point nowhere.'
+	'File could not be opened because given path points nowhere.'
 )
 Io_Error.OPEN_RESTRICTED_FILE = io_error_new(
 	'File could not be opened because of permission restrictions.'
@@ -71,6 +71,18 @@ function Io_Error.error_occured(io_error)
 
 	-- determines if the io_error is a dummy error
 	return io_error ~= Io_Error.NO_ERROR
+end
+
+-- gest the error message associated to an Io_Error
+-- @param io_error (Io_Error): the Io_Error from which to get the error message
+-- @return (string): error message associated to the Io_Error
+function Io_Error.get_error_message(io_error)
+	-- makes sure function arguments are valid
+	assert(Class.is_instance(io_error, Io_Error),
+		Io_Error.__error.not_an_io_error)
+
+	-- gets the Io_Error's error message
+	return io_error.__private.error_message
 end
 
 return Io_Error

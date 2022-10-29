@@ -13,7 +13,7 @@ Io_Mode.add_private('mode', '')
 
 -- class errors
 Io_Mode.add_error {
-	not_a_lua_mode = 'Invalid Lua file mode. Valid fiel modes are: ' ..
+	not_a_lua_mode = 'Invalid Lua file mode. Valid file modes are: ' ..
 		'"r", "w", "a", "r+", "w+" and "a+"',
 	not_an_io_mode = 'Table is not an Io_Mode but is treadted as such.' ..
 		'Available io_modes are: READ, WRITE, APPEND, ' ..
@@ -33,7 +33,7 @@ local LUA_MODES = {'r', 'w', 'a', 'r+', 'w+', 'a+'}
 -- otherwise
 local function is_valid_lua_mode(string)
 	-- for every valid lua file mode...
-	for mode, _ in pairs(LUA_MODES) do
+	for _, mode in pairs(LUA_MODES) do
 		-- ...if the string matches a mode...
 		if string == mode then
 			-- ...then it is valid
