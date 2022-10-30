@@ -37,7 +37,7 @@ plugins.legendary.setup({
 	include_builtin = false,
 
 	-- initialises keymaps
-	keymaps = {	
+	keymaps = {
 		-- ====================================================================
 		-- 									WINDOWS
 		-- ====================================================================
@@ -404,25 +404,9 @@ plugins.legendary.setup({
 		-- 									LSP
 		-- ====================================================================
 
-		-- lsp menu
-		{
-			'<C-m>l',
-			':Trouble document_diagnostics<CR>',
-			description = '[LSP] Open LSP menu',
-			mode = { NORMAL },
-			opts = mapping_opts
-		},
-		-- goes to symbol declaration
-		{
-			'<C-g>d',
-			'<cmd> lua vim.lsp.buf.declaration()<CR>',
-			description =
-				'[LSP] Goes to the declaration of the symbol under the cursor',
-			opts = mapping_opts
-		},
 		-- goes to symbol definition
 		{
-			'<C-g>D',
+			'<C-l>d',
 			'<cmd> lua vim.lsp.buf.definition()<CR>',
 			description =
 				'[LSP] Goes to the definition of the symbol under the cursor',
@@ -431,34 +415,25 @@ plugins.legendary.setup({
 		-- hovers over symbol
 		{
 			'<C-l>h',
-			'<cmd> lua vim.lsp.buf.hover()<CR>',
+			':Lspsaga hover_doc<CR>',
 			description =
 				'[LSP] Displays hover information' ..
 				' about the symbol under the cursor',
 			opts = mapping_opts
 		},
-		-- lists all implementation
-		{
-			'<C-l>i',
-			'<cmd> lua vim.lsp.buf.implementation()<CR>',
-			description =
-				'[LSP] Lists all implementations' ..
-				' of the symbol under the cursor',
-			opts = mapping_opts
-		},
 		-- lists all references
 		{
-			'<C-l>R',
-			'<cmd> lua vim.lsp.buf.references()<CR>',
+			'<C-l>i',
+			':Lspsaga lsp_finder<CR>',
 			description =
-				'[LSP] Lists all the references' ..
+				'[LSP] Lists all references' ..
 				' to the symbol under the cursor',
 			opts = mapping_opts
 		},
 		-- rename symbol
 		{
 			'<C-l>r',
-			'<cmd> lua vim.lsp.buf.rename()<CR>',
+			':Lspsaga rename<CR>',
 			description =
 				'[LSP] Renames all the occurences' ..
 				' of the symbol under the cursor',
@@ -475,9 +450,23 @@ plugins.legendary.setup({
 		-- code action
 		{
 			[[<C-l>a]],
-			'<cdm> lua vim.lsp.buf.code_action()<CR>',
+			':Lspsaga code_action<CR>',
 			description = '[LSP] Selects a code action available' ..
 				' at the current cursor position'
+		},
+		-- jumps to next diagnostic
+		{
+			[[<C-l>n]],
+			':Lspsaga diagnostic_jump_next<CR>',
+			description = '[LSP] Jumps to the next lsp diagnostic' ..
+				'in the current file'
+		},
+		-- jumps to previous diagnostic
+		{
+			[[<C-l>p]],
+			':Lspsaga diagnostic_jump_prev<CR>',
+			description = '[LSP] Jumps to the previous lsp diagnostic' ..
+				'in the current file'
 		},
 
 		-- ====================================================================

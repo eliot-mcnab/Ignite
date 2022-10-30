@@ -1,18 +1,18 @@
 --============================================================================
 -- 				THIS FILE WAS SERIALISED USING IGNITE SERIALISER
 -- 				
--- 				serialisation date: 29-10-2022
--- 				serialisation time: 17:57:58
+-- 				serialisation date: 30-10-2022
+-- 				serialisation time: 12:7:35
 --============================================================================
 
 local test = {
 	hi = {
-		where = 'nope',
 		there = {
 			no = 2,
 			yes = 3
 		},
-		yolo = 4
+		yolo = 4,
+		where = 'nope'
 	}
 }
 

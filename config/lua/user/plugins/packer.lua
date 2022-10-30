@@ -209,6 +209,11 @@ return packer.startup(function(use)
 	use 'simrat39/symbols-outline.nvim'
 	-- lsp server status
 	use 'j-hui/fidget.nvim'
+	-- lsp ui and utilities
+	use {
+		'glepnir/lspsaga.nvim',
+		branch = 'main'
+	}
 
 	-- ========================================================================
 	--									DAP
