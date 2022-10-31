@@ -11,7 +11,7 @@ local ignite_sessions = Class.new()
 
 -- session-realted errors
 ignite_sessions.add_error {
-	-- add errors here
+	not_a_session_path = 'The given path does not match an Ignite session'
 }
 
 -- sets up session options
@@ -42,6 +42,20 @@ function ignite_sessions.save_session(session_path)
 
 	-- saves Ignite session
 	local cmd = 'mksession! ' .. session_path .. '/Session.vim'
+	vim.cmd(cmd)
+end
+
+-- loads a specified ignite session
+-- @param session_path (string): path to the session to load
+function ignite_sessions.load_session(session_path)
+	-- makes sure function arguments are valid
+	assert(
+		type(session_path) == 'string' and string.match(session_path, '.*.vim$'),
+		ignite_sessions.__error.not_a_session_path
+	)
+
+	-- loads Ignite session
+	local cmd = 'source ' .. session_path
 	vim.cmd(cmd)
 end
 
