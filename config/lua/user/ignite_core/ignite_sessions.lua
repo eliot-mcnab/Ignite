@@ -9,6 +9,11 @@ local Class             = require 'user.ignite_core.ignite_classes'
 -- handles session creation and loading in Ignite
 local ignite_sessions = Class.new()
 
+-- session-realted errors
+ignite_sessions.add_error {
+	-- add errors here
+}
+
 -- sets up session options
 function ignite_sessions.setup()
 	vim.opt['sessionoptions'] = {
@@ -20,6 +25,24 @@ function ignite_sessions.setup()
 		'tabpages',
 		'winsize'
 	}
+end
+
+-- saves the current ignite session
+-- @param [session_path] (string): where to save the resulting Session.vim 
+-- file, current directory by default ('./')
+function ignite_sessions.save_session(session_path)
+	-- default values
+	session_path = session_path or './'
+
+	-- makes sure function arguments are valid
+	assert(
+		type(session_path) == 'string' and vim.fn.isdirectory(session_path) ~= 0,
+		ignite_filesystem.__error.not_a_file_path
+	)
+
+	-- saves Ignite session
+	local cmd = 'mksession! ' .. session_path .. '/Session.vim'
+	vim.cmd(cmd)
 end
 
 return ignite_sessions

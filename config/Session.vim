@@ -13,7 +13,8 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +1 ignite_setup.lua
+badd +21 ignite_setup.lua
+badd +0 lua/user/ignite_core/ignite_sessions.lua
 argglobal
 %argdel
 $argadd ignite_setup.lua
@@ -22,6 +23,10 @@ edit ignite_setup.lua
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
 let &splitbelow = s:save_splitbelow
 let &splitright = s:save_splitright
 wincmd t
@@ -31,6 +36,8 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
+exe 'vert 1resize ' . ((&columns * 85 + 86) / 172)
+exe 'vert 2resize ' . ((&columns * 86 + 86) / 172)
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -42,12 +49,39 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 40 - ((17 * winheight(0) + 12) / 24)
+let s:l = 21 - ((17 * winheight(0) + 17) / 35)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 40
+keepjumps 21
+normal! 011|
+wincmd w
+argglobal
+if bufexists(fnamemodify("lua/user/ignite_core/ignite_sessions.lua", ":p")) | buffer lua/user/ignite_core/ignite_sessions.lua | else | edit lua/user/ignite_core/ignite_sessions.lua | endif
+if &buftype ==# 'terminal'
+  silent file lua/user/ignite_core/ignite_sessions.lua
+endif
+balt ignite_setup.lua
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let &fdl = &fdl
+let s:l = 1 - ((0 * winheight(0) + 17) / 35)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 1
 normal! 0
+wincmd w
+2wincmd w
+exe 'vert 1resize ' . ((&columns * 85 + 86) / 172)
+exe 'vert 2resize ' . ((&columns * 86 + 86) / 172)
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf

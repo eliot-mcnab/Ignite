@@ -18,6 +18,8 @@ style.setup_all {
 	theme = 'catppuccin'
 }
 
+-- TODO: reaaaaly need lazy-loading on these plugins, fuck sake this is not
+-- optimal
 require 'user.plugins'
 require 'user.options'
 require 'user.lsp'
