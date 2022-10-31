@@ -2,10 +2,6 @@ local Slot = require 'user.ignite_core.data_structures.ui.ui_slots'
 local Component = require 'user.ignite_core.data_structures.ui.ui_component'
 local Class = require 'user.ignite_core.ignite_classes'
 
--- debugging
-local ignite_notify = require 'user.ignite_core.ignite_notify'
-local Notification = require 'user.ignite_core.data_structures.notification'
-
 -- responsible for displaying the UI to the user and handling the interaction
 -- between various UI plugins
 local ignite_ui = {}
@@ -199,6 +195,18 @@ function ignite_ui.setup()
 			desc = 'Toggles Ignite UI'
 		}
 	)
+end
+
+-- returns a table representing the current UI layout
+-- ex:
+-- {
+-- 		info_panle = 'DIAGNOSTICS',
+-- 		r_menu = nil,
+-- 		l_menu = 'FILE_TREE',
+-- 		t_menu = nil
+-- }
+function ignite_ui.get_layout()
+	
 end
 
 return ignite_ui

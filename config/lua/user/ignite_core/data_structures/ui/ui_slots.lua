@@ -1,6 +1,6 @@
 -- dependencies
-local Class = require 'user.ignite_core.ignite_classes'
-local Component = require 'user.ignite_core.data_structures.ui.ui_component'
+local Class      = require 'user.ignite_core.ignite_classes'
+local Component  = require 'user.ignite_core.data_structures.ui.ui_component'
 local Circ_Stack = require 'user.ignite_core.data_structures.circular_stack'
 
 -- a Slot is a container for a UI Stack, which allows to Slot to have store a
@@ -10,13 +10,16 @@ local Circ_Stack = require 'user.ignite_core.data_structures.circular_stack'
 -- development
 local Slot = Class.new()
 
-Slot.add_private("components", nil)
+Slot.add_private('components', nil)
+Slot.add_private('name', nil)
 
 -- Slot-related errors
 Slot.add_error {
-	not_a_slot = 'table is not a Slot but is treated as such' ..
+	not_a_slot        = 'table is not a Slot but is treated as such' ..
 		'Available Slots are: T_MENU, L_MENU, R_MENU and INFO_PANEL',
-	not_a_depth = 'Slot history depth must be a number.'
+	not_a_depth       = 'Slot history depth must be a number',
+	not_a_slot_name   = 'Slot name must be a String',
+	invalid_slot_name = 'Slot name is not associated to any Slot'
 }
 
 -- ============================================================================
@@ -24,13 +27,15 @@ Slot.add_error {
 -- ============================================================================
 
 -- private Slot constructor
+-- @param name (string): the literal name of a slot, for use in serialisation
 -- @return (Slot): new Slot instance
-local function new_slot()
+local function new_slot(name)
 	-- the new Slot instace
 	local slot = Class.new_instance(Slot)
 
 	-- sets private fields
 	slot.__private.components = Circ_Stack.new()
+	slot.__private.name       = name
 
 	-- returns the new Slot instance
 	return slot
@@ -52,10 +57,10 @@ end
 -- |		+-----------------------+		|
 -- |		|		INFO PANEL		|		|
 -- +--------+-----------------------+-------+
-Slot.T_MENU = new_slot()
-Slot.L_MENU = new_slot()
-Slot.R_MENU = new_slot()
-Slot.INFO_PANEL = new_slot()
+Slot.T_MENU = new_slot('T_MENU')
+Slot.L_MENU = new_slot('L_MENU')
+Slot.R_MENU = new_slot('R_MENU')
+Slot.INFO_PANEL = new_slot('INFO_PANEL')
 
 -- sets the maximum number of Component kept in memory by a Slot
 -- @param slot (Slot): the Slot to set
@@ -167,10 +172,50 @@ end
 -- does not have any Component associated to it
 function Slot.get_component(slot)
 	-- makes sure that the function arguments are valid
-	assert(Class.is_instance(slot, Slot))
+	assert(Class.is_instance(slot, Slot), Slot.__error.not_a_slot)
 
 	-- gets the Component associated to the Slot
 	return Circ_Stack.peek_head(slot.__private.components)
+end
+
+-- gets the literal name of a Slot
+-- @param slot (Slot): the Slot to get the name of
+-- @returns (string): the literal name of the Slot, for use in serialisation
+-- @see ignite_serialiser, ignite_ui
+function Slot.get_name(slot)
+	-- makes sure function arguments are valid
+	assert(Class.is_instance(slot, Slot), Slot.__error.not_a_slot)
+
+	-- gets the Slot's name
+	return Slot.__private.name
+end
+
+-- correspondance between Slots and their names
+local slot_name_correspondance = {}
+slot_name_correspondance[Slot.get_name(Slot.INFO_PANEL)] = Slot.INFO_PANEL
+slot_name_correspondance[Slot.get_name(Slot.R_MENU)]     = Slot.INFO_PANEL
+slot_name_correspondance[Slot.get_name(Slot.L_MENU)]     = Slot.L_MENU
+slot_name_correspondance[Slot.get_name(Slot.T_MENU)]     = Slot.T_MENU
+
+-- gets the Slot associated to the given name
+-- @param slot_name (string): the name of the Slot
+-- @return (Slot): the Slot associated to the name
+-- @trhows error if slot_name does not correspond to any slot
+function Slot.get_by_name(slot_name)
+	-- makes sure function arguments are valid
+	assert(type(slot_name) == 'string', Slot.__error.not_a_slot_name)
+
+	-- gets the slot associated to the given slot name
+	local slot = slot_name_correspondance[slot_name]
+
+	-- if not Slot corresponds to the given slot_name
+	if slot == nil then
+		-- ...throws an error
+		error(Slot.__error.invalid_slot_name)
+	end
+
+	-- returns the Slot corresponding to the given name
+	return slot
 end
 
 return Slot

@@ -10,6 +10,7 @@ local Component = Class.new()
 Component.add_private('is_drawn', false)
 Component.add_private('draw', nil)
 Component.add_private('erase', nil)
+Component.add_private('name', nil)
 
 -- Component-related errors
 Component.add_error {
@@ -28,18 +29,21 @@ Component.add_error {
 -- component
 -- @param erase_function (function()): the function called to remove the
 -- component
+-- @param name (string): the name of the component, used for serialisation
 -- @return (Component): new Component instance
-local function new_component(draw_function, erase_function)
+local function new_component(draw_function, erase_function, name)
 	-- makes sure function arguments are valid
-	assert(type(draw_function) == 'function')
+	assert(type(draw_function)  == 'function')
 	assert(type(erase_function) == 'function')
+	assert(type(name)           == 'string')
 
 	-- the new Component instance
 	local component = Class.new_instance(Component)
 
 	-- sets private fields
-	component.__private.draw = draw_function
+	component.__private.draw  = draw_function
 	component.__private.erase = erase_function
+	component.__private.name  = name
 
 	-- returns the new component
 	return component
@@ -56,7 +60,8 @@ Component.FILE_TREE = new_component(
 	end,
 	function ()
 		vim.cmd [[NvimTreeClose]]
-	end
+	end,
+	'FILE_TREE'
 )
 
 -- Diagnostics Component, handled by Trouble
@@ -66,7 +71,8 @@ Component.DIAGNOSTICS = new_component(
 	end,
 	function ()
 		vim.cmd [[TroubleClose]]
-	end
+	end,
+	'DIAGNOSTICS'
 )
 
 -- Terminal Component, handled by ToggleTerm
@@ -76,7 +82,8 @@ Component.TERMINAL = new_component(
 	end,
 	function ()
 		ignite_terminal.default:shutdown()
-	end
+	end,
+	'TERMINAL'
 )
 
 -- Symbols Component, handled by Symbols-Outline
@@ -86,13 +93,15 @@ Component.SYMBOLS = new_component(
 	end,
 	function ()
 		vim.cmd [[SymbolsOutline]]
-	end
+	end,
+	'SYMBOLS'
 )
 
 -- non-nil representation of an absent component
 Component.NONE = new_component(
 	function ()	end,
-	function ()	end
+	function ()	end,
+	'NONE'
 )
 
 -- calls the draw() function for a Component
@@ -134,5 +143,28 @@ function Component.is_drawn(component)
 	-- determines if the Component is being drawn
 	return component.__private.is_drawn
 end
+
+-- gets the litaral name of a Component
+-- @param component (Component): the Component to get the name of
+-- @returns (string): the literal name of the Component, for use in 
+-- serialisation
+-- @see ignite_serialiser, ignite_ui
+function Component.get_name(component)
+	-- makes sure function arguments are valid
+	assert(Class.is_instance(component, Component),
+		Component.__error.not_a_component)
+
+	-- gets the name of the Component
+	return Component.__private.name
+end
+
+-- TODO: this needs to be refactored so that Component and Slot have the same
+-- naming functionality !
+-- correspondance between Components and their names
+local component_name_correspondance = {}
+component_name_correspondance[Component.get_name(Component.DIAGNOSTICS)] =
+	Component.DIAGNOSTICS
+component_name_correspondance[Component.get_name(Component.FILE_TREE)] =
+	Component.FILE_TREE
 
 return Component

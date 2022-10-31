@@ -4,6 +4,7 @@
 
 -- dependencies
 local ignite_filesystem = require 'user.ignite_core.ignite_filesystem'
+local ignite_UI         = require 'user.ignite_core.ignite_ui'
 local Class             = require 'user.ignite_core.ignite_classes'
 
 -- handles session creation and loading in Ignite

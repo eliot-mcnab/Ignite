@@ -1,3 +1,24 @@
+-- TODO: handle class logic sharing by Inheritance. Inheritance should be
+-- implemented as the ability to pass an existing table to a class 
+-- constructor, and have that class constructor add that class's fields to the
+-- existing table isntead of creating a new instance table. This however
+-- requires a rework of how class constructors are handled: to allow this, 
+-- class constructors will have to be specified as an argument to the
+-- Class.new() function.
+-- ex: 
+-- Component = Class.new {
+-- 		private = {
+-- 			...
+-- 		},
+-- 		public = {
+-- 			...
+-- 		},
+-- 		constructor = function(self)
+--			...
+--			return self
+-- 		end
+-- }
+
 -- handles class implementation in tables
 local Class = {
 	__error = {
