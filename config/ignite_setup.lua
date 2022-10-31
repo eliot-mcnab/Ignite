@@ -32,8 +32,12 @@ errors.check_all()
 local ui = require 'user.ignite_core.ignite_ui'
 ui.setup()
 
+-- Session setup
+local sessions = require 'user.ignite_core.ignite_sessions'
+sessions.setup()
+
 -- Testing
-local debug = true
+local debug = false
 if debug then
 	require 'user.test'
 end
