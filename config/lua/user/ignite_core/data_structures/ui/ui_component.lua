@@ -144,27 +144,4 @@ function Component.is_drawn(component)
 	return component.__private.is_drawn
 end
 
--- gets the litaral name of a Component
--- @param component (Component): the Component to get the name of
--- @returns (string): the literal name of the Component, for use in 
--- serialisation
--- @see ignite_serialiser, ignite_ui
-function Component.get_name(component)
-	-- makes sure function arguments are valid
-	assert(Class.is_instance(component, Component),
-		Component.__error.not_a_component)
-
-	-- gets the name of the Component
-	return Component.__private.name
-end
-
--- TODO: this needs to be refactored so that Component and Slot have the same
--- naming functionality !
--- correspondance between Components and their names
-local component_name_correspondance = {}
-component_name_correspondance[Component.get_name(Component.DIAGNOSTICS)] =
-	Component.DIAGNOSTICS
-component_name_correspondance[Component.get_name(Component.FILE_TREE)] =
-	Component.FILE_TREE
-
 return Component

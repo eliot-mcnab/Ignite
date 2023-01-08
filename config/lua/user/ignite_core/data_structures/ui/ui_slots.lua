@@ -178,25 +178,6 @@ function Slot.get_component(slot)
 	return Circ_Stack.peek_head(slot.__private.components)
 end
 
--- gets the literal name of a Slot
--- @param slot (Slot): the Slot to get the name of
--- @returns (string): the literal name of the Slot, for use in serialisation
--- @see ignite_serialiser, ignite_ui
-function Slot.get_name(slot)
-	-- makes sure function arguments are valid
-	assert(Class.is_instance(slot, Slot), Slot.__error.not_a_slot)
-
-	-- gets the Slot's name
-	return Slot.__private.name
-end
-
--- correspondance between Slots and their names
-local slot_name_correspondance = {}
-slot_name_correspondance[Slot.get_name(Slot.INFO_PANEL)] = Slot.INFO_PANEL
-slot_name_correspondance[Slot.get_name(Slot.R_MENU)]     = Slot.INFO_PANEL
-slot_name_correspondance[Slot.get_name(Slot.L_MENU)]     = Slot.L_MENU
-slot_name_correspondance[Slot.get_name(Slot.T_MENU)]     = Slot.T_MENU
-
 -- gets the Slot associated to the given name
 -- @param slot_name (string): the name of the Slot
 -- @return (Slot): the Slot associated to the name
