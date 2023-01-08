@@ -433,7 +433,7 @@ plugins.legendary.setup({
 		-- rename symbol
 		{
 			'<C-l>r',
-			':Lspsaga rename<CR>',
+			'<cmd>lua vim.lsp.buf.rename()<CR>',
 			description =
 				'[LSP] Renames all the occurences' ..
 				' of the symbol under the cursor',
